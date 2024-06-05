@@ -1,136 +1,356 @@
-// import React from "react";
-// import {
-//   AppBar,
-//   Toolbar,
-//   Typography,
-//   Box,
-//   Button,
-//   Grid,
-//   Avatar,
-//   Menu,
-//   MenuItem,
-//   Container,
-// } from "@mui/material";
-// // import Sider from "../components/slider";
-// import { Outlet, Link } from "react-router-dom";
-// import imanav from "../image/logo (7) 1.png";
-// import cart from "../image/Vector.png";
-// // import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+// import { useState } from "react";
+// import * as React from "react";
+// import AppBar from "@mui/material/AppBar";
+// import Box from "@mui/material/Box";
+// import Toolbar from "@mui/material/Toolbar";
+// import IconButton from "@mui/material/IconButton";
+// import Typography from "@mui/material/Typography";
+// import Menu from "@mui/material/Menu";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import Container from "@mui/material/Container";
+// import Avatar from "@mui/material/Avatar";
+// import Button from "@mui/material/Button";
+// import Tooltip from "@mui/material/Tooltip";
+// import MenuItem from "@mui/material/MenuItem";
+// import AdbIcon from "@mui/icons-material/Adb";
+// import PhoneInput from "react-phone-input-2";
+// import "react-phone-input-2/lib/style.css";
+// import { Grid, Modal, TextField } from "@mui/material";
 
-// // import cart from '../pages/product/cart'
-// function Navbar() {
-//   const [anchorEl, setAnchorEl] = React.useState(null);
-//   const open = Boolean(anchorEl);
-//   const handleClick = (event) => {
-//     setAnchorEl(event.currentTarget);
+// const style = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: 400,
+//   bgcolor: "background.paper",
+//   border: "2px solid #000",
+//   boxShadow: 24,
+//   p: 4,
+// };
+
+// const pages = ["Products", "Pricing", "Blog"];
+// const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+// function ResponsiveAppBar({ open, handleClose }) {
+//   const [anchorElNav, setAnchorElNav] = React.useState(null);
+//   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+//   const handleOpenNavMenu = (event) => {
+//     setAnchorElNav(event.currentTarget);
 //   };
-//   const handleClose = () => {
-//     setAnchorEl(null);
+//   const handleOpenUserMenu = (event) => {
+//     setAnchorElUser(event.currentTarget);
+//   };
+
+//   const handleCloseNavMenu = () => {
+//     setAnchorElNav(null);
+//   };
+
+//   const handleCloseUserMenu = () => {
+//     setAnchorElUser(null);
+//   };
+//   const [open, setOpen] = React.useState(false);
+//   const handleOpen = () => setOpen(true);
+//   const handleClose = () => setOpen(false);
+
+//   const [name, setName] = useState('');
+//   const [email, setEmail] = useState('');
+//   const [address, setAddress] = useState('');
+//   const [city, setCity] = useState('');
+//   const [state, setState] = useState('');
+//   const [country, setCountry] = useState('');
+//   const [zip, setZip] = useState('');
+//   const [profilePicture, setProfilePicture] = useState('/static/images/avatar/2.jpg'); // Initial profile picture
+//   const handleFileChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onload = () => {
+//         setProfilePicture(reader.result);
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+
+//    const [avatarSrc, setAvatarSrc] = useState('/static/images/avatar/2.jpg');
+
+//   const handleAvatarClick = () => {
+//     document.getElementById('avatarInput').click();
+//   };
+
+//   const handleAvatarChange = (event) => {
+//     if (event.target.files && event.target.files[0]) {
+//       const reader = new FileReader();
+//       reader.onload = (e) => {
+//         setAvatarSrc(e.target.result);
+//       };
+//       reader.readAsDataURL(event.target.files[0]);
+//     }
 //   };
 
 //   return (
-//     <AppBar position="static" color="">
-//       <Container >
-//         <Toolbar>
-//           <Grid item xs={6} sm={3}>
-//             <Box
-//               // component={Link}
-//               href="/"
+//     <>
+//       <AppBar position="static">
+//         <Container maxWidth="xl">
+//           <Toolbar disableGutters>
+//             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+//             <Typography
 //               variant="h6"
+//               noWrap
+//               component="a"
+//               href="#app-bar-with-responsive-menu"
 //               sx={{
+//                 mr: 2,
+//                 display: { xs: "none", md: "flex" },
+//                 fontFamily: "monospace",
+//                 fontWeight: 700,
+//                 letterSpacing: ".3rem",
+//                 color: "inherit",
 //                 textDecoration: "none",
-//                 display: "flex",
-//                 alignItems: "center",
 //               }}
 //             >
-//               {" "}
-//               <img
-//                 src={imanav}
-//                 alt=""
-//                 style={{ marginLeft: "-35px", height: "60px" }}
-//               />
-//             </Box>
-//           </Grid>
-//           <Box sx={{ display: { xs: "none", md: "flex" }, m: " 0 60px" }}>
-//             <Link to="/">
-//               <Button style={{ color: "#8E8E8E", marginRight: "30px" }}>
-//               HOME
-//               </Button>
-//             </Link>
-//             <Link to="/shop">
-//               <Button style={{ color: "#8E8E8E", marginRight: "30px" }}>
-//                 SHOP
-//               </Button>
-//             </Link>
-//             <Link to="/featured">
-//               <Button style={{ color: "#8E8E8E", marginRight: "30px" }}>
-//               FEATURED
-//               </Button>
-//             </Link>
-
-//             <Link to="/about">
-//               <Button style={{ color: "#8E8E8E", marginRight: "30px" }}>
-//                 ABOUT US
-//               </Button>
-//             </Link>
-//             <Link to="/faq">
-//               <Button style={{ color: "#8E8E8E", marginRight: "30px" }}>
-//                 FAQ
-//               </Button>
-//             </Link>
-//           </Box>
-
-//           <Box
-//             sx={{
-//               display: "flex",
-//               alignItems: "center",
-
-//               justifyContent: { md: "end", xs: "center" },
-//             }}
-//           >
-//             <Box sx={{ width: { sx: "px" } }}>
-//               <Button variant="contained" color="primary" >
-//                 Let's Talk
-//               </Button>
-//             </Box>
-
-//               <img src={cart} alt="" variant="contained" width={'25px'}/>
-//               {/* <cart fontSize="large"  /> */}
-
-//             <Typography
-//               id="basic-button"
-//               aria-controls={open ? "basic-menu" : undefined}
-//               aria-haspopup="true"
-//               aria-expanded={open ? "true" : undefined}
-//               onClick={handleClick}
-//               sx={{ display: "inline-block" }}
-
-//             >
-//               <Avatar
-//                 alt="Remy Sharp"
-//                 sx={{
-//                   width: 30,
-//                   height: 30,
-//                   margin: { xs: "0 20px 0 10px", md: "0 0px 0 10px" },
-//                 }}
-//               />
+//               LOGO
 //             </Typography>
-//           </Box>
 
-//           {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
-//             <Grid container>
-//               {/* <Sider /> */}
-//             {/* </Grid>
-//           </Box> */}
-//         </Toolbar>
-//       </Container>
-//     </AppBar>
+//             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+//               <IconButton
+//                 size="large"
+//                 aria-label="account of current user"
+//                 aria-controls="menu-appbar"
+//                 aria-haspopup="true"
+//                 onClick={handleOpenNavMenu}
+//                 color="inherit"
+//               >
+//                 <MenuIcon />
+//               </IconButton>
+//               <Menu
+//                 id="menu-appbar"
+//                 anchorEl={anchorElNav}
+//                 anchorOrigin={{
+//                   vertical: "bottom",
+//                   horizontal: "left",
+//                 }}
+//                 keepMounted
+//                 transformOrigin={{
+//                   vertical: "top",
+//                   horizontal: "left",
+//                 }}
+//                 open={Boolean(anchorElNav)}
+//                 onClose={handleCloseNavMenu}
+//                 sx={{
+//                   display: { xs: "block", md: "none" },
+//                 }}
+//               >
+//                 {pages.map((page) => (
+//                   <MenuItem key={page} onClick={handleCloseNavMenu}>
+//                     <Typography textAlign="center">{page}</Typography>
+//                   </MenuItem>
+//                 ))}
+//               </Menu>
+//             </Box>
+//             <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+//             <Typography
+//               variant="h5"
+//               noWrap
+//               component="a"
+//               href="#app-bar-with-responsive-menu"
+//               sx={{
+//                 mr: 2,
+//                 display: { xs: "flex", md: "none" },
+//                 flexGrow: 1,
+//                 fontFamily: "monospace",
+//                 fontWeight: 700,
+//                 letterSpacing: ".3rem",
+//                 color: "inherit",
+//                 textDecoration: "none",
+//               }}
+//             >
+//               LOGO
+//             </Typography>
+//             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+//               {pages.map((page) => (
+//                 <Button
+//                   key={page}
+//                   onClick={handleCloseNavMenu}
+//                   sx={{ my: 2, color: "white", display: "block" }}
+//                 >
+//                   {page}
+//                 </Button>
+//               ))}
+//             </Box>
+
+//             <Box sx={{ flexGrow: 0 }}>
+//               <Tooltip title="Open settings">
+//                 <IconButton onClick={handleOpen} sx={{ p: 0 }}>
+//                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+//                 </IconButton>
+//               </Tooltip>
+//             </Box>
+//           </Toolbar>
+//         </Container>
+//       </AppBar>
+
+//       <Modal
+//       open={open}
+//       onClose={handleClose}
+//       aria-labelledby="parent-modal-title"
+//       aria-describedby="parent-modal-description"
+//     >
+//       <Box
+//         sx={{
+//           ...style,
+//           width: '90%',
+//           maxWidth: { xs: 300, md: 600 },
+//           height: { xs: '70vh', md: 'auto' },
+//           overflow: 'auto',
+//         }}
+//       >
+//         <Typography fontSize={'26px'} fontWeight={300} gutterBottom>
+//           Edit Profile
+//         </Typography>
+//         <Grid container spacing={2}>
+//           <Grid item xs={12} md={3} sx={{ textAlign: 'center' }}>
+//             <Avatar
+//               alt="Profile Picture"
+//               src={profilePicture}
+//               sx={{ width: 100, height: 100, margin: '0 auto' }}
+//             />
+//             <input
+//               type="file"
+//               accept="image/*"
+//               style={{ display: 'none' }}
+//               id="profile-picture-upload"
+//               onChange={handleFileChange}
+//             />
+//             <label htmlFor="profile-picture-upload">
+//               <Button variant="contained" component="span">
+//                 Choose File
+//               </Button>
+//             </label>
+//           </Grid>
+//           <Grid item xs={12} md={9}>
+//             <Grid container spacing={2}>
+//               <Grid item xs={12} sm={6}>
+//                 <TextField
+//                   fullWidth
+//                   label="Name"
+//                   value={name}
+//                   variant="outlined"
+//                   required
+//                   onChange={(e) => setName(e.target.value)}
+//                   size="small"
+//                 />
+//               </Grid>
+//               <Grid item xs={12} sm={6}>
+//                 <PhoneInput
+//                   inputStyle={{
+//                     width: '100%',
+//                     height: '40px',
+//                     fontFamily: 'Monospace',
+//                     border: '1px solid #AEB4BE',
+//                   }}
+//                   dropdownStyle={{}}
+//                   country={"in"}
+//                   variant="outlined"
+//                   placeholder="+91"
+//                 />
+//               </Grid>
+//               <Grid item xs={12}>
+//                 <TextField
+//                   fullWidth
+//                   label="Email Address"
+//                   value={email}
+//                   required
+//                   onChange={(e) => setEmail(e.target.value)}
+//                   size="small"
+//                 />
+//               </Grid>
+//             </Grid>
+//           </Grid>
+//           <Grid item xs={12}>
+//             <Grid container spacing={2}>
+//               <Grid item xs={12} md={6}>
+//                 <TextField
+//                   fullWidth
+//                   label="Your Address"
+//                   multiline
+//                   rows={5}
+//                   required
+//                   value={address}
+//                   onChange={(e) => setAddress(e.target.value)}
+//                 />
+//               </Grid>
+//               <Grid item xs={12} md={6}>
+//                 <Grid container spacing={2}>
+//                   <Grid item xs={12}>
+//                     <TextField
+//                       fullWidth
+//                       size="small"
+//                       label="Your City"
+//                       value={city}
+//                       required
+//                       onChange={(e) => setCity(e.target.value)}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={6}>
+//                     <TextField
+//                       fullWidth
+//                       label="Your State"
+//                       size="small"
+//                       value={state}
+//                       required
+//                       onChange={(e) => setState(e.target.value)}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={6}>
+//                     <TextField
+//                       fullWidth
+//                       label="Country"
+//                       size="small"
+//                       value={country}
+//                       required
+//                       onChange={(e) => setCountry(e.target.value)}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={6}>
+//                     <TextField
+//                       fullWidth
+//                       label="Zip Code"
+//                       size="small"
+//                       value={zip}
+//                       required
+//                       onChange={(e) => setZip(e.target.value)}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={6}>
+//                     <Button
+//                       type="submit"
+//                       variant="contained"
+//                       fullWidth
+//                     >
+//                       Save
+//                     </Button>
+//                   </Grid>
+//                 </Grid>
+//               </Grid>
+//             </Grid>
+//           </Grid>
+//         </Grid>
+//       </Box>
+//     </Modal>
+//     </>
 //   );
 // }
+// export default ResponsiveAppBar;
 
-// export default Navbar;
 
-import React from "react";
+
+
+
+import { useState } from "react";
+import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -144,18 +364,26 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { Grid, Modal, TextField } from "@mui/material";
 
-const pages = [
-  { label: "HOME", path: "/" },
-  { label: "SHOP", path: "/shop" },
-  { label: "FEATURED", path: "/featured" },
-  { label: "ABOUT US", path: "/about" },
-  { label: "FAQ", path: "/faq" }
-];
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ open, handleClose }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -174,132 +402,277 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [zip, setZip] = useState('');
+  const [profilePicture, setProfilePicture] = useState('/static/images/avatar/2.jpg'); // Initial profile picture
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfilePicture(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <AppBar position="static" sx={{ margin: "0px", padding: "0px" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    <>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
               sx={{
-                display: { xs: "block", md: "none" },
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" component={Link} to={page.path}>
-                    {page.label}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          {/* main nav start */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.label}
-                component={Link}
-                to={page.path}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page.label}
-              </Button>
-            ))}
-          </Box>
+              LOGO
+            </Typography>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+              LOGO
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
               ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenModal} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box
+          sx={{
+            ...style,
+            width: '90%',
+            maxWidth: { xs: 300, md: 600 },
+            height: { xs: '70vh', md: 'auto' },
+            overflow: 'auto',
+          }}
+        >
+          <Typography fontSize={'26px'} fontWeight={300} gutterBottom>
+            Edit Profile
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={3} sx={{ textAlign: 'center' }}>
+              <Avatar
+                alt="Profile Picture"
+                src={profilePicture}
+                sx={{ width: 100, height: 100, margin: '0 auto', cursor: 'pointer' }}
+                onClick={() => document.getElementById('profile-picture-upload').click()}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="profile-picture-upload"
+                onChange={handleFileChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={9}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Name"
+                    value={name}
+                    variant="outlined"
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <PhoneInput
+                    inputStyle={{
+                      width: '100%',
+                      height: '40px',
+                      fontFamily: 'Monospace',
+                      border: '1px solid #AEB4BE',
+                    }}
+                    dropdownStyle={{}}
+                    country={"in"}
+                    variant="outlined"
+                    placeholder="+91"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Email Address"
+                    value={email}
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                    size="small"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Your Address"
+                    multiline
+                    rows={5}
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Your City"
+                        value={city}
+                        required
+                        onChange={(e) => setCity(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Your State"
+                        size="small"
+                        value={state}
+                        required
+                        onChange={(e) => setState(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Country"
+                        size="small"
+                        value={country}
+                        required
+                        onChange={(e) => setCountry(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Zip Code"
+                        size="small"
+                        value={zip}
+                        required
+                        onChange={(e) => setZip(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        fullWidth
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
+    </>
   );
 }
-
 export default ResponsiveAppBar;

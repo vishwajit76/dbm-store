@@ -18,6 +18,10 @@ import ImageIcon from "@mui/icons-material/Image";
 import "../../index.css";
 import { useTheme } from "@mui/system";
 import bulkimg from "../image/image 2.svg";
+import wew1 from "../image/Vectorhome 1 copy.svg";
+import wew2 from "../image/Vectorhome 2.svg";
+import star1 from "../image/Starhome 1.svg";
+import star2 from "../image/Starhome 2.svg";
 import bulkimgPdf from "../image/image 3.svg";
 import bulkimgaudio from "../image/image 4.svg";
 import MailIcon from "@mui/icons-material/Mail";
@@ -26,14 +30,14 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatIcon from "@mui/icons-material/Chat";
 import ReportIcon from "@mui/icons-material/Report";
-import LaptopWindowsIcon from '@mui/icons-material/LaptopWindows';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import LiveTvIcon from '@mui/icons-material/LiveTv';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import SpeakerIcon from '@mui/icons-material/Speaker';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-
+import LaptopWindowsIcon from "@mui/icons-material/LaptopWindows";
+import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import SpeakerIcon from "@mui/icons-material/Speaker";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+// import '../site/navbar'
 
 const Home = () => {
   const [value, setValue] = React.useState("1");
@@ -43,7 +47,11 @@ const Home = () => {
   };
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
+ 
+
   return (
+    
     <div>
       <Box sx={{ backgroundColor: "#f4f4f4", py: 6 }}>
         <Container>
@@ -69,8 +77,9 @@ const Home = () => {
               >
                 <Box
                   component="span"
+                  
                   sx={{
-                    color: "white",
+                    color: "#fff",
                     fontWeight: "bold",
                     display: "inline-block",
                     backgroundColor: "primary.main",
@@ -167,6 +176,7 @@ const Home = () => {
                 >
                   <Button
                     variant="contained"
+                    color="white"
                     sx={{
                       backgroundColor: "white",
                       color: "black",
@@ -180,7 +190,7 @@ const Home = () => {
                         md: "translateX(-50%) rotate(-5deg)",
                       },
                       width: { xs: "70px", md: "auto" },
-                      fontSize: { xs: "10px", md: "14px" }, // Adjust font size for different screen sizes
+                      fontSize: { xs: "10px", md: "14px" },
                     }}
                   >
                     Easy use
@@ -216,6 +226,47 @@ const Home = () => {
 
           <Grid>
             <Grid item margin={"50px 0"}>
+              <Box >
+                <img
+                  src={wew1}
+                  alt=""
+                  style={{ position: "absolute", left: "0px" }}
+                />
+              </Box>
+              <Box>
+                <img
+                  src={star1}
+                  alt=""
+                  style={{
+                    position: "absolute",
+                    left: "220px",
+                    bottom: "80px",
+                  }}
+                />
+              </Box>
+              <Box>
+                <img
+                  src={wew2}
+                  alt=""
+                  style={{
+                    position: "absolute",
+                    right: "100px",
+                    bottom: "80px",
+                  }}
+                />
+              </Box>
+              <Box>
+                <img
+                  src={star2}
+                  alt=""
+                  style={{
+                    position: "absolute",
+                    right: "30px",
+                    bottom: "110px",
+                  }}
+                />
+              </Box>
+
               <Typography
                 textAlign={"center"}
                 margin={"10px"}
@@ -264,7 +315,7 @@ const Home = () => {
                 <TabContext value={value}>
                   <Box
                     sx={{
-                      borderColor: "divider",
+                      borderColor: "",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -291,7 +342,7 @@ const Home = () => {
                   </Box>
                   <Box sx={{ width: "100%", textAlign: "center", mt: 2 }}>
                     <TabPanel value="1">
-                      <Card
+                      <Box
                         sx={{
                           display: "flex",
                           flexDirection: isSmallScreen ? "column" : "row",
@@ -305,8 +356,9 @@ const Home = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
+                            boxShadow:'0px 0px 10px lightgray',
                             borderRadius: "50%",
-                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                            backgroundColor: "#fff",
                             width: 200,
                             height: 200,
                             mb: isSmallScreen ? 2 : 0,
@@ -319,6 +371,8 @@ const Home = () => {
                           <Typography
                             variant="h6"
                             component="div"
+                            fontSize={"28px"}
+                            fontWeight={600}
                             sx={{ mb: 1, textAlign: "left" }}
                           >
                             Image
@@ -326,7 +380,7 @@ const Home = () => {
                           <Typography
                             variant="body2"
                             color="textSecondary"
-                            fontSize={'20px'}
+                            fontSize={"24px"}
                             sx={{ textAlign: "left" }}
                           >
                             Software supports multiple images along with
@@ -334,7 +388,7 @@ const Home = () => {
                             imported numbers with a click of a single button.
                           </Typography>
                         </CardContent>
-                      </Card>
+                      </Box>
                       <Box
                         display="flex"
                         justifyContent="center"
@@ -353,7 +407,7 @@ const Home = () => {
                         <Box
                           display="flex"
                           justifyContent="center"
-                          alignItems="center"
+                          alignItems="baseline"
                           sx={{
                             flexWrap: "nowrap",
                             gap: "20px",
@@ -370,8 +424,22 @@ const Home = () => {
                             textAlign="center"
                             minWidth="120px"
                             minHeight="100px"
+                            color={""}
                           >
-                            <MailIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <MailIcon fontSize="large" />
+                            </Box>
+
                             <Typography variant="body1">
                               Send Customized Messages
                             </Typography>
@@ -384,7 +452,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <ImportContactsIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <ImportContactsIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Import Contacts
                             </Typography>
@@ -397,7 +477,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <PersonAddIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <PersonAddIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Send Without Saving Contact
                             </Typography>
@@ -410,7 +502,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <AccountCircleIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <AccountCircleIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Multi Account
                             </Typography>
@@ -423,7 +527,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <ChatIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <ChatIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Create Multiple Variations
                             </Typography>
@@ -436,7 +552,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <ReportIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <ReportIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">Get Report</Typography>
                           </Box>
                           <Box
@@ -447,7 +575,19 @@ const Home = () => {
                             minWidth="200px"
                             minHeight="100px"
                           >
-                            <MailIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <MailIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Scheduling message
                             </Typography>
@@ -457,7 +597,7 @@ const Home = () => {
                     </TabPanel>
                     <TabPanel value="2">
                       {" "}
-                      <Card
+                      <Box
                         sx={{
                           display: "flex",
                           flexDirection: isSmallScreen ? "column" : "row",
@@ -472,7 +612,7 @@ const Home = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             borderRadius: "50%",
-                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                            backgroundColor: "#fff",
                             width: 200,
                             height: 200,
                             mb: isSmallScreen ? 2 : 0,
@@ -485,6 +625,8 @@ const Home = () => {
                           <Typography
                             variant="h6"
                             component="div"
+                            fontSize={"28px"}
+                            fontWeight={600}
                             sx={{ mb: 1, textAlign: "left" }}
                           >
                             PDF
@@ -492,7 +634,7 @@ const Home = () => {
                           <Typography
                             variant="body2"
                             color="textSecondary"
-                            fontSize={'20px'}
+                            fontSize={"24px"}
                             sx={{ textAlign: "left" }}
                           >
                             Bulkwhatsapp is great tool for sharing PDF to
@@ -500,7 +642,7 @@ const Home = () => {
                             thought with an unlimited number of character.
                           </Typography>
                         </CardContent>
-                      </Card>
+                      </Box>
                       <Box
                         display="flex"
                         justifyContent="center"
@@ -519,7 +661,7 @@ const Home = () => {
                         <Box
                           display="flex"
                           justifyContent="center"
-                          alignItems="center"
+                          alignItems="baseline"
                           sx={{
                             flexWrap: "nowrap",
                             gap: "20px",
@@ -537,7 +679,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <LaptopWindowsIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <LaptopWindowsIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Send Customized Messages
                             </Typography>
@@ -550,7 +704,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <PhoneAndroidOutlinedIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#ff#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <PhoneAndroidOutlinedIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Import Contacts
                             </Typography>
@@ -563,7 +729,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <CameraAltIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <CameraAltIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Send Without Saving Contact
                             </Typography>
@@ -576,7 +754,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <LiveTvIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <LiveTvIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Multi Account
                             </Typography>
@@ -589,7 +779,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                           <CreditCardIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <CreditCardIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Create Multiple Variations
                             </Typography>
@@ -602,7 +804,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <SpeakerIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <SpeakerIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">Get Report</Typography>
                           </Box>
                           <Box
@@ -613,7 +827,19 @@ const Home = () => {
                             minWidth="200px"
                             minHeight="100px"
                           >
-                            <SportsEsportsIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <SportsEsportsIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Scheduling message
                             </Typography>
@@ -623,7 +849,7 @@ const Home = () => {
                     </TabPanel>
                     <TabPanel value="3">
                       {" "}
-                      <Card
+                      <Box
                         sx={{
                           display: "flex",
                           flexDirection: isSmallScreen ? "column" : "row",
@@ -638,7 +864,7 @@ const Home = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             borderRadius: "50%",
-                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                            backgroundColor: "#fff",
                             width: 200,
                             height: 200,
                             mb: isSmallScreen ? 2 : 0,
@@ -651,6 +877,8 @@ const Home = () => {
                           <Typography
                             variant="h6"
                             component="div"
+                            fontSize={"28px"}
+                            fontWeight={600}
                             sx={{ mb: 1, textAlign: "left" }}
                           >
                             AUDIO
@@ -658,7 +886,7 @@ const Home = () => {
                           <Typography
                             variant="body2"
                             color="textSecondary"
-                            fontSize={'20px'}
+                            fontSize={"24px"}
                             sx={{ textAlign: "left" }}
                           >
                             It not only supports the text but also various media
@@ -666,7 +894,7 @@ const Home = () => {
                             very important for every sector now a days.
                           </Typography>
                         </CardContent>
-                      </Card>
+                      </Box>
                       <Box
                         display="flex"
                         justifyContent="center"
@@ -685,7 +913,7 @@ const Home = () => {
                         <Box
                           display="flex"
                           justifyContent="center"
-                          alignItems="center"
+                          alignItems="baseline"
                           sx={{
                             flexWrap: "nowrap",
                             gap: "20px",
@@ -703,7 +931,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <LaptopWindowsIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <LaptopWindowsIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Send Customized Messages
                             </Typography>
@@ -716,7 +956,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <PhoneAndroidOutlinedIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <PhoneAndroidOutlinedIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Import Contacts
                             </Typography>
@@ -729,7 +981,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                           <CameraAltIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <CameraAltIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Send Without Saving Contact
                             </Typography>
@@ -742,7 +1006,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <LiveTvIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <LiveTvIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Multi Account
                             </Typography>
@@ -755,7 +1031,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <CreditCardIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <CreditCardIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Create Multiple Variations
                             </Typography>
@@ -768,7 +1056,19 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                           >
-                            <SpeakerIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <SpeakerIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">Get Report</Typography>
                           </Box>
                           <Box
@@ -779,7 +1079,19 @@ const Home = () => {
                             minWidth="200px"
                             minHeight="100px"
                           >
-                            <SportsEsportsIcon fontSize="large" />
+                            <Box
+                              borderRadius={"50px"}
+                              width={"75px"}
+                              height={"75px"}
+                              sx={{
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <SportsEsportsIcon fontSize="large" />
+                            </Box>
                             <Typography variant="body1">
                               Scheduling message
                             </Typography>
@@ -791,6 +1103,7 @@ const Home = () => {
                 </TabContext>
               </Box>
             </Grid>
+            
           </Grid>
         </Container>
       </Box>
