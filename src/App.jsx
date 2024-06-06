@@ -6,9 +6,14 @@ import Shop from "./component/user/Shop";
 import About from "./component/user/About";
 import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
+import Featured from "./component/user/Featured";
+import Faq from "./component/user/Faq";
 
 
 const theme = createTheme({
+  typography: {
+    fontFamily: 'Montserrat, Arial, sans-serif', // Replace 'YourDesiredFontFamily' with your preferred font family
+  },
   palette: {
     white: {
       main: "#ffffff",
@@ -18,7 +23,7 @@ const theme = createTheme({
     },
     khaki: {
       main: '#8E8E8E'
-    }
+    },
   },
 });
 function App() {

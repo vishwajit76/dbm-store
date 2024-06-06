@@ -189,7 +189,7 @@ const Navbar = () => {
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={3} sx={{ textAlign: 'center' }}>
                       <Avatar
-                        alt="Profile Picture"
+                        alt="D"
                         src={profilePicture}
                         sx={{ width: 100, height: 100, margin: '0 auto', cursor: 'pointer' }}
                         onClick={() => document.getElementById('profile-picture-upload').click()}

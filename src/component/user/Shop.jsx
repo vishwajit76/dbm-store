@@ -1,5 +1,6 @@
 import { Box, Container, CircularProgress, Typography, Rating, Grid, Card, ListItem, List, Drawer, ListItemText, CardContent, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import CircleIcon from '@mui/icons-material/Circle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Carousel from 'react-multi-carousel';
@@ -17,6 +18,14 @@ const useStyles = makeStyles({
 const arrowStyle = {
   border: 1, p: 1, borderRadius: '50%', ml: 2
 };
+
+const dot = {
+  mr: 2,
+  height: 8,
+  width: 8,
+  background: '#0084FE',
+  borderRadius: '50%'
+}
 
 const Shop = () => {
   const [products, setProducts] = useState(null);
@@ -217,21 +226,27 @@ const Shop = () => {
             </Typography>
             <List>
               <ListItem disablePadding>
+                <Box sx={dot}></Box>
                 <ListItemText>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!</ListItemText>
               </ListItem>
               <ListItem disablePadding>
+                <Box sx={dot}></Box>
                 <ListItemText>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!</ListItemText>
               </ListItem>
               <ListItem disablePadding>
+                <Box sx={dot}></Box>
                 <ListItemText>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!</ListItemText>
               </ListItem>
               <ListItem disablePadding>
+                <Box sx={dot}></Box>
                 <ListItemText>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!</ListItemText>
               </ListItem>
               <ListItem disablePadding>
+                <Box sx={dot}></Box>
                 <ListItemText>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!</ListItemText>
               </ListItem>
               <ListItem disablePadding>
+                <Box sx={dot}></Box>
                 <ListItemText>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!</ListItemText>
               </ListItem>
             </List>
