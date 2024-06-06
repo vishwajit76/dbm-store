@@ -1,11 +1,12 @@
-import { Box, Container, CircularProgress, Typography, Rating, Grid, Card, ListItem, List, Drawer, ListItemText } from '@mui/material';
+import { Box, Container, CircularProgress, Typography, Rating, Grid, Card, ListItem, List, Drawer, ListItemText, CardContent, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Carousel from 'react-multi-carousel';
 import { makeStyles } from '@mui/styles';
 import 'react-multi-carousel/lib/styles.css';
-
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 const useStyles = makeStyles({
   carousel: {
     padding: '100px 0',
@@ -122,6 +123,29 @@ const Shop = () => {
     },
   };
 
+  const styles = {
+    root: {
+      padding: '32px 0',
+      textAlign: 'center',
+    },
+    card: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: '16px',
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+    iconButton: {
+      color: '#007bff',
+      fontSize: '3rem',
+    },
+    content: {
+      textAlign: 'left',
+      paddingLeft: '16px',
+    },
+  };
+
+
   return (
     <Box sx={{ background: '#f4f4f4' }}>
       <Container>
@@ -213,6 +237,89 @@ const Shop = () => {
             </List>
           </Grid>
         </Grid>
+
+
+          <Grid>
+          <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '32px 0',
+      }}
+    >
+      <Card
+    style={{
+      clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
+      transform: 'translate(0%, 0%)',
+      backgroundColor: 'white',
+    }}
+    sx={{ maxWidth: '50%', width: '100%' , justifyContent:'center'}}
+  >
+    gh
+  </Card>
+      <Card
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '16px',
+          width: '100%',
+        }}
+  
+      >
+        <Grid container spacing={2} alignItems="center">
+          <Grid 
+            item 
+            xs={12} 
+            md={4} 
+            sx={{
+              display: 'flex', 
+              justifyContent: { xs: 'center', md: 'flex-start' },
+              textAlign: { xs: 'center', md: 'left' }
+            }}
+          >
+            <Typography 
+              variant="h4" 
+              gutterBottom 
+              sx={{ width: '100%', minWidth: '30%' }} 
+            >
+              How It Work
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Card
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                // backgroundColor: '#f9f9f9',
+                borderRadius: '10px',
+                padding: '16px',
+              }}
+            >
+              <Box >
+
+              <IconButton color='white'  variant="contained"   sx={{  fontSize: '3rem',  bgcolor:'#007bff', color:'#fff'}}>
+                <PlayArrowOutlinedIcon fontSize="large" />
+              </IconButton>
+              </Box>
+              <CardContent>
+                <Typography variant="h6">
+                  HOW THE BULK WHATSAPP SOFTWARE WORKS?
+                </Typography>
+                <Typography variant="body1">
+                  Watch a video which shows a detailed step by step process of how to get started with our Bulk WhatsApp Software.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Card>
+    </Container>
+
+
+          </Grid>
       </Container>
     </Box>
   );

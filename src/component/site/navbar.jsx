@@ -31,8 +31,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
+  // border: "2px solid #000",
+  
+  boxShadow: '1px 1px 10px',
   p: 4,
 };
 
@@ -177,7 +178,7 @@ const Navbar = () => {
                   sx={{
                     ...style,
                     width: '90%',
-                    maxWidth: { xs: 300, md: 600 },
+                    maxWidth: { xs: 250, md: 600 },
                     height: { xs: '70vh', md: 'auto' },
                     overflow: 'auto',
                   }}

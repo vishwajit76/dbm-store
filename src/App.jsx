@@ -3,7 +3,8 @@ import Navbar from "./component/site/navbar";
 import './index.css'
 import Home from "./component/user/Home";
 import Shop from "./component/user/Shop";
-import { createTheme } from "@mui/material";
+import About from "./component/user/About";
+import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 
 
@@ -25,9 +26,13 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <Box sx={{ bgcolor:"#F4F4F4"}}>
+
         <Navbar />
         <Home />
         <Shop />
+        <About/>
+        </Box>
       </ThemeProvider>
     </>
   );
