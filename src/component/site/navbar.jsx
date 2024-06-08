@@ -148,8 +148,8 @@ const Navbar = () => {
 
             <Box
               sx={{
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -165,8 +165,8 @@ const Navbar = () => {
               />
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenModal} sx={{ p: 0 }}>
-                <Avatar alt="D" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenModal}  sx={{ p: 0 }}>
+                <Avatar alt=""  src="/static/images/avatar/2.jpg"     sx={{ width: 35, height: 35 }} />
               </IconButton>
               <Modal
                 open={openModal}
@@ -191,7 +191,8 @@ const Navbar = () => {
                       <Avatar
                         alt="D"
                         src={profilePicture}
-                        sx={{ width: 100, height: 100, margin: '0 auto', cursor: 'pointer' }}
+                        
+                        sx={{ width: 100, height: 100, margin: '0 auto', cursor: 'pointer'  }}
                         onClick={() => document.getElementById('profile-picture-upload').click()}
                       />
                       <input
