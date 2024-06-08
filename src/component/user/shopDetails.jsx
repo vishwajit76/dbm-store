@@ -63,17 +63,17 @@ const ShopDetails = ({ onClose, product , color }) => {
                 boxShadow="0 0 10px #eee"
                 justifyContent="space-between"
             >
-                <Grid item xs={4} sx={{ borderRadius: '15px', backgroundColor: color , textAlign: 'center' }}>
+                <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: color , textAlign: 'center' }}>
                     <img width={100} height={100} src={product.image} alt="Product" />
                 </Grid>
-                <Grid item xs={7} container direction="column" justifyContent="space-between">
+                <Grid item xs={12} md={7} container direction="column" justifyContent="space-between">
                     <Typography>{product.name}</Typography>
                     <Grid container alignItems="center">
                         <Grid item xs={6}>
                             <Typography sx={{ color: '#818181de' }}>Price</Typography>
                             <Typography fontWeight={600}>${product.variations[product.variations.length -1 ].price * count}</Typography>
                         </Grid>
-                        <Grid item xs={6} container alignItems="center" justifyContent="space-evenly" sx={{ flexDirection: {xs: 'column-reverse' , md: 'row'}}}>
+                        <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
                             <RemoveOutlinedIcon sx={buttonStyle} onClick={() => handleCounter(-1)} />
                             <Typography>{count}</Typography>
                             <AddOutlinedIcon sx={buttonStyle} onClick={() => handleCounter(1)} />

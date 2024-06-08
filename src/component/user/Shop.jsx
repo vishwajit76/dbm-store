@@ -237,7 +237,7 @@ const Shop = () => {
               customRightArrow={<CustomRightArrow />}
             >
               {products && products.products.map((item) => (
-                <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: 10, px: 3 }}>
+                <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: {xs: 5 , md: 10}, px: {xs: 0 , md: 3} }}>
                   <img width={300} height={300} src={item.image} alt={item.name} />
                 </Card>
               ))}
