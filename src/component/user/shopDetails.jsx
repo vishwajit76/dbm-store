@@ -10,7 +10,7 @@ import zomatoImg from '../image/google-map-extractor-7 1.png';
 import vector from '../image/Vector.png';
 
 const buttonStyle = {
-    p: 0.5,
+    p: 0.1,
     boxShadow: '0 0 10px #eee',
     cursor: 'pointer',
 };
@@ -32,7 +32,7 @@ const ShopDetails = ({ onClose, product , color }) => {
     };
 
     return (
-        <Box sx={{ width: { xs: 250, md: 350 , xl: 500 }, p: 3 }}>
+        <Box sx={{ width: { xs: 250, md: 350  }, p: 3 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
                 <KeyboardBackspaceRoundedIcon
                     fontSize="large"
@@ -74,17 +74,17 @@ const ShopDetails = ({ onClose, product , color }) => {
                             <Typography fontWeight={600}>${product.variations[product.variations.length -1 ].price * count}</Typography>
                         </Grid>
                         <Grid item xs={6} container alignItems="center" justifyContent="space-evenly" sx={{ flexDirection: {xs: 'column-reverse' , md: 'row'}}}>
-                            <RemoveOutlinedIcon sx={buttonStyle} onClick={() => handleCounter(-1)} />
+                            <RemoveOutlinedIcon fontSize='small' sx={buttonStyle} onClick={() => handleCounter(-1)} />
                             <Typography>{count}</Typography>
-                            <AddOutlinedIcon sx={buttonStyle} onClick={() => handleCounter(1)} />
+                            <AddOutlinedIcon fontSize='small' sx={buttonStyle} onClick={() => handleCounter(1)} />
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
 
             <Grid container my={5}>
-                <Grid item xs={12} sx={{ borderRadius: '15px', backgroundColor: color, textAlign: 'center', p: '70px 20px' }}>
-                    <img width="100%" src={product.image} alt="Product" />
+                <Grid item xs={12} sx={{ borderRadius: '15px', backgroundColor: color, textAlign: 'center', p: '20px 0px' }}>
+                    <img width="80%" src={product.image} alt="Product" />
                 </Grid>
             </Grid>
 

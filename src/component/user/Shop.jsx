@@ -9,25 +9,21 @@ import Carousel from 'react-multi-carousel';
 import { makeStyles } from '@mui/styles';
 import 'react-multi-carousel/lib/styles.css';
 import ShopDetails from './shopDetails';
-
 const useStyles = makeStyles({
   carousel: {
     padding: '100px 0',
     textAlign: 'center',
   },
 });
-
 const arrowStyle = {
   border: 1, p: 1, borderRadius: '50%', ml: 2,
 };
-
 const messages = [
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
 ];
-
 const CustomLeftArrow = ({ onClick }) => (
   <Box
     onClick={onClick}
@@ -48,7 +44,6 @@ const CustomLeftArrow = ({ onClick }) => (
     <KeyboardArrowLeftRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
   </Box>
 );
-
 const CustomRightArrow = ({ onClick }) => (
   <Box
     onClick={onClick}
@@ -68,14 +63,12 @@ const CustomRightArrow = ({ onClick }) => (
     <KeyboardArrowRightRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
   </Box>
 );
-
 const CustomButtonGroup = ({ next, previous }) => (
   <Box position="absolute" top={20} right={30} display="flex" justifyContent="center" alignItems="center">
     <ArrowBackIcon onClick={previous} sx={arrowStyle} />
     <ArrowForwardIcon onClick={next} sx={arrowStyle} />
   </Box>
 );
-
 const Shop = () => {
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
@@ -84,26 +77,21 @@ const Shop = () => {
   const [open, setOpen] = useState(false);
   const [color, setColor] = useState()
   const classes = useStyles();
-
   const toggleDrawer = (newOpen, product = null , color) => () => {
     setOpen(newOpen);
     setDrawerProduct(product);
     setColor(color)
   };
-
   const multiCarouselResponsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 4 },
     tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
   };
-
   const carouselResponsive = {
     all: { breakpoint: { max: 4000, min: 0 }, items: 1 },
   };
-
   const colors = ['#FBF5EC', '#E8F5E9', '#E3F2FD', '#FCE4EC', '#FFF3E0', '#F3E5F5', '#EDE7F6'];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -121,14 +109,11 @@ const Shop = () => {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
   }, []);
-
   const handleProductChange = (index) => {
     setSelectedProduct(products.products[index]);
   };
-
   if (error) {
     return (
       <Container>
@@ -136,15 +121,14 @@ const Shop = () => {
       </Container>
     );
   }
-
   if (!products) {
     return (
-      <Box sx={{ background: '#f4f4f4' }}>
+      <Box sx={{ background: '#F4F4F4' }}>
         <Container>
           <Typography
             fontWeight={600}
             sx={{
-              background: '#f4f4f4',
+              background: '#F4F4F4',
               position: { xs: '', md: 'absolute' },
               fontSize: { xs: "20px", sm: "30px", md: "45px" },
             }}
@@ -171,64 +155,14 @@ const Shop = () => {
       </Box>
     );
   }
-
-  const multiCarouselResponsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
-
-  const carouselResponsive = {
-    all: {
-      breakpoint: { max: 4000, min: 0 },
-      items: 1,
-    },
-  };
-
-  const styles = {
-    root: {
-      padding: '32px 0',
-      textAlign: 'center',
-    },
-    card: {
-      display: 'flex',
-      alignItems: 'center',
-      padding: '16px',
-      flexDirection: 'row',
-      justifyContent: 'center',
-    },
-    iconButton: {
-      color: '#007bff',
-      fontSize: '3rem',
-    },
-    content: {
-      textAlign: 'left',
-      paddingLeft: '16px',
-    },
-  };
-
-
   return (
-    <Box sx={{ background: '#f4f4f4' }}>
+    <Box sx={{ background: '#F4F4F4' }}>
       <Container>
         <Box>
           <Typography
             fontWeight={600}
             sx={{
-              background: '#f4f4f4',
+              background: '#F4F4F4',
               position: { xs: '', md: 'absolute' },
               fontSize: { xs: "20px", sm: "30px", md: "45px" },
             }}
@@ -251,7 +185,7 @@ const Shop = () => {
               <Card
                 key={item.id}
                 onClick={toggleDrawer(true, item , colors[index % colors.length] )}
-                sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2 }}  
+                sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2 }}
               >
                 <Grid
                   container
@@ -270,11 +204,9 @@ const Shop = () => {
             ))}
           </Carousel>
         </Box>
-
         <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
           <ShopDetails onClose={toggleDrawer(false)} product={drawerProduct} color={color} />
         </Drawer>
-
         <Grid container spacing={5} alignItems="center">
           <Grid item md={6} xs={12}>
             <Carousel
@@ -306,92 +238,8 @@ const Shop = () => {
             </List>
           </Grid>
         </Grid>
-
-
-          <Grid>
-          <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '32px 0',
-      }}
-    >
-      <Card
-    style={{
-      clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
-      transform: 'translate(0%, 0%)',
-      backgroundColor: 'white',
-    }}
-    sx={{ maxWidth: '50%', width: '100%' , justifyContent:'center'}}
-  >
-    gh
-  </Card>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '16px',
-          width: '100%',
-        }}
-  
-      >
-        <Grid container spacing={2} alignItems="center">
-          <Grid 
-            item 
-            xs={12} 
-            md={4} 
-            sx={{
-              display: 'flex', 
-              justifyContent: { xs: 'center', md: 'flex-start' },
-              textAlign: { xs: 'center', md: 'left' }
-            }}
-          >
-            <Typography 
-              variant="h4" 
-              gutterBottom 
-              sx={{ width: '100%', minWidth: '30%' }} 
-            >
-              How It Work
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Card
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                // backgroundColor: '#f9f9f9',
-                borderRadius: '10px',
-                padding: '16px',
-              }}
-            >
-              <Box >
-
-              <IconButton color='white'  variant="contained"   sx={{  fontSize: '3rem',  bgcolor:'#007bff', color:'#fff'}}>
-                <PlayArrowOutlinedIcon fontSize="large" />
-              </IconButton>
-              </Box>
-              <CardContent>
-                <Typography variant="h6">
-                  HOW THE BULK WHATSAPP SOFTWARE WORKS?
-                </Typography>
-                <Typography variant="body1">
-                  Watch a video which shows a detailed step by step process of how to get started with our Bulk WhatsApp Software.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Card>
-    </Container>
-
-
-          </Grid>
       </Container>
     </Box>
   );
 };
-
 export default Shop;
