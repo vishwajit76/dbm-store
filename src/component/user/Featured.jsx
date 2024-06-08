@@ -3,9 +3,12 @@ import hiringImage from '../image/Image.png';
 import Carousel from 'react-multi-carousel';
 import { makeStyles } from '@mui/styles';
 import 'react-multi-carousel/lib/styles.css';
-import { Box, Button, Card, Container, Grid, Typography } from '@mui/material';
+import zomatoImg from '../image/google-map-extractor-7 1.png'
+import { Badge, Box, Button, Card, Container, Grid, Typography } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import { styled } from '@mui/system';
+
 
 const useStyles = makeStyles({
   carousel: {
@@ -32,12 +35,52 @@ const useStyles = makeStyles({
   }
 });
 
+const StyledBadge = styled(Badge)(({ transform }) => ({
+  '& .MuiBadge-badge': {
+    right: -12,
+    top: 12,
+    padding: '20px',
+    backgroundColor: '#007bff',
+    color: 'white',
+    fontSize: 'large',
+    transform
+  },
+}));
+
 const arrowStyle = {
   border: 1, p: 1, borderRadius: '50%', ml: 2
 };
 
+const transformations = ['rotate(-8deg)', 'rotate(8deg)', 'rotate(12deg)'];
+
+
 const Featured = () => {
   const classes = useStyles();
+
+  const products = [
+    {
+      image: zomatoImg,
+      title: 'Data Extractor',
+      description: 'Business Sender Pro V16.0 - Bulk WhatsApp Senfer',
+      price: '$321',
+      discount: '13%'
+    },
+    {
+      image: zomatoImg,
+      title: 'Data Extractor',
+      description: 'Business Sender Pro V16.0 - Bulk WhatsApp Senfer',
+      price: '$321',
+      discount: '13%'
+    },
+    {
+      image: zomatoImg,
+      title: 'Data Extractor',
+      description: 'Business Sender Pro V16.0 - Bulk WhatsApp Senfer',
+      price: '$321',
+      discount: '13%'
+    }
+  ];
+
 
   const multiCarouselResponsive = {
     superLargeDesktop: {
@@ -110,7 +153,7 @@ const Featured = () => {
               <Grid item xs={12} md={7} >
                 <img src={hiringImage} alt="" width={300} />
               </Grid>
-              <Grid item  xs={12} md={5} align='left'>
+              <Grid item xs={12} md={5} align='left'>
                 <Typography sx={{ my: "10px" }} variant='h3' fontWeight={600}>
                   20% OFF
                 </Typography>
@@ -126,7 +169,7 @@ const Featured = () => {
               <Grid item xs={12} md={7} >
                 <img src={hiringImage} alt="" width={300} />
               </Grid>
-              <Grid item  xs={12} md={5} align='left'>
+              <Grid item xs={12} md={5} align='left'>
                 <Typography sx={{ my: "10px" }} variant='h3' fontWeight={600}>
                   20% OFF
                 </Typography>
@@ -138,6 +181,52 @@ const Featured = () => {
             </Grid>
           </Card>
         </Carousel>
+
+        <Typography
+          fontWeight={600}
+          my={2}
+          sx={{
+            background: '#f4f4f4',
+            fontSize: { xs: "20px", sm: "30px", md: "45px" },
+          }}
+        >
+          Flash sale for
+          <Box
+            component="span"
+            sx={{
+              color: "primary.main",
+              mx: 1,
+            }}
+          >
+            best
+          </Box>
+          sellers
+        </Typography>
+        <Grid container justifyContent="space-between">
+          {products.map((product, index) => (
+            <Grid item key={index}>
+              <StyledBadge badgeContent={`${product.discount} Off`} transform={transformations[index % transformations.length]}>
+                <Card sx={{ borderRadius: "15px", p: 2, position: 'relative', maxWidth: 300, m: 2 }}>
+                  <Grid container>
+                    <Grid item xs={12} sx={{ borderRadius: "15px", backgroundColor: "#FBF5EC", textAlign: 'center' }}>
+                      <img width={200} height={200} src={product.image} alt={product.title} />
+                    </Grid>
+                    <Grid container item xs={12} justifyContent='space-between' my={3}>
+                      <Grid item xs={8}>
+                        <Typography variant='h5' fontWeight={600}>{product.title}</Typography>
+                        <Typography sx={{ color: '#818181de' }}>{product.description}</Typography>
+                      </Grid>
+                      <Grid item xs={4} textAlign='right'>
+                        <Typography sx={{ color: '#818181de' }}>Price</Typography>
+                        <Typography variant='h5' fontWeight={600}>{product.price}</Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </StyledBadge>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </Box>
   )

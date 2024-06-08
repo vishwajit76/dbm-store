@@ -24,6 +24,12 @@ const theme = createTheme({
     khaki: {
       main: '#8E8E8E'
     },
+    mainBg: {
+      main: '#F4F4F4'
+    },
+    gray: {
+      main: '#adadaade'
+    }
   },
 });
 function App() {
