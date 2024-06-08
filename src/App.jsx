@@ -3,7 +3,7 @@ import Navbar from "./component/site/navbar";
 import './index.css'
 import Home from "./component/user/Home";
 import Shop from "./component/user/Shop";
-import { createTheme } from "@mui/material";
+import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import Featured from "./component/user/Featured";
 import Faq from "./component/user/Faq";
@@ -23,6 +23,12 @@ const theme = createTheme({
     khaki: {
       main: '#8E8E8E'
     },
+    mainBg: {
+      main: '#F4F4F4'
+    },
+    gray: {
+      main: '#adadaade'
+    }
   },
 });
 function App() {
@@ -30,11 +36,13 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Navbar />
-        <Home />
-        <Shop />
-        <Featured />
-        <Faq />
+        <Box sx={{ background: 'mainBg'}}>
+          <Navbar />
+          <Home />
+          <Shop />
+          <Featured />
+          <Faq />
+        </Box>
       </ThemeProvider>
     </>
   );
