@@ -37,12 +37,12 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Box sx={{ bgcolor:"#F4F4F4"}}>
-
-        <Navbar />
-        <Home />
-        <Shop />
-        <About/>
+        <Box sx={{ bgcolor: "#F4F4F4" }}>
+          <Navbar />
+          <Home />
+          <Shop />
+          <About />
+          <Faq />
         </Box>
       </ThemeProvider>
     </>

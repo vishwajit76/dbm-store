@@ -7,23 +7,30 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Carousel from 'react-multi-carousel';
 import { makeStyles } from '@mui/styles';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import Cart from './cart';
 import 'react-multi-carousel/lib/styles.css';
-import ShopDetails from './shopDetails';
+import ShopDetails from './productDetails';
+
+
 const useStyles = makeStyles({
   carousel: {
     padding: '100px 0',
     textAlign: 'center',
   },
 });
+
 const arrowStyle = {
   border: 1, p: 1, borderRadius: '50%', ml: 2,
 };
+
 const messages = [
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
   "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error possimus itaque temporibus!",
 ];
+
 const CustomLeftArrow = ({ onClick }) => (
   <Box
     onClick={onClick}
@@ -44,6 +51,7 @@ const CustomLeftArrow = ({ onClick }) => (
     <KeyboardArrowLeftRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
   </Box>
 );
+
 const CustomRightArrow = ({ onClick }) => (
   <Box
     onClick={onClick}
@@ -63,25 +71,36 @@ const CustomRightArrow = ({ onClick }) => (
     <KeyboardArrowRightRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
   </Box>
 );
+
 const CustomButtonGroup = ({ next, previous }) => (
   <Box position="absolute" top={20} right={30} display="flex" justifyContent="center" alignItems="center">
     <ArrowBackIcon onClick={previous} sx={arrowStyle} />
     <ArrowForwardIcon onClick={next} sx={arrowStyle} />
   </Box>
 );
+
 const Shop = () => {
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [drawerProduct, setDrawerProduct] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [detailDrawer, setDetailDrawer] = useState(false);
+  const [cartDrawer, setCartDrawer] = useState(false);
   const [color, setColor] = useState()
   const classes = useStyles();
-  const toggleDrawer = (newOpen, product = null , color) => () => {
-    setOpen(newOpen);
+
+  const toggleDetailDrawer = (newOpen, product = null, color) => () => {
+    setDetailDrawer(newOpen);
     setDrawerProduct(product);
     setColor(color)
   };
+
+  const toggleCartDrawer = (newOpen) => () => {
+    setCartDrawer(newOpen);
+    if(newOpen) setDetailDrawer(false)
+  };
+
+  
   const multiCarouselResponsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 4 },
@@ -92,6 +111,7 @@ const Shop = () => {
     all: { breakpoint: { max: 4000, min: 0 }, items: 1 },
   };
   const colors = ['#FBF5EC', '#E8F5E9', '#E3F2FD', '#FCE4EC', '#FFF3E0', '#F3E5F5', '#EDE7F6'];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -111,9 +131,12 @@ const Shop = () => {
     };
     fetchData();
   }, []);
+
+
   const handleProductChange = (index) => {
     setSelectedProduct(products.products[index]);
   };
+
   if (error) {
     return (
       <Container>
@@ -184,7 +207,7 @@ const Shop = () => {
             {products && products.products.map((item, index) => (
               <Card
                 key={item.id}
-                onClick={toggleDrawer(true, item , colors[index % colors.length] )}
+                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
                 sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2 }}
               >
                 <Grid
@@ -204,9 +227,29 @@ const Shop = () => {
             ))}
           </Carousel>
         </Box>
-        <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
-          <ShopDetails onClose={toggleDrawer(false)} product={drawerProduct} color={color} />
+        <Drawer anchor="right" open={detailDrawer} onClose={toggleDetailDrawer(false)}>
+          <ShopDetails onClose={toggleDetailDrawer(false)} product={drawerProduct} color={color} cartDrawer={
+            <Box
+              sx={{
+                width: 35,
+                height: 35,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                borderRadius: "50%",
+                margin: "0 25px",
+              }}
+              onClick={toggleCartDrawer(true)}
+            >
+              <ShoppingBagOutlinedIcon color='black' />
+            </Box>} />
         </Drawer>
+
+        <Drawer anchor="right" open={cartDrawer} onClose={toggleCartDrawer(false)}>
+          <Cart onClose={toggleCartDrawer(false)} />
+        </Drawer>
+
         <Grid container spacing={5} alignItems="center">
           <Grid item md={6} xs={12}>
             <Carousel
@@ -216,7 +259,7 @@ const Shop = () => {
               customRightArrow={<CustomRightArrow />}
             >
               {products && products.products.map((item) => (
-                <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: {xs: 5 , md: 10}, px: {xs: 0 , md: 3} }}>
+                <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: { xs: 5, md: 10 }, px: { xs: 0, md: 3 } }}>
                   <img width={300} height={300} src={item.image} alt={item.name} />
                 </Card>
               ))}

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-    Badge, Box, Button, Grid, Rating, Typography,
+    Badge, Box, Button, Drawer, Grid, Rating, Typography,
 } from '@mui/material';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import zomatoImg from '../image/google-map-extractor-7 1.png';
-import vector from '../image/Vector.png';
+
+import Cart from './cart';
+import CardTravelTwoTone from '@mui/icons-material/CardTravelTwoTone';
 
 const buttonStyle = {
     p: 0.1,
@@ -15,13 +15,14 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-const ShopDetails = ({ onClose, product , color }) => {
+const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
     const [count, setCount] = useState(1);
     const [expanded, setExpanded] = useState(false);
 
+
     if (!product) {
         return null;
-      }
+    }
 
     const toggleExpanded = () => {
         setExpanded((prevExpanded) => !prevExpanded);
@@ -32,7 +33,7 @@ const ShopDetails = ({ onClose, product , color }) => {
     };
 
     return (
-        <Box sx={{ width: { xs: 250, md: 350  }, p: 3 }}>
+        <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
                 <KeyboardBackspaceRoundedIcon
                     fontSize="large"
@@ -40,19 +41,7 @@ const ShopDetails = ({ onClose, product , color }) => {
                     onClick={onClose}
                 />
                 <Typography fontWeight={600}>Detail Product</Typography>
-                <Box
-                    sx={{
-                        width: 40,
-                        height: 40,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                        borderRadius: '50%',
-                    }}
-                >
-                    <img src={vector} alt="Vector Icon" width="50%" />
-                </Box>
+                {cartDrawer}
             </Grid>
 
             <Grid
@@ -63,7 +52,7 @@ const ShopDetails = ({ onClose, product , color }) => {
                 boxShadow="0 0 10px #eee"
                 justifyContent="space-between"
             >
-                <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: color , textAlign: 'center' }}>
+                <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: color, textAlign: 'center' }}>
                     <img width={100} height={100} src={product.image} alt="Product" />
                 </Grid>
                 <Grid item xs={12} md={7} container direction="column" justifyContent="space-between">
@@ -71,7 +60,7 @@ const ShopDetails = ({ onClose, product , color }) => {
                     <Grid container alignItems="center">
                         <Grid item xs={6}>
                             <Typography sx={{ color: '#818181de' }}>Price</Typography>
-                            <Typography fontWeight={600}>${product.variations[product.variations.length -1 ].price * count}</Typography>
+                            <Typography fontWeight={600}>${product.store[product.store.length - 1].price * count}</Typography>
                         </Grid>
                         <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
                             <RemoveOutlinedIcon sx={buttonStyle} onClick={() => handleCounter(-1)} />
@@ -83,7 +72,7 @@ const ShopDetails = ({ onClose, product , color }) => {
             </Grid>
 
             <Grid container my={5}>
-                <Grid item xs={12} sx={{ borderRadius: '15px', backgroundColor: color, textAlign: 'center', p: '20px 0px' }}>
+                <Grid item xs={12} sx={{ borderRadius: '15px', backgroundColor: color, textAlign: 'center', p: '7px 0' }}>
                     <img width="80%" src={product.image} alt="Product" />
                 </Grid>
             </Grid>
@@ -102,7 +91,7 @@ const ShopDetails = ({ onClose, product , color }) => {
                     </Grid>
                     <Grid item xs={4} textAlign="right">
                         <Typography sx={{ color: '#818181de' }}>Price</Typography>
-                        <Typography fontWeight={600}>${product.variations[product.variations.length -1 ].price * count}</Typography>
+                        <Typography fontWeight={600}>${product.store[product.store.length - 1].price * count}</Typography>
                     </Grid>
                 </Grid>
             </Box>
