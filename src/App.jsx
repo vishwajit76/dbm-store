@@ -6,8 +6,10 @@ import Shop from "./component/user/Shop";
 import About from "./component/user/About";
 import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import Featured from "./component/user/Featured";
-import Faq from "./component/user/Faq";
+// import Featured from "./component/user/Featured";
+// import Faq from "./component/user/Faq";
+
+import Footer from "./component/user/Footer";
 
 
 const theme = createTheme({
@@ -43,6 +45,7 @@ function App() {
         <Home />
         <Shop />
         <About/>
+        <Footer/>
         </Box>
       </ThemeProvider>
     </>

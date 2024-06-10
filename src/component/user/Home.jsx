@@ -361,8 +361,8 @@ const Home = () => {
                             backgroundColor: "#fff",
                             width: 200,
                             height: 200,
-                            mb: isSmallScreen ? 2 : 0,
-                            mr: isSmallScreen ? 0 : 2,
+                            mb: isSmallScreen ? 1 : 0,
+                            mr: isSmallScreen ? 0 : 1,
                           }}
                         >
                           <img src={bulkimg} alt="" />
@@ -709,7 +709,7 @@ const Home = () => {
                               width={"75px"}
                               height={"75px"}
                               sx={{
-                                backgroundColor: "#ff#fff",
+                                backgroundColor: "#fff",
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
