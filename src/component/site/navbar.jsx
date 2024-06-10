@@ -1,25 +1,27 @@
-
 import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Container,
+  Avatar,
+  Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Grid,
+  Modal,
+  TextField,
+} from "@mui/material";
+import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Grid, Menu, Modal, TextField } from "@mui/material";
+import PhoneInput from "react-phone-input-2";
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import Cart from '../user/cart';
 import logo from "../image/logo (1).png";
 import vector from "../image/Vector.png";
 import 'react-phone-input-2/lib/style.css';
@@ -34,20 +36,18 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  // border: "2px solid #000",
-  
   boxShadow: '1px 1px 10px',
   p: 4,
 };
 
 const pages = ["HOME", "SHOP", "FEATURED", "ABOUT US", "FAQ"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
-  const [openModal, setOpenModal] = React.useState(false);
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -73,15 +73,42 @@ const Navbar = () => {
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+  const handleCloseUserMenu = () => { setAnchorElUser(null) };
+  const toggleDrawer = (newOpen) => () => { setOpen(newOpen) };
+  const toggleCartDrawer = (newOpen) => () => {
+    setOpenCart(newOpen)
+  };
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+
+
+  const validateFields = () => {
+    const errors = {};
+
+    if (!validator.isAlpha(name.replace(/\s/g, ''))) {
+      errors.name = 'Name must contain only letters';
+    }
+
+    if (!validator.isEmail(email)) {
+      errors.email = 'Invalid email address';
+    }
+
+    if (!validator.isNumeric(zip)) {
+      errors.zip = 'Zip code must contain only numbers';
+    }
+
+    if (!validator.isAlpha(state.replace(/\s/g, ''))) {
+      errors.state = 'State must contain only letters';
+    }
+
+    if (!validator.isAlpha(country.replace(/\s/g, ''))) {
+      errors.country = 'Country must contain only letters';
+    }
+
+    if (!validator.isAlpha(city.replace(/\s/g, ''))) {
+      errors.city = 'city must contain only letters';
+    }
+
+    return errors;
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -145,30 +172,29 @@ const Navbar = () => {
 
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} textAlign='right'>
+      <KeyboardBackspaceRoundedIcon fontSize='large' sx={{ margin: '30px 20px 0 0' }} />
       <List>
         {pages.map((text, index) => (
-          <ListItem key={text} disablePadding>
+          <ListItem key={index}>
             <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
-        <Button variant="contained">Let's Talk</Button>
+        <ListItem>
+          <Button variant="contained">
+            Let's Talk
+          </Button>
+        </ListItem>
       </List>
-
     </Box>
   );
+
   return (
     <AppBar elevation={0} position="static" sx={{ background: '#f4f4f4' }}>
       <Container>
-        <Toolbar
-          sx={{ display: "flex", justifyContent: "space-between" }}
-          disableGutters
-        >
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }} disableGutters>
           <Box sx={{ width: { xs: "40%", md: '20%' } }}>
             <img src={logo} alt="Logo" width='100%' />
           </Box>
@@ -206,7 +232,6 @@ const Navbar = () => {
             >Let's Talk</Button>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-
             <Box
               sx={{
                 width: 35,
@@ -218,16 +243,18 @@ const Navbar = () => {
                 borderRadius: "50%",
                 margin: "0 25px",
               }}
+              onClick={toggleCartDrawer(true)}
             >
-              <img
-                src={vector}
-                alt="Vector Icon"
-                style={{ width: "50%", height: "50%" }}
-              />
+              <ShoppingBagOutlinedIcon color='black' />
             </Box>
+
+            <Drawer anchor="right" open={openCart} onClose={toggleCartDrawer(false)}>
+              <Cart onClose={toggleCartDrawer(false)} />
+            </Drawer>
+
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenModal}  sx={{ p: 0 }}>
-                <Avatar alt=""  src="/static/images/avatar/2.jpg"     sx={{ width: 35, height: 35 }} />
+              <IconButton onClick={handleOpenModal} sx={{ p: 0 }}>
+                <Avatar alt="Profile Picture" src={profilePicture} sx={{ width: 35, height: 35 }} />
               </IconButton>
 
 
@@ -415,4 +442,5 @@ const Navbar = () => {
     </AppBar>
   );
 };
+
 export default Navbar;
