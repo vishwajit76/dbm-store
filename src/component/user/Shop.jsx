@@ -7,12 +7,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Carousel from 'react-multi-carousel';
 import { makeStyles } from '@mui/styles';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import Cart from './cart';
 import 'react-multi-carousel/lib/styles.css';
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 
-import ShopDetails from './shopDetails';
+import ShopDetails from './productDetails';
 const useStyles = makeStyles({
   carousel: {
     padding: '100px 0',
@@ -242,7 +242,7 @@ const Shop = () => {
               }}
               onClick={toggleCartDrawer(true)}
             >
-              <ShoppingBagOutlinedIcon color='black' />
+              <LocalMallOutlinedIcon color='black' />
             </Box>} />
         </Drawer>
 
@@ -291,6 +291,7 @@ const Shop = () => {
               flexDirection: 'column',
               alignItems: 'center',
               padding: '32px 0',
+              
             }}
           >
             <Card
@@ -298,6 +299,7 @@ const Shop = () => {
                 clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
                 transform: 'translate(0%, 0%)',
                 backgroundColor: 'white',
+                boxShadow: 'none',
               }}
               sx={{ maxWidth: '50%', width: '100%', justifyContent: 'center' }}
             >
@@ -310,6 +312,7 @@ const Shop = () => {
                 alignItems: 'center',
                 padding: '16px',
                 width: '100%',
+                borderRadius:"10px"
               }}
             >
               <Grid container spacing={2} alignItems="center">
@@ -342,11 +345,10 @@ const Shop = () => {
                       padding: '16px',
                     }}
                   >
-                    <Box >
-                      <IconButton color='white' variant="contained" sx={{ fontSize: '3rem', bgcolor: '#007BFF', color: '#fff' }}>
+                      <Box color='white' sx={{ bgcolor: '#007BFF', color: '#fff', borderRadius: '50%', p:1 }}>
                         <PlayArrowOutlinedIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
+                      </Box>
+
                     <CardContent>
                       <Typography variant="h6">
                         HOW THE BULK WHATSAPP SOFTWARE WORKS?

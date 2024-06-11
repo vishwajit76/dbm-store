@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import React, { useState,useRef } from 'react';
+import { Box, Button, Card, Container, Grid, TextField, Typography } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import faqImage from '../image/image 10.png';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ReCAPTCHA from 'react-google-recaptcha';
+import contactFormImg from "../image/ContactForm.png"
+
+const SITE_KEY = "6LcNLbMpAAAAAHT-3b_fICQjCcUEivSg53-srBQn";
+
 
 const faqData = [
   { title: "What WhatsApp tool do you provide?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget." },
@@ -20,10 +25,15 @@ const Faq = () => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
+  const [setRecaptchaValue] = useState("");
+  const captchaRef = useRef();
+  const onChange = (value) => {
+    console.log(value);
+    setRecaptchaValue(value);
+  };
   return (
-    <Box sx={{ background: '#f4f4f4' }}>
-      <Container>
+    <Box sx={{ background: '#f4f4f4', }}>
+      <Container sx={{ paddingBottom:"0" }}>
         <Box py={8} textAlign='center'>
           <Typography
             fontWeight={600}
@@ -47,7 +57,7 @@ const Faq = () => {
           <Typography variant='h6' color='khaki'>Getting more information about our platform that will help you get all benefits from us.</Typography>
           <Typography variant='h6' color='khaki'>These all questions are asked for the first time</Typography>
         </Box>
-        <Grid container spacing={5} pb={20}>
+        <Grid container spacing={5} pb={5} >
           <Grid item xs={12} md={6}>
             {faqData.map((item, index) => (
               <Accordion
@@ -81,6 +91,93 @@ const Faq = () => {
           </Grid>
         </Grid>
       </Container>
+      <Container>
+        <Card
+          style={{
+            clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
+            transform: 'translate(50%, 2%)',
+            backgroundColor: 'white',
+            boxShadow: 'none'
+          }}
+          sx={{ maxWidth: '50%', width: '100%', justifyContent: 'center' }}
+        >
+          gh
+        </Card>
+
+
+        <Box
+          sx={{
+            padding: 3,
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'center', md: 'flex-start' },
+            backgroundColor: '#FFF',
+            boxShadow: 'none',
+          }}
+        >
+          <Box
+            sx={{
+              width: { xs: '100%', md: '45%' },
+              marginBottom: { xs: 2, md: 0 },
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              boxShadow: 'none',
+            }}
+          >
+            <img
+              src={contactFormImg}
+              alt="Working Professional"
+              style={{ width: '100%', borderRadius: '8px' }}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: { xs: '100%', md: '55%' },
+              paddingLeft: { xs: 0, md: 5 },
+              paddingRight: { xs: 0, md: 10 },
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField label="Name" variant="standard" fullWidth />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField label="Phone" variant="standard" fullWidth />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Email"
+                  variant="standard"
+                  fullWidth
+                  multiline
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Feedback"
+                  variant="standard"
+                  fullWidth
+                  multiline
+                  rows={3}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: { xs: 'center', md: 'space-between' } }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 2, md: 0 }, width: { xs: '100%', sm: 'auto' } }}>
+                  <ReCAPTCHA sitekey={SITE_KEY} onChange={onChange} ref={captchaRef} />
+                </Box>
+                <Box>
+                  <Button variant="contained" color="primary" sx={{ width: '100px', height: '40px' }}>
+                    Submit
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+
     </Box>
   );
 };

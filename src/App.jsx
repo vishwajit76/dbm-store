@@ -7,7 +7,7 @@ import About from "./component/user/About";
 import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 // import Featured from "./component/user/Featured";
-// import Faq from "./component/user/Faq";
+import Faq from "./component/user/Faq";
 
 import Footer from "./component/user/Footer";
 
@@ -39,14 +39,16 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Box sx={{ bgcolor:"#F4F4F4"}}>
+        <Box sx={{ bgcolor: "#F4F4F4" }}>
 
-        <Navbar />
-        <Home />
-        <Shop />
-        <About/>
-        <Footer/>
+          <Navbar />
+          <Home />
+          <Shop />
+          <About />
+          <Faq />
+          <Footer />
         </Box>
+
       </ThemeProvider>
     </>
   );
