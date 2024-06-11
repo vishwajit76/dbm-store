@@ -17,6 +17,7 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
+import Badge from '@mui/material/Badge';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import MenuIcon from "@mui/icons-material/Menu";
 import PhoneInput from "react-phone-input-2";
@@ -43,7 +44,6 @@ const pages = ["HOME", "SHOP", "FEATURED", "ABOUT US", "FAQ"];
 
 const Navbar = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
@@ -177,21 +177,22 @@ const Navbar = () => {
             >Let's Talk</Button>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box
-              sx={{
-                width: 35,
-                height: 35,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                borderRadius: "50%",
-                margin: "0 25px",
-              }}
-              onClick={toggleCartDrawer(true)}
-            >
-              <LocalMallOutlinedIcon color='black' />
-            </Box>
+            <Badge badgeContent={4} color="primary" sx={{ mx: 3 }}>
+              <Box
+                sx={{
+                  width: 35,
+                  height: 35,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  borderRadius: "50%",
+                }}
+                onClick={toggleCartDrawer(true)}
+              >
+                <ShoppingBagOutlinedIcon color='black' />
+              </Box>
+            </Badge>
 
             <Drawer anchor="right" open={openCart} onClose={toggleCartDrawer(false)}>
               <Cart onClose={toggleCartDrawer(false)} />

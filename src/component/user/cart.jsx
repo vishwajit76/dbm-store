@@ -29,7 +29,7 @@ export default function Cart({ onClose }) {
                     />
                     <Typography fontWeight={600}>Cart</Typography>
                 </Grid>
-                {['','','','','',''].map((_, index) => (
+                {['', '', '', '', '', ''].map((_, index) => (
                     <Grid
                         key={index}
                         container
@@ -68,15 +68,15 @@ export default function Cart({ onClose }) {
                         </Grid>
                     </Grid>
                 ))}
-                <Grid item xs={12}>
-                    <Button
-                        variant="contained"
-                        // color=""
-                        sx={{ color: '#fff', borderRadius: '10px', p: 1, m: 1 , position: 'fixed' , width: '25%' , bottom: 0 }}
-                    >
-                        Check Out Now
-                    </Button>
-                </Grid>
+            </Box>
+            <Box sx={{ backgroundColor: '#fff', position: 'fixed', bottom: 0, p: '20px 30px', width: { xs: 300, md: 350 }, boxShadow: '0 0 10px gray' }}>
+                <Button
+                    variant="contained"
+                    sx={{ color: '#fff', borderRadius: '10px', p: 1 }}
+                    fullWidth
+                >
+                    Check Out Now
+                </Button>
             </Box>
         </div>
     );
