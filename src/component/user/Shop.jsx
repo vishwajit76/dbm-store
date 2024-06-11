@@ -47,6 +47,7 @@ const CustomLeftArrow = ({ onClick }) => (
       position: 'absolute',
       left: '30px',
       zIndex: 1,
+      
     }}
   >
     <KeyboardArrowLeftRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
@@ -180,7 +181,7 @@ const Shop = () => {
     );
   }
   return (
-    <Box sx={{ background: '#F4F4F4' }}>
+    <Box sx={{ background: '#F4F4F4' ,scrollBehavior: "smooth",transition:"0.3s ease all",}}>
       <Container>
         <Box>
           <Typography

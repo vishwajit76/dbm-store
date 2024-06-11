@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./component/site/navbar";
-import './index.css'
+// import './index.css'
+import "../src/App.css";
 import Home from "./component/user/Home";
 import Shop from "./component/user/Shop";
 import About from "./component/user/About";
@@ -8,7 +9,7 @@ import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 // import Featured from "./component/user/Featured";
 import Faq from "./component/user/Faq";
-
+import Featured from"./component/user/Featured";
 import Footer from "./component/user/Footer";
 
 
@@ -42,10 +43,16 @@ function App() {
         <Box sx={{ bgcolor: "#F4F4F4" }}>
 
           <Navbar />
-          <Home />
-          <Shop />
-          <About />
-          <Faq />
+          <section id="home"> <Home /></section>
+
+          <section id="shop" style={{scrollBehavior:"smooth",transition:"0.3s ease all",transitionDuration:"5s"}}><Shop /></section>
+
+          <section id="featured"><Featured/></section>
+
+          <section id="about"><About /></section>
+
+          <section id="faq"> <Faq /></section>
+
           <Footer />
         </Box>
 

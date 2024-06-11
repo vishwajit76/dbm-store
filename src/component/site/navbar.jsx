@@ -40,7 +40,14 @@ const style = {
   p: 4,
 };
 
-const pages = ["HOME", "SHOP", "FEATURED", "ABOUT US", "FAQ"];
+const pages = [
+  { id: "#home", name: "HOME" },
+  { id: "#shop", name: "SHOP" },
+  { id: "#featured", name: "FEATURED" },
+  { id: "#about", name: "ABOUT US" },
+  { id: "#FAQ", name: "FAQ" }
+];
+
 
 const Navbar = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -122,9 +129,9 @@ const Navbar = () => {
       <KeyboardBackspaceRoundedIcon fontSize='large' sx={{ margin: '30px 20px 0 0' }} />
       <List>
         {pages.map((text, index) => (
-          <ListItem key={index}>
+          <ListItem key={`${text.id}-${index}`}>
             <ListItemButton>
-              <ListItemText primary={text} />
+              <ListItemText primary={text.name} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -154,9 +161,9 @@ const Navbar = () => {
               },
             }}
           >
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
-                key={page}
+                key={`${page.id}-${index}`}
                 onClick={handleCloseUserMenu}
                 sx={{
                   my: 2,
@@ -165,8 +172,9 @@ const Navbar = () => {
                   fontSize: "12px",
                 }}
                 color="khaki"
+                href={page.id}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
             <Button variant="contained" sx={{
