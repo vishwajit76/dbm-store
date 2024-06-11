@@ -6,6 +6,7 @@ import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftR
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Carousel from 'react-multi-carousel';
+import Badge from '@mui/material/Badge';
 import { makeStyles } from '@mui/styles';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import Cart from './cart';
@@ -97,10 +98,10 @@ const Shop = () => {
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
-    if(newOpen) setDetailDrawer(false)
+    if (newOpen) setDetailDrawer(false)
   };
 
-  
+
   const multiCarouselResponsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 4 },
@@ -229,21 +230,22 @@ const Shop = () => {
         </Box>
         <Drawer anchor="right" open={detailDrawer} onClose={toggleDetailDrawer(false)}>
           <ShopDetails onClose={toggleDetailDrawer(false)} product={drawerProduct} color={color} cartDrawer={
-            <Box
-              sx={{
-                width: 35,
-                height: 35,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                borderRadius: "50%",
-                margin: "0 25px",
-              }}
-              onClick={toggleCartDrawer(true)}
-            >
-              <ShoppingBagOutlinedIcon color='black' />
-            </Box>} />
+            <Badge badgeContent={4} color="primary">
+              <Box
+                sx={{
+                  width: 35,
+                  height: 35,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  borderRadius: "50%",
+                }}
+                onClick={toggleCartDrawer(true)}
+              >
+                <ShoppingBagOutlinedIcon color='black' />
+              </Box>
+            </Badge>} />
         </Drawer>
 
         <Drawer anchor="right" open={cartDrawer} onClose={toggleCartDrawer(false)}>

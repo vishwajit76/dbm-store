@@ -6,9 +6,6 @@ import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceR
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 
-import Cart from './cart';
-import CardTravelTwoTone from '@mui/icons-material/CardTravelTwoTone';
-
 const buttonStyle = {
     p: 0.1,
     boxShadow: '0 0 10px #eee',
