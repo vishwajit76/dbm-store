@@ -22,7 +22,7 @@ import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceR
 import MenuIcon from "@mui/icons-material/Menu";
 import PhoneInput from "react-phone-input-2";
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import Checkout from "../user/checkout";
 import Cart from '../user/cart';
 import logo from "../image/logo (1).png";
 import 'react-phone-input-2/lib/style.css';
@@ -45,13 +45,14 @@ const pages = [
   { id: "#shop", name: "SHOP" },
   { id: "#featured", name: "FEATURED" },
   { id: "#about", name: "ABOUT US" },
-  { id: "#FAQ", name: "FAQ" }
+  { id: "#faq", name: "FAQ" }
 ];
 
 
 const Navbar = () => {
   const [openModal, setOpenModal] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [name, setName] = useState('');
@@ -105,6 +106,13 @@ const Navbar = () => {
     }
     return errors;
   };
+
+
+  const toggleCheckoutDrawer = (newOpen) => () => {
+    setCheckoutDrawer(newOpen);
+    if (newOpen) setOpenCart(false)
+  };
+
   const handleSave = () => {
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
@@ -129,14 +137,14 @@ const Navbar = () => {
       <KeyboardBackspaceRoundedIcon fontSize='large' sx={{ margin: '30px 20px 0 0' }} />
       <List>
         {pages.map((text, index) => (
-          <ListItem key={`${text.id}-${index}`}>
-            <ListItemButton>
+          <ListItem key={`${text.id}-${index}`} >
+            <ListItemButton href={text.id}>
               <ListItemText primary={text.name} />
             </ListItemButton>
           </ListItem>
         ))}
         <ListItem>
-          <Button variant="contained">
+          <Button variant="contained" href='#contact'>
             Let's Talk
           </Button>
         </ListItem>
@@ -177,7 +185,7 @@ const Navbar = () => {
                 {page.name}
               </Button>
             ))}
-            <Button variant="contained" sx={{
+            <Button variant="contained" href={'#contact'} sx={{
               my: 2,
               display: "block",
               fontSize: "12px",
@@ -203,13 +211,14 @@ const Navbar = () => {
             </Badge>
 
             <Drawer anchor="right" open={openCart} onClose={toggleCartDrawer(false)}>
-              <Cart onClose={toggleCartDrawer(false)} />
+              <Cart onClose={toggleCartDrawer(false)} onClick={toggleCheckoutDrawer(true)} />
             </Drawer>
 
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenModal} sx={{ p: 0 }}>
                 <Avatar alt="Profile Picture" src={profilePicture} sx={{ width: 35, height: 35 }} />
               </IconButton>
+              
               <Modal
                 open={openModal}
                 onClose={handleCloseModal}
@@ -387,6 +396,13 @@ const Navbar = () => {
               </Drawer>
             </Box>
           </Box>
+
+          {/* checkout drawer */}
+          <Drawer anchor="right" open={checkoutDrawer} onClose={toggleCheckoutDrawer(false)}>
+            <Checkout onClose={toggleCheckoutDrawer(false)} />
+          </Drawer>
+
+
         </Toolbar>
       </Container>
     </AppBar>

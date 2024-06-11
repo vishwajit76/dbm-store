@@ -11,7 +11,7 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-export default function Cart({ onClose }) {
+export default function Cart({ onClose, onClick }) {
     const [count, setCount] = useState(1);
 
     const handleCounter = (change) => {
@@ -29,7 +29,7 @@ export default function Cart({ onClose }) {
                     />
                     <Typography fontWeight={600}>Cart</Typography>
                 </Grid>
-                {['', '', '', '', '', ''].map((_, index) => (
+                {['', '', '', ''].map((_, index) => (
                     <Grid
                         key={index}
                         container
@@ -74,6 +74,7 @@ export default function Cart({ onClose }) {
                     variant="contained"
                     sx={{ color: '#fff', borderRadius: '10px', p: 1 }}
                     fullWidth
+                    onClick={onClick}
                 >
                     Check Out Now
                 </Button>

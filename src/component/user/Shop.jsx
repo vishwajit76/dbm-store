@@ -8,12 +8,14 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Carousel from 'react-multi-carousel';
 import Badge from '@mui/material/Badge';
 import { makeStyles } from '@mui/styles';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import Cart from './cart';
 import 'react-multi-carousel/lib/styles.css';
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
-
 import ShopDetails from './productDetails';
+import Checkout from './checkout';
+
 const useStyles = makeStyles({
   carousel: {
     padding: '100px 0',
@@ -47,7 +49,7 @@ const CustomLeftArrow = ({ onClick }) => (
       position: 'absolute',
       left: '30px',
       zIndex: 1,
-      
+
     }}
   >
     <KeyboardArrowLeftRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
@@ -87,6 +89,7 @@ const Shop = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [drawerProduct, setDrawerProduct] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
+  const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [cartDrawer, setCartDrawer] = useState(false);
   const [color, setColor] = useState()
   const classes = useStyles();
@@ -100,6 +103,11 @@ const Shop = () => {
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
     if (newOpen) setDetailDrawer(false)
+  };
+
+  const toggleCheckoutDrawer = (newOpen) => () => {
+    setCheckoutDrawer(newOpen);
+    if (newOpen) setCartDrawer(false)
   };
 
 
@@ -181,7 +189,7 @@ const Shop = () => {
     );
   }
   return (
-    <Box sx={{ background: '#F4F4F4' ,scrollBehavior: "smooth",transition:"0.3s ease all",}}>
+    <Box sx={{ background: '#F4F4F4', scrollBehavior: "smooth", transition: "0.3s ease all", }}>
       <Container>
         <Box>
           <Typography
@@ -198,6 +206,7 @@ const Shop = () => {
             </Box>
             for you
           </Typography>
+
           <Carousel
             customButtonGroup={<CustomButtonGroup />}
             arrows={false}
@@ -229,29 +238,6 @@ const Shop = () => {
             ))}
           </Carousel>
         </Box>
-        <Drawer anchor="right" open={detailDrawer} onClose={toggleDetailDrawer(false)}>
-          <ShopDetails onClose={toggleDetailDrawer(false)} product={drawerProduct} color={color} cartDrawer={
-            <Badge badgeContent={4} color="primary">
-              <Box
-                sx={{
-                  width: 35,
-                  height: 35,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  borderRadius: "50%",
-                }}
-                onClick={toggleCartDrawer(true)}
-              >
-                <ShoppingBagOutlinedIcon color='black' />
-              </Box>
-            </Badge>} />
-        </Drawer>
-
-        <Drawer anchor="right" open={cartDrawer} onClose={toggleCartDrawer(false)}>
-          <Cart onClose={toggleCartDrawer(false)} />
-        </Drawer>
 
         <Grid container spacing={5} alignItems="center">
           <Grid item md={6} xs={12}>
@@ -288,84 +274,115 @@ const Shop = () => {
 
 
       <Grid>
-          <Container
+        <Container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '32px 0',
+
+          }}
+        >
+          <Card
+            style={{
+              clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
+              transform: 'translate(0%, 0%)',
+              backgroundColor: 'white',
+              boxShadow: 'none',
+            }}
+            sx={{ maxWidth: '50%', width: '100%', justifyContent: 'center' }}
+          >
+            gh
+          </Card>
+          <Card
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              padding: '32px 0',
-              
+              padding: '16px',
+              width: '100%',
+              borderRadius: "10px"
             }}
           >
-            <Card
-              style={{
-                clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
-                transform: 'translate(0%, 0%)',
-                backgroundColor: 'white',
-                boxShadow: 'none',
-              }}
-              sx={{ maxWidth: '50%', width: '100%', justifyContent: 'center' }}
-            >
-              gh
-            </Card>
-            <Card
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '16px',
-                width: '100%',
-                borderRadius:"10px"
-              }}
-            >
-              <Grid container spacing={2} alignItems="center">
-                <Grid
-                  item
-                  xs={12}
-                  md={4}
+            <Grid container spacing={2} alignItems="center">
+              <Grid
+                item
+                xs={12}
+                md={4}
+                sx={{
+                  display: 'flex',
+                  justifyContent: { xs: 'center', md: 'flex-start' },
+                  textAlign: { xs: 'center', md: 'left' }
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{ width: '100%', minWidth: '30%' }}
+                >
+                  How It Work
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Card
                   sx={{
                     display: 'flex',
-                    justifyContent: { xs: 'center', md: 'flex-start' },
-                    textAlign: { xs: 'center', md: 'left' }
+                    alignItems: 'center',
+                    gap: '16px',
+                    // backgroundColor: '#F9F9F9',
+                    borderRadius: '10px',
+                    padding: '16px',
                   }}
                 >
-                  <Typography
-                    variant="h4"
-                    gutterBottom
-                    sx={{ width: '100%', minWidth: '30%' }}
-                  >
-                    How It Work
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <Card
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '16px',
-                      // backgroundColor: '#F9F9F9',
-                      borderRadius: '10px',
-                      padding: '16px',
-                    }}
-                  >
-                      <Box color='white' sx={{ bgcolor: '#007BFF', color: '#fff', borderRadius: '50%', p:1 }}>
-                        <PlayArrowOutlinedIcon fontSize="large" />
-                      </Box>
+                  <Box color='white' sx={{ bgcolor: '#007BFF', color: '#fff', borderRadius: '50%', p: 1 }}>
+                    <PlayArrowOutlinedIcon fontSize="large" />
+                  </Box>
 
-                    <CardContent>
-                      <Typography variant="h6">
-                        HOW THE BULK WHATSAPP SOFTWARE WORKS?
-                      </Typography>
-                      <Typography variant="body1">
-                        Watch a video which shows a detailed step by step process of how to get started with our Bulk WhatsApp Software.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                  <CardContent>
+                    <Typography variant="h6">
+                      HOW THE BULK WHATSAPP SOFTWARE WORKS?
+                    </Typography>
+                    <Typography variant="body1">
+                      Watch a video which shows a detailed step by step process of how to get started with our Bulk WhatsApp Software.
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Grid>
-            </Card>
-          </Container>
-        </Grid>
+            </Grid>
+          </Card>
+        </Container>
+      </Grid>
+
+      {/* cart drawer */}
+      <Drawer anchor="right" open={cartDrawer} onClose={toggleCartDrawer(false)}>
+        <Cart onClose={toggleCartDrawer(false)} onClick={toggleCheckoutDrawer(true)} />
+      </Drawer>
+
+      {/* product details drawer */}
+      <Drawer anchor="right" open={detailDrawer} onClose={toggleDetailDrawer(false)}>
+        <ShopDetails onClose={toggleDetailDrawer(false)} product={drawerProduct} color={color} cartDrawer={
+          <Badge badgeContent={4} color="primary">
+            <Box
+              sx={{
+                width: 35,
+                height: 35,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                borderRadius: "50%",
+              }}
+              onClick={toggleCartDrawer(true)}
+            >
+              <ShoppingBagOutlinedIcon color='black' />
+            </Box>
+          </Badge>} />
+      </Drawer>
+
+      {/* checkout drawer */}
+      <Drawer anchor="right" open={checkoutDrawer} onClose={toggleCheckoutDrawer(false)}>
+        <Checkout onClose={toggleCheckoutDrawer(false)} />
+      </Drawer>
     </Box>
   );
 };
