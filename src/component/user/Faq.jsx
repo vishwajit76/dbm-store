@@ -10,9 +10,6 @@ import contactFormImg from "../image/ContactForm.png"
 import { useForm, Controller } from 'react-hook-form';
 const SITE_KEY = "6LcNLbMpAAAAAHT-3b_fICQjCcUEivSg53-srBQn";
 
-
-
-
 const faqData = [
   { title: "What WhatsApp tool do you provide?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget." },
   { title: "What WhatsApp tool do you provide?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget." },
@@ -43,7 +40,7 @@ const Faq = () => {
   };
   return (
     <Box sx={{ background: '#f4f4f4', pt: 2 }}>
-      <Container sx={{ paddingBottom: "0" ,my: 10 }} >
+      <Container sx={{ paddingBottom: "0", my: 10 }} >
         <Box py={8} textAlign='center'>
           <Typography
             fontWeight={600}
@@ -103,7 +100,7 @@ const Faq = () => {
       </Container>
 
       <section id="contact" >
-        <Container sx={{pt: 12}}>
+        <Container sx={{ pt: 12 }}>
           <Card
             style={{
               clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
