@@ -93,15 +93,15 @@ const Checkout = ({ onClose }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
-                    </Grid>
-                    <TextField
-                        label="Billing address"
-                        variant="outlined"
-                        fullWidth
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Billing address"
+                                variant="outlined"
+                                fullWidth
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
                                 label="City"
@@ -120,9 +120,30 @@ const Checkout = ({ onClose }) => {
                                 onChange={(e) => setState(e.target.value)}
                             />
                         </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel>Country</InputLabel>
+                                <Select
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    label="Country"
+                                >
+                                    <MenuItem value="US">United States</MenuItem>
+                                    <MenuItem value="CA">Canada</MenuItem>
+                                    <MenuItem value="GB">United Kingdom</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                label="Zip code"
+                                variant="outlined"
+                                fullWidth
+                                value={zip}
+                                onChange={(e) => setZip(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <PhoneInput
                                 inputStyle={{
                                     width: "100%",
@@ -138,32 +159,7 @@ const Checkout = ({ onClose }) => {
                                     required: true,
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <FormControl fullWidth variant="outlined">
-                                <InputLabel>Country</InputLabel>
-                                <Select
-                                    value={country}
-                                    onChange={(e) => setCountry(e.target.value)}
-                                    label="Country"
-                                >
-                                    <MenuItem value="US">United States</MenuItem>
-                                    <MenuItem value="CA">Canada</MenuItem>
-                                    <MenuItem value="GB">United Kingdom</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                label="Zip code"
-                                variant="outlined"
-                                fullWidth
-                                value={zip}
-                                onChange={(e) => setZip(e.target.value)}
-                            />
-                        </Grid>
+                        </Grid> 
                     </Grid>
                     <Box display="flex" justifyContent="space-between" mt={2}>
                         <Button variant="contained" onClick={handleSubmit}>
@@ -172,7 +168,7 @@ const Checkout = ({ onClose }) => {
                     </Box>
                 </Box>
             </Box>
-        </Box>
+        </Box >
     );
 }
 

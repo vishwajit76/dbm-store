@@ -56,16 +56,6 @@ export default function Cart({ onClose, onClick }) {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                variant="contained"
-                                // color=""
-                                sx={{ color: '#fff', borderRadius: '10px', p: 1, m: 1 }}
-                                fullWidth
-                            >
-                                Buy Now
-                            </Button>
-                        </Grid>
                     </Grid>
                 ))}
             </Box>
