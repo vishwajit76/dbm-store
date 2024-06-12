@@ -4,6 +4,7 @@ import zomatoImg from '../image/google-map-extractor-7 1.png';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import CloseIcon from '@mui/icons-material/Close';
 
 const buttonStyle = {
     p: 0.1,
@@ -39,10 +40,10 @@ export default function Cart({ onClose, onClick }) {
                         boxShadow="0 0 10px #eee"
                         justifyContent="space-between"
                     >
-                        <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', textAlign: 'center' }}>
+                        <Grid item xs={4} sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', textAlign: 'center' }}>
                             <img width={80} height={80} src={zomatoImg} alt="Product" />
                         </Grid>
-                        <Grid item xs={12} md={7} container direction="column" justifyContent="space-between">
+                        <Grid item xs={6} container direction="column" justifyContent="space-between">
                             <Typography>Button Sender</Typography>
                             <Grid container alignItems="center">
                                 <Grid item xs={6}>
@@ -56,6 +57,7 @@ export default function Cart({ onClose, onClick }) {
                                 </Grid>
                             </Grid>
                         </Grid>
+                        <Grid item xs={1} container alignItems='center' ><CloseIcon /></Grid>
                     </Grid>
                 ))}
             </Box>

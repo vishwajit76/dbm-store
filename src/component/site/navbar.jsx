@@ -28,6 +28,7 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import Checkout from "../user/checkout";
 import Cart from '../user/cart';
 import Login from "./login";
+import Order from "../user/order";
 import logo from "../image/logo (1).png";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
@@ -49,16 +50,16 @@ const Navbar = () => {
   const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
+  const [openOrder, setOpenOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profilePicture, setProfilePicture] = useState('/static/images/avatar/2.jpg');
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleOpenModal = () => setOpenModal(true)
+  const handleCloseModal = () => setOpenModal(false)
   const handleClick = (event) => setAnchorElUser(event.currentTarget)
-  const handleCloseUserMenu = () => { setAnchorElUser(null) };
-  const toggleDrawer = (newOpen) => () => { setOpen(newOpen) };
-  const toggleCartDrawer = (newOpen) => () => {
-    setOpenCart(newOpen)
-  };
+  const handleCloseUserMenu = () => setAnchorElUser(null)
+  const toggleDrawer = (newOpen) => () => setOpen(newOpen)
+  const toggleCartDrawer = (newOpen) => () => setOpenCart(newOpen)
+  const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen)
 
 
   const toggleCheckoutDrawer = (newOpen) => () => {
@@ -184,6 +185,11 @@ const Navbar = () => {
             <Cart onClose={toggleCartDrawer(false)} onClick={toggleCheckoutDrawer(true)} />
           </Drawer>
 
+          {/* order drawer */}
+          <Drawer anchor="right" open={openOrder} onClose={toggleOrderDrawer(false)}>
+            <Order onClose={toggleOrderDrawer(false)} />
+          </Drawer>
+
           {/* edit profile modal */}
           <Modal
             open={openModal}
@@ -242,7 +248,7 @@ const Navbar = () => {
             <MenuItem onClick={handleCloseUserMenu} data-item="Wishlist">
               Wishlist
             </MenuItem>
-            <MenuItem onClick={handleCloseUserMenu} data-item="Orders">
+            <MenuItem onClick={toggleOrderDrawer(true)} data-item="Orders">
               Orders
             </MenuItem>
             <Divider />
