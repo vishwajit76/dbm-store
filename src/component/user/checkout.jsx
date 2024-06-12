@@ -53,11 +53,6 @@ const Checkout = ({ onClose }) => {
                 <Typography fontWeight={600}>Checkout</Typography>
             </Grid>
 
-            <Grid container spacing={5}>
-                <Grid item xs={12} md={6}><Button variant='outlined' fullWidth>add address</Button></Grid>
-                <Grid item xs={12} md={6}><Button variant='contained' fullWidth>make payment</Button></Grid>
-            </Grid>
-
             <Box sx={style}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" >
                     <Typography variant="h6"> Address</Typography>
@@ -172,7 +167,7 @@ const Checkout = ({ onClose }) => {
                     </Grid>
                     <Box display="flex" justifyContent="space-between" mt={2}>
                         <Button variant="contained" onClick={handleSubmit}>
-                            Checkout
+                            Place order
                         </Button>
                     </Box>
                 </Box>

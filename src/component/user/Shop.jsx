@@ -149,7 +149,7 @@ const Shop = () => {
 
   if (error) {
     return (
-      <Container>
+      <Container sx={{ mt: 10 }}>
         <Typography color="error">Error fetching data: {error}</Typography>
       </Container>
     );
@@ -157,7 +157,7 @@ const Shop = () => {
   if (!products) {
     return (
       <Box sx={{ background: '#F4F4F4' }}>
-        <Container>
+        <Container sx={{ mt: 10 }}>
           <Typography
             fontWeight={600}
             sx={{
@@ -188,9 +188,10 @@ const Shop = () => {
       </Box>
     );
   }
+
   return (
-    <Box sx={{ background: '#F4F4F4', scrollBehavior: "smooth", transition: "0.3s ease all", }}>
-      <Container>
+    <Box sx={{ background: '#F4F4F4', pt: 12 }}>
+      <Container >
         <Box>
           <Typography
             fontWeight={600}

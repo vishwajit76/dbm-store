@@ -54,7 +54,7 @@ const Home = () => {
     
     <div>
       <Box sx={{ backgroundColor: "#f4f4f4", py: 6 }}>
-        <Container>
+        <Container sx={{mt: 10}}>
           <Grid
             container
             spacing={4}

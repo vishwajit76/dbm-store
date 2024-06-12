@@ -120,7 +120,7 @@ const Featured = () => {
   };
 
   return (
-    <Box sx={{ background: '#f4f4f4' }}>
+    <Box sx={{ background: '#f4f4f4' , pt: 12 }}>
       <Container>
         <Carousel
           showDots

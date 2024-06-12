@@ -26,7 +26,6 @@ import Checkout from "../user/checkout";
 import Cart from '../user/cart';
 import logo from "../image/logo (1).png";
 import 'react-phone-input-2/lib/style.css';
-// import PhoneInput from 'react-phone-input-2';
 import validator from 'validator';
 
 const style = {
@@ -152,7 +151,7 @@ const Navbar = () => {
     </Box>
   );
   return (
-    <AppBar elevation={0} position="static" sx={{ background: '#f4f4f4' }}>
+    <AppBar elevation={0} position="fixed" sx={{ background: '#f4f4f4' }}>
       <Container>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }} disableGutters>
           <Box sx={{ width: { xs: "40%", md: '20%' } }}>

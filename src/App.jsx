@@ -9,7 +9,7 @@ import { Box, createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 // import Featured from "./component/user/Featured";
 import Faq from "./component/user/Faq";
-import Featured from"./component/user/Featured";
+import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
 
 
@@ -43,11 +43,12 @@ function App() {
         <Box sx={{ bgcolor: "#F4F4F4" }}>
 
           <Navbar />
-          <section id="home"> <Home /></section>
 
-          <section id="shop" style={{scrollBehavior:"smooth",transition:"0.3s ease all",transitionDuration:"5s"}}><Shop /></section>
+          <section id="home"><Home /></section>
 
-          <section id="featured"><Featured/></section>
+          <section id="shop"><Shop /></section>
+
+          <section id="featured"><Featured /></section>
 
           <section id="about"><About /></section>
 

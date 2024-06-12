@@ -58,7 +58,7 @@ const about = () => {
     setRecaptchaValue(value);
   };
   return (
-    <Box sx={{ bgcolor: "#F4F4F4" }}>
+    <Box sx={{ bgcolor: "#F4F4F4", pt: 12 }}>
       <Container
         sx={{
           display: "flex",
