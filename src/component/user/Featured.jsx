@@ -183,7 +183,7 @@ const Featured = () => {
         </Carousel>
 
         <Typography
-          fontWeight={600}
+          fontWeight={700}
           my={2}
           sx={{
             background: '#f4f4f4',

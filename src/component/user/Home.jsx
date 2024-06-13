@@ -47,14 +47,11 @@ const Home = () => {
   };
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  
- 
 
   return (
-    
     <div>
       <Box sx={{ backgroundColor: "#f4f4f4", py: 6 }}>
-        <Container sx={{mt: 10}}>
+        <Container sx={{ mt: 10 }}>
           <Grid
             container
             spacing={4}
@@ -73,11 +70,10 @@ const Home = () => {
               <Typography
                 variant="h3"
                 component="div"
-                sx={{ fontWeight: "bold", mb: 2 }}
+                sx={{ fontWeight: "800", mb: 2 }}
               >
                 <Box
                   component="span"
-                  
                   sx={{
                     color: "#fff",
                     fontWeight: "bold",
@@ -99,35 +95,37 @@ const Home = () => {
                 <Typography
                   variant="h3"
                   component="div"
-                  sx={{ fontWeight: "bold", mb: 2 }}
+                  sx={{ fontWeight: "600", mb: 2 }}
                 >
                   WhatsApp
                 </Typography>
                 <Typography
                   variant="h3"
                   component="div"
-                  sx={{ fontWeight: "bold", mb: 2 }}
+                  sx={{ fontWeight: "600", mb: 2 }}
                 >
                   Marketing Tool &
                 </Typography>
                 <Typography
                   variant="h3"
                   component="div"
-                  sx={{ fontWeight: "bold", mb: 2 }}
+                  sx={{ fontWeight: "600", mb: 2 }}
                 >
                   More
                 </Typography>
               </Box>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ fontSize: "15px" }}>
                 Unlock the full potential of the world's most popular
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ fontSize: "15px" }}>
                 messaging platform with our premium features, including
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ fontSize: "15px" }}>
                 bulk messaging, chatbot support, autoresponders, and
               </Typography>
-              <Typography variant="body1">much more!</Typography>
+              <Typography variant="body1" sx={{ fontSize: "15px" }}>
+                much more!
+              </Typography>
             </Grid>
             <Grid
               item
@@ -226,7 +224,7 @@ const Home = () => {
 
           <Grid>
             <Grid item margin={"50px 0"}>
-              <Box >
+              <Box>
                 <img
                   src={wew1}
                   alt=""
@@ -356,7 +354,7 @@ const Home = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            boxShadow:'0px 0px 10px lightgray',
+                            boxShadow: "0px 0px 10px lightgray",
                             borderRadius: "50%",
                             backgroundColor: "#fff",
                             width: 200,
@@ -380,8 +378,10 @@ const Home = () => {
                           <Typography
                             variant="body2"
                             color="textSecondary"
-                            fontSize={"24px"}
+                            fontSize={"20px"}
+                            fontWeight={"500"}
                             sx={{ textAlign: "left" }}
+                            width={"750px"}
                           >
                             Software supports multiple images along with
                             captions for each image which can be sent to all the
@@ -1103,8 +1103,6 @@ const Home = () => {
                 </TabContext>
               </Box>
             </Grid>
-            
-            
           </Grid>
         </Container>
       </Box>

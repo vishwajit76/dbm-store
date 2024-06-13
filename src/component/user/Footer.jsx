@@ -37,11 +37,11 @@ function Footer() {
           <Grid item xs={12} sm={3} >
             <Box display="flex" justifyContent={{ xs: 'center', sm: 'flex-start' }}>
               <Box marginTop={{ xs: '20px', sm: 0 }} textAlign='left' justifyContent={'center'} alignItems={'center'}>
-                <Typography fontWeight={900}>
+                <Typography fontWeight={600}>
                   USEFUL LINKS
                 </Typography>
                 <Box mt={3}>
-                  <ul style={{ listStyleType: 'inherit', padding: 0, margin: 0}}>
+                  <ul style={{ listStyleType: 'inherit', padding: 0, margin: 0,fontWeight:"300"}}>
                     <li style={{ listStylePosition: 'inside', marginBottom: '0px',cursor: 'pointer' }}>Download</li>
                     <li style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Shop</li>
                     <li style={{ listStylePosition: 'inside',cursor: 'pointer'  }}>Orders</li>
@@ -56,7 +56,7 @@ function Footer() {
           <Grid item xs={12} sm={3}>
             <Box display="flex" justifyContent={{ xs: 'center', sm: 'flex-start' }}>
               <Box marginTop={{ xs: '20px', sm: 0 }} textAlign={{ xs: 'center', sm: 'left' }}>
-                <Typography fontWeight={800} marginRight={'65px'}>
+                <Typography fontWeight={600} marginRight={'65px'}>
                   NEWSLETTER
                 </Typography>
                 <Stack spacing={0} mt={1}>

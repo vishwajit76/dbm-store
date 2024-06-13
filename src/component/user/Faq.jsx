@@ -144,8 +144,8 @@ const Faq = () => {
               onSubmit={handleSubmit(onSubmit)}
               sx={{
                 width: { xs: '100%', md: '55%' },
-                paddingLeft: { xs: 0, md: 5 },
-                paddingRight: { xs: 0, md: 10 },
+                paddingLeft: { xs: 0, md: 7 },
+                paddingRight: { xs: 0, md: 5 },
               }}
             >
               <Grid container spacing={2}>
@@ -242,7 +242,7 @@ const Faq = () => {
                       Submit
                     </Button>
                   </Box>
-                </Grid>
+                </Grid> 
               </Grid>
             </Box>
           </Box>

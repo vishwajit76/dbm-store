@@ -21,7 +21,7 @@ import imgv from "../image/Scan.png";
 // import imgf from "../image/Rectangle 35.png";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { Link } from "react-router-dom";
-import img5 from '../image/logo (1).png'
+import img5 from "../image/logo (1).png";
 import ReCAPTCHA from "react-google-recaptcha";
 const SITE_KEY = "6LcNLbMpAAAAAHT-3b_fICQjCcUEivSg53-srBQn";
 const logos = [
@@ -40,18 +40,16 @@ const logos = [
 ];
 
 const about = () => {
-
   const handleEmailClick = () => {
-    window.location.href = 'mailto:info@digibulkmarketing.com';
+    window.location.href = "mailto:info@digibulkmarketing.com";
   };
 
   const handlePhoneClick = () => {
-    window.location.href = 'tel:18008898358';
+    window.location.href = "tel:18008898358";
   };
 
   const [setRecaptchaValue] = useState("");
   const captchaRef = useRef();
-
 
   const onChange = (value) => {
     console.log(value);
@@ -84,7 +82,7 @@ const about = () => {
                 <Typography
                   variant="h5"
                   gutterBottom
-                  fontWeight={600}
+                  fontWeight={500}
                   fontSize={"25px"}
                 >
                   Hassle Free Installation & Support Assistance Remotely
@@ -114,10 +112,13 @@ const about = () => {
                   Desktop to install the application.
                 </Typography>
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button variant="contained" color="primary" href="https://anydesk.com/en/downloads/windows" target="blank">
-
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    href="https://anydesk.com/en/downloads/windows"
+                    target="blank"
+                  >
                     Download Anydesk
-
                   </Button>
                 </Box>
               </CardContent>
@@ -224,7 +225,7 @@ const about = () => {
                     <PlayArrowOutlinedIcon fontSize="large" color="white" />
                   </IconButton>
                 </Typography>
-                <Typography>Our Story</Typography>
+                <Typography fontWeight={"600"}>Our Story</Typography>
               </Box>
             </Box>
           </Grid>
@@ -272,15 +273,16 @@ const about = () => {
                     align="justify"
                   >
                     At Digi Bulk Marketing, We Are Passionate About Empowering
-                    Businesses With Cutting-Edge Marketing Solutions. As A Leading
-                    Software-Selling Company, We Specialize In Providing Robust Tools
-                    That Streamline Marketing Efforts, Enhance Customer Engagement,
-                    And Drive Growth. Our Team Of Dedicated Professionals Combines
-                    Technical Expertise With A Deep Understanding Of Market Dynamics
-                    To Deliver Innovative Software Products. Whether It's Email
-                    Campaigns, Social Media Automation, Or Data Analytics, We're
-                    Committed To Helping Our Clients Achieve Their Marketing Goals.
-                    Join Us On This Digital Journey, And Let's Transform The Way You
+                    Businesses With Cutting-Edge Marketing Solutions. As A
+                    Leading Software-Selling Company, We Specialize In Providing
+                    Robust Tools That Streamline Marketing Efforts, Enhance
+                    Customer Engagement, And Drive Growth. Our Team Of Dedicated
+                    Professionals Combines Technical Expertise With A Deep
+                    Understanding Of Market Dynamics To Deliver Innovative
+                    Software Products. Whether It's Email Campaigns, Social
+                    Media Automation, Or Data Analytics, We're Committed To
+                    Helping Our Clients Achieve Their Marketing Goals. Join Us
+                    On This Digital Journey, And Let's Transform The Way You
                     Connect With Your Audience!
                   </Typography>
                   <Box
@@ -309,7 +311,7 @@ const about = () => {
                         <PlayArrowOutlinedIcon fontSize="large" color="white" />
                       </IconButton>
                     </Typography>
-                    <Typography>Our Story</Typography>
+                    <Typography fontWeight={"600"}>Our Story</Typography>
                   </Box>
                 </Box>
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}></Box>
@@ -321,7 +323,6 @@ const about = () => {
                   display: "flex",
                   justifyContent: { xs: "center", md: "end" },
                   alignItems: "center",
-
                 }}
               >
                 <img
@@ -338,10 +339,6 @@ const about = () => {
           </Grid>
         </Box>
       </Container>
-
-
-
-
 
       <Container>
         <Typography fontWeight={600} fontSize={"25px"} sx={{ marginBottom: 3 }}>
@@ -364,43 +361,38 @@ const about = () => {
         </Typography>
       </Container>
 
-
-
-
       <Container
         sx={{
           padding: "32px 0",
-        }}>
-
-
+        }}
+      >
         <Card
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             padding: 2,
             mt: 4,
             mb: 4,
-            color: 'white',
-            borderRadius: '20px'
+            color: "white",
+            borderRadius: "20px",
           }}
-
         >
           <Grid container spacing={4} justifyContent="center">
             {[
               {
                 title: "Free Update",
-                description: "No Any Pay For Update"
+                description: "No Any Pay For Update",
               },
 
               {
                 title: "Available In Store",
-                description: "DBM Available On Microsoft Store"
+                description: "DBM Available On Microsoft Store",
               },
               {
                 title: "Secure Payment",
-                description: "100% Secure Payment"
-              }
+                description: "100% Secure Payment",
+              },
             ].map((item, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Box
@@ -409,40 +401,58 @@ const about = () => {
                   alignItems="center"
                   textAlign="center"
                 >
-                  <img src={imgv} alt={item.title} style={{ maxWidth: '100%', height: 'auto' }} />
+                  <img
+                    src={imgv}
+                    alt={item.title}
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
                   <Typography variant="h6" fontWeight={900} marginTop={2}>
                     {item.title}
                   </Typography>
-                  <Typography variant="body1" >
-                    {item.description}
-                  </Typography>
+                  <Typography variant="body1">{item.description}</Typography>
                 </Box>
               </Grid>
             ))}
           </Grid>
         </Card>
 
-
-        <Grid container spacing={4} padding={'34px'}>
-
-          <Grid item xs={12} md={6} >
-            <Typography variant="h3" >Trust Is Earned,  </Typography>
+        <Grid container spacing={4} padding={"34px"}>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h3">Trust Is Earned, </Typography>
             <Typography variant="h3"> Not Given</Typography>
-            <Typography align='justify' marginTop={'30px'}>
-              Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s,
-              when an unknown printer took a galley of type and
-              scrambled it to make a type Lorem Ipsum has been type
+            <Typography align="justify" marginTop={"30px"}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type Lorem Ipsum has been type
             </Typography>
           </Grid>
 
-          <Grid item xs={12} md={6} container justifyContent={{ xs: 'center', md: 'flex-start' }} alignItems="center">
+          <Grid
+            item
+            xs={12}
+            md={6}
+            container
+            justifyContent={{ xs: "center", md: "flex-start" }}
+            alignItems="center"
+          >
             <Grid container spacing={2} justifyContent="center">
               {logos.map((logo, index) => (
-                <Grid item xs={6} sm={4} md={4} key={index} style={{ textAlign: 'center' }}>
-                  <Box sx={{ width: { md: '60%', sm: '40%', xs: '60%' }, margin: 'auto' }}>
-                    <img src={logo.src} alt={logo.alt} width='100%' />
+                <Grid
+                  item
+                  xs={6}
+                  sm={4}
+                  md={4}
+                  key={index}
+                  style={{ textAlign: "center" }}
+                >
+                  <Box
+                    sx={{
+                      width: { md: "60%", sm: "40%", xs: "60%" },
+                      margin: "auto",
+                    }}
+                  >
+                    <img src={logo.src} alt={logo.alt} width="100%" />
                   </Box>
                 </Grid>
               ))}
@@ -537,9 +547,7 @@ const about = () => {
           </Box>
         </Box>
       </Container> */}
-
     </Box>
-
   );
 };
 
