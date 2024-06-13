@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Badge, Box, Button, Drawer, Grid, Rating, Typography,
+    Badge, Box, Button, Drawer, Grid, Rating, Typography , CircularProgress
 } from '@mui/material';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -15,7 +15,7 @@ const buttonStyle = {
 const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
     const [count, setCount] = useState(1);
     const [expanded, setExpanded] = useState(false);
-
+    const [loading, setLoading] = useState(false);
 
     if (!product) {
         return null;
@@ -29,6 +29,12 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
         setCount((prevCount) => Math.max(1, prevCount + change));
     };
 
+    const handleAddToCart = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    }
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
@@ -111,8 +117,9 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                 color="black"
                 sx={{ color: '#fff', borderRadius: '10px', p: 2 }}
                 fullWidth
+                onClick={handleAddToCart}
             >
-                Add to Cart
+                {loading ? <CircularProgress size={24} color='white' /> : "Add to Cart"}
             </Button>
         </Box>
     );

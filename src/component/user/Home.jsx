@@ -37,7 +37,6 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import SpeakerIcon from "@mui/icons-material/Speaker";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-// import '../site/navbar'
 
 const Home = () => {
   const [value, setValue] = React.useState("1");
