@@ -12,6 +12,8 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
+
+
 const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
     const [count, setCount] = useState(1);
     const [expanded, setExpanded] = useState(false);
@@ -33,7 +35,7 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 2000);
+        }, 1500);
     }
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>

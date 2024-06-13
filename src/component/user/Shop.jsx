@@ -1,33 +1,16 @@
-import {
-  Box,
-  Container,
-  CircularProgress,
-  Typography,
-  Rating,
-  Grid,
-  Card,
-  ListItem,
-  List,
-  Drawer,
-  ListItemText,
-  ListItemIcon,
-  Skeleton,
-  IconButton,
-  CardContent,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
-import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Carousel from "react-multi-carousel";
-import Badge from "@mui/material/Badge";
-import { makeStyles } from "@mui/styles";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
-import Cart from "./cart";
-import "react-multi-carousel/lib/styles.css";
+import { Box, Container, CircularProgress, Typography, Rating, Grid, Card, ListItem, List, Drawer, ListItemText, ListItemIcon, Skeleton, IconButton, CardContent } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Carousel from 'react-multi-carousel';
+import Badge from '@mui/material/Badge';
+import { makeStyles } from '@mui/styles';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import Cart from './cart';
+import 'react-multi-carousel/lib/styles.css';
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ShopDetails from "./productDetails";
 import Checkout from "./checkout";
@@ -37,6 +20,9 @@ const useStyles = makeStyles({
     padding: "100px 0",
     textAlign: "center",
   },
+  dotList: {
+    margin: '20px 0'
+  }
 });
 
 const arrowStyle = {
@@ -251,58 +237,41 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products &&
-              products.products.map((item, index) => (
-                <Card
-                  key={item.id}
-                  onClick={toggleDetailDrawer(
-                    true,
-                    item,
-                    colors[index % colors.length]
-                  )}
-                  sx={{
-                    width: "80%",
-                    textAlign: "center",
-                    borderRadius: "15px",
-                    p: 2,
-                  }}
+            {products && products.products.map((item, index) => (
+              <Card
+                key={item.id}
+                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
+                sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2 }}
+              >
+                <Grid
+                  container
+                  sx={{ borderRadius: "15px", backgroundColor: colors[index % colors.length], textAlign: 'center' }}
                 >
-                  <Grid
-                    container
-                    sx={{
-                      borderRadius: "15px",
-                      backgroundColor: colors[index % colors.length],
-                      textAlign: "center",
-                    }}
-                  >
-                    <Grid item xs={12}>
-                      <img
-                        width={220}
-                        height={220}
-                        src={item.image}
-                        alt={item.name}
-                      />
-                    </Grid>
+                  <Grid item xs={12}>
+                    <img width={220} height={220} src={item.image} alt={item.name} />
                   </Grid>
-                  <Typography sx={{ my: "10px" }}>{item.name}</Typography>
-                  <Box display="flex" justifyContent="center">
-                    <Rating readOnly value={5} />
-                    <Typography>99+ Reviews</Typography>
-                  </Box>
-                </Card>
-              ))}
+                </Grid>
+                <Typography noWrap sx={{ my: "10px" }}>{item.name}</Typography>
+                <Box display="flex" justifyContent="center">
+                  <Rating readOnly value={5} />
+                  <Typography>99+ Reviews</Typography>
+                </Box>
+              </Card>
+            ))}
           </Carousel>
         </Box>
 
         <Grid container spacing={5} alignItems="center">
           <Grid item md={6} xs={12}>
             <Carousel
+              showDots
               responsive={carouselResponsive}
               afterChange={(previousSlide, { currentSlide }) =>
                 handleProductChange(currentSlide)
               }
               customLeftArrow={<CustomLeftArrow />}
               customRightArrow={<CustomRightArrow />}
+              dotListClass={classes.dotList}
             >
               {products &&
                 products.products.map((item) => (
