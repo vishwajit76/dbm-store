@@ -113,9 +113,9 @@ const Faq = () => {
 
 
   return (
-    <Box sx={{ background: '#f4f4f4', pt: 2 }}>
-      <Container sx={{ paddingBottom: "0", mt: 10 }} >
-        <Box py={8} textAlign='center'>
+    <Box sx={{ background: '#f4f4f4'}}>
+      <Container >
+        <Box pb={8} textAlign='center'>
           <Typography
             fontWeight={600}
             sx={{
@@ -187,7 +187,7 @@ const Faq = () => {
       </Container>
 
       <section id="contact" >
-        <Container sx={{ pt: 12 }}>
+        <Container>
           <Card
             style={{
               clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',

@@ -58,7 +58,7 @@ const about = () => {
     setRecaptchaValue(value);
   };
   return (
-    <Box sx={{ bgcolor: "#F4F4F4", pt: 12 }}>
+    <Box sx={{ bgcolor: "#F4F4F4"}}>
       <Container
         sx={{
           display: "flex",
@@ -339,10 +339,6 @@ const about = () => {
         </Box>
       </Container>
 
-
-
-
-
       <Container>
         <Typography fontWeight={600} fontSize={"25px"} sx={{ marginBottom: 3 }}>
           OUR VISION
@@ -364,9 +360,6 @@ const about = () => {
         </Typography>
       </Container>
 
-
-
-
       <Container
         sx={{
           padding: "32px 0",
@@ -380,7 +373,6 @@ const about = () => {
             alignItems: 'center',
             padding: 2,
             mt: 4,
-            mb: 4,
             color: 'white',
             borderRadius: '20px'
           }}
@@ -450,93 +442,6 @@ const about = () => {
           </Grid>
         </Grid>
       </Container>
-
-      {/* <Container>
-        <Card
-          style={{
-            clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
-            transform: 'translate(50%, 0%)',
-            backgroundColor: 'white',
-            boxShadow: 'none'
-          }}
-          sx={{ maxWidth: '50%', width: '100%', justifyContent: 'center' }}
-        >
-          gh
-        </Card>
-
-
-        <Box
-          sx={{
-            padding: 3,
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: { xs: 'center', md: 'flex-start' },
-            backgroundColor: '#FFF',
-            boxShadow: 'none',
-          }}
-        >
-          <Box
-            sx={{
-              width: { xs: '100%', md: '45%' },
-              marginBottom: { xs: 2, md: 0 },
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              boxShadow: 'none',
-            }}
-          >
-            <img
-              src={imgf}
-              alt="Working Professional"
-              style={{ width: '100%', borderRadius: '8px' }}
-            />
-          </Box>
-          <Box
-            sx={{
-              width: { xs: '100%', md: '55%' },
-              paddingLeft: { xs: 0, md: 5 },
-              paddingRight: { xs: 0, md: 10 },
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <TextField label="Name" variant="standard" fullWidth />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField label="Phone" variant="standard" fullWidth />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Email"
-                  variant="standard"
-                  fullWidth
-                  multiline
-                  rows={3}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Feedback"
-                  variant="standard"
-                  fullWidth
-                  multiline
-                  rows={3}
-                />
-              </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: { xs: 'center', md: 'space-between' } }}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 2, md: 0 }, width: { xs: '100%', sm: 'auto' } }}>
-                  <ReCAPTCHA sitekey={SITE_KEY} onChange={onChange} ref={captchaRef} />
-                </Box>
-                <Box>
-                  <Button variant="contained" color="primary" sx={{ width: '100px', height: '40px' }}>
-                    Submit
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container> */}
 
     </Box>
 

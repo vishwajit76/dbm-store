@@ -44,8 +44,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <Box sx={{ bgcolor: "#F4F4F4" }}>
-
-          <Navbar />
+            <Navbar />
 
           <section id="home"><Home /></section>
 

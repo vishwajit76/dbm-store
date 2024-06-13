@@ -192,7 +192,7 @@ const Shop = () => {
   }
 
   return (
-    <Box sx={{ background: '#F4F4F4', pt: 12 }}>
+    <Box sx={{ background: '#F4F4F4' }}>
       <Container >
         <Box>
           <Typography
