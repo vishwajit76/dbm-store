@@ -66,6 +66,7 @@ const Faq = () => {
   const [setRecaptchaValue] = useState("");
   const captchaRef = useRef();
   const onChange = (value) => {
+    console.log("make new branch");
     console.log(value);
     setRecaptchaValue(value);
   };
