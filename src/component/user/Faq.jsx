@@ -66,7 +66,6 @@ const Faq = () => {
   const [setRecaptchaValue] = useState("");
   const captchaRef = useRef();
   const onChange = (value) => {
-    console.log("fsdhjdf");
     console.log(value);
     setRecaptchaValue(value);
   };
