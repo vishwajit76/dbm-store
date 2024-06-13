@@ -32,6 +32,9 @@ const theme = createTheme({
     },
     gray: {
       main: '#adadaade'
+    },
+    green: {
+      main: '#21E500'
     }
   },
 });

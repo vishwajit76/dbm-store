@@ -30,6 +30,7 @@ import Cart from '../user/cart';
 import Login from "./login";
 import Order from "../user/order";
 import logo from "../image/logo (1).png";
+import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
 
@@ -53,6 +54,12 @@ const Navbar = () => {
   const [openOrder, setOpenOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profilePicture, setProfilePicture] = useState('/static/images/avatar/2.jpg');
+  const [details, setDetails] = useState(false)
+
+  const toggleOrderDetailsDrawer = (newOpen) => () => {
+    setDetails(newOpen);
+    if (newOpen) setOpenOrder(false)
+  }
   const handleOpenModal = () => setOpenModal(true)
   const handleCloseModal = () => setOpenModal(false)
   const handleClick = (event) => setAnchorElUser(event.currentTarget)
@@ -152,7 +159,7 @@ const Navbar = () => {
             </Badge>
 
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleClick} sx={{ p: 0 }}>
+              <IconButton onClick={handleClick} onMouseEnter={handleClick} sx={{ p: 0 }}>
                 <Avatar alt="Profile Picture" src={profilePicture} sx={{ width: 35, height: 35 }} />
               </IconButton>
 
@@ -187,7 +194,12 @@ const Navbar = () => {
 
           {/* order drawer */}
           <Drawer anchor="right" open={openOrder} onClose={toggleOrderDrawer(false)}>
-            <Order onClose={toggleOrderDrawer(false)} />
+            <Order onClose={toggleOrderDrawer(false)} orderDetails={toggleOrderDetailsDrawer(true)} />
+          </Drawer>
+
+          {/* order details drawer */}
+          <Drawer anchor="right" open={details} onClose={toggleOrderDrawer(false)}>
+            <OrderDetails onClose={toggleOrderDetailsDrawer(false)}/>
           </Drawer>
 
           {/* edit profile modal */}

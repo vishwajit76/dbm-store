@@ -1,9 +1,14 @@
-import { Box, Divider, Grid, Typography } from '@mui/material'
+import { Box, Divider, Drawer, Grid, Typography } from '@mui/material'
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import zomatoImg from '../image/google-map-extractor-7 1.png';
-import React from 'react'
+import React, { useState } from 'react'
+import OrderDetails from './orderDetails';
 
-const order = ({ onClose }) => {
+const order = ({ onClose, orderDetails }) => {
+    const [details, setDetails] = useState(false)
+
+    const toggleOrderDetailsDrawer = (newOpen) => () => { setDetails(newOpen); onClose }
+
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
@@ -24,6 +29,7 @@ const order = ({ onClose }) => {
                     my={5}
                     boxShadow="0 0 10px #eee"
                     justifyContent="space-between"
+                    onClick={orderDetails}
                 >
                     <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', textAlign: 'center' }}>
                         <img width={85} height={85} src={zomatoImg} alt="Product" />
@@ -45,7 +51,6 @@ const order = ({ onClose }) => {
                                 <Typography>$999</Typography>
                             </Grid>
                         </Grid>
-
                     </Grid>
                 </Grid>
             ))}

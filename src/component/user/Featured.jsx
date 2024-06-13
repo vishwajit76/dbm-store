@@ -51,7 +51,7 @@ const arrowStyle = {
   border: 1, p: 1, borderRadius: '50%', ml: 2
 };
 
-const transformations = ['rotate(-8deg)', 'rotate(8deg)', 'rotate(12deg)'];
+const transformations = ['rotate(-8deg)', 'rotate(12deg)', 'rotate(12deg)'];
 
 
 const Featured = () => {

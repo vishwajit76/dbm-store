@@ -57,7 +57,7 @@ export default function Cart({ onClose, onClick }) {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={1} container alignItems='center' ><CloseIcon /></Grid>
+                        <Grid item xs={1} container justifyContent='end' ><CloseIcon fontSize='5px'/></Grid>
                     </Grid>
                 ))}
             </Box>

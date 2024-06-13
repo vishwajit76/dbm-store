@@ -9,7 +9,6 @@ import Carousel from 'react-multi-carousel';
 import Badge from '@mui/material/Badge';
 import { makeStyles } from '@mui/styles';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import Cart from './cart';
 import 'react-multi-carousel/lib/styles.css';
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
@@ -21,6 +20,9 @@ const useStyles = makeStyles({
     padding: '100px 0',
     textAlign: 'center',
   },
+  dotList: {
+    margin: '20px 0'
+  }
 });
 
 const arrowStyle = {
@@ -230,7 +232,7 @@ const Shop = () => {
                     <img width={220} height={220} src={item.image} alt={item.name} />
                   </Grid>
                 </Grid>
-                <Typography sx={{ my: "10px" }}>{item.name}</Typography>
+                <Typography noWrap sx={{ my: "10px" }}>{item.name}</Typography>
                 <Box display="flex" justifyContent="center">
                   <Rating readOnly value={5} />
                   <Typography>99+ Reviews</Typography>
@@ -243,10 +245,12 @@ const Shop = () => {
         <Grid container spacing={5} alignItems="center">
           <Grid item md={6} xs={12}>
             <Carousel
+              showDots
               responsive={carouselResponsive}
               afterChange={(previousSlide, { currentSlide }) => handleProductChange(currentSlide)}
               customLeftArrow={<CustomLeftArrow />}
               customRightArrow={<CustomRightArrow />}
+              dotListClass={classes.dotList}
             >
               {products && products.products.map((item) => (
                 <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: { xs: 5, md: 10 }, px: { xs: 0, md: 3 } }}>

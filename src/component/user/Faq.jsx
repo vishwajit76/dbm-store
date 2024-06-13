@@ -1,17 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Card, Container, Grid, TextField, Typography } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
-import faqImage from '../image/image 10.png';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ReCAPTCHA from 'react-google-recaptcha';
-import contactFormImg from "../image/ContactForm.png"
 import { useForm, Controller } from 'react-hook-form';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
+import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
+import contactFormImg from '../image/ContactForm.png';
+import { makeStyles } from '@mui/styles';
+
+
 const SITE_KEY = "6LcNLbMpAAAAAHT-3b_fICQjCcUEivSg53-srBQn";
-
-
-
 
 const faqData = [
   { title: "What WhatsApp tool do you provide?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget." },
@@ -21,29 +24,97 @@ const faqData = [
   { title: "What WhatsApp tool do you provide?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget." },
 ];
 
+const CustomLeftArrow = ({ onClick }) => (
+  <Box
+    onClick={onClick}
+    sx={{
+      backgroundColor: '#0084FE',
+      color: 'white',
+      borderRadius: '50%',
+      width: '40px',
+      height: '40px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      left: '30px',
+      zIndex: 1,
+    }}
+  >
+    <KeyboardArrowLeftRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
+  </Box>
+);
+
+const CustomRightArrow = ({ onClick }) => (
+  <Box
+    onClick={onClick}
+    sx={{
+      backgroundColor: '#0084FE',
+      borderRadius: '50%',
+      width: '40px',
+      height: '40px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      right: '30px',
+      zIndex: 1,
+    }}
+  >
+    <KeyboardArrowRightRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
+  </Box>
+);
+
+const useStyles = makeStyles({
+  dotList: {
+    margin: '20px 0'
+  }
+});
+
 const Faq = () => {
+  const classes = useStyles();
   const [expanded, setExpanded] = useState(0);
+  const [error, setError] = useState(null);
+  const [products, setProducts] = useState(null);
   const { handleSubmit, control, reset, formState: { errors } } = useForm();
 
   const onSubmit = data => {
     console.log(data);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://api.digibulkmarketing.com/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        setError(error.message);
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const carouselResponsive = {
+    all: { breakpoint: { max: 4000, min: 0 }, items: 1 },
+  };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const [setRecaptchaValue] = useState("");
-  const captchaRef = useRef();
-  const onChange = (value) => {
-    console.log(value);
-    setRecaptchaValue(value);
-  };
+  if (!products) {
+    return null;
+  }
+
+
   return (
     <Box sx={{ background: '#f4f4f4', pt: 2 }}>
-      <Container sx={{ paddingBottom: "0" ,my: 10 }} >
+      <Container sx={{ paddingBottom: "0", mt: 10 }} >
         <Box py={8} textAlign='center'>
           <Typography
             fontWeight={600}
@@ -84,7 +155,9 @@ const Faq = () => {
                   <Typography>{item.title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ background: '#1783FE', p: 3, color: '#fff' }}>
-                  {item.content}
+                  <Typography>
+                    {item.content}
+                  </Typography>
                 </AccordionDetails>
               </Accordion>
             ))}
@@ -93,17 +166,28 @@ const Faq = () => {
             </Typography>
             <Button variant='contained' sx={{ borderRadius: '10px', py: 1, my: 1 }} >Submit a request</Button>
           </Grid>
-          <Grid item xs={12} md={6} textAlign='center'>
+          <Grid item md={6} xs={12}>
             <Typography mb={5} variant='h6' align='left'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Typography>
-            <Box width='65%' textAlign='center' mx='auto'>
-              <img src={faqImage} alt="" width='100%' />
-            </Box>
+
+            <Carousel
+              showDots
+              responsive={carouselResponsive}
+              customLeftArrow={<CustomLeftArrow />}
+              customRightArrow={<CustomRightArrow />}
+              dotListClass={classes.dotList}
+            >
+              {products.products.map((item) => (
+                <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: { xs: 5, md: 10 } }}>
+                  <img width={250} height={250} src={item.image} alt={item.name} />
+                </Card>
+              ))}
+            </Carousel>
           </Grid>
         </Grid>
       </Container>
 
       <section id="contact" >
-        <Container sx={{pt: 12}}>
+        <Container sx={{ pt: 12 }}>
           <Card
             style={{
               clipPath: 'polygon(50% 0%, 35% 100%, 65% 100%)',
