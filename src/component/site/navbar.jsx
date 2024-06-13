@@ -94,7 +94,8 @@ const Navbar = () => {
     </Box>
   );
   return (
-    <AppBar elevation={0} position="fixed" sx={{ background: '#f4f4f4' }}>
+    <div style={{ paddingTop: 56 }}>
+    <AppBar elevation={0} position="fixed" sx={{ background: '#f4f4f4',  }}>
       <Container>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }} disableGutters>
 
@@ -276,6 +277,7 @@ const Navbar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+    </div>
   );
 };
 

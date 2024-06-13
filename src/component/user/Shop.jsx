@@ -211,8 +211,8 @@ const Shop = () => {
   }
 
   return (
-    <Box sx={{ background: "#F4F4F4", pt: 12 }}>
-      <Container>
+    <Box sx={{ background: '#F4F4F4' }}>
+      <Container >
         <Box>
           <Typography
             fontWeight={600}

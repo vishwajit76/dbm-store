@@ -3,17 +3,17 @@ import React from 'react'
 import img from '../image/logo (1).png'
 function Footer() {
 
-    const handleEmailClick = () => {
-        window.location.href = 'mailto:info@digibulkmarketing.com';
-      };
-    
-      const handlePhoneClick = () => {
-        window.location.href = 'tel:18008898358';
-      };
-    
+  const handleEmailClick = () => {
+    window.location.href = 'mailto:info@digibulkmarketing.com';
+  };
+
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:18008898358';
+  };
+
   return (
-    
-       <>
+
+    <>
       <Container>
         <Grid container spacing={4} marginTop={10}>
           <Grid item xs={12} sm={6}>
@@ -41,12 +41,12 @@ function Footer() {
                   USEFUL LINKS
                 </Typography>
                 <Box mt={3}>
-                  <ul style={{ listStyleType: 'inherit', padding: 0, margin: 0,fontWeight:"300"}}>
-                    <li style={{ listStylePosition: 'inside', marginBottom: '0px',cursor: 'pointer' }}>Download</li>
-                    <li style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Shop</li>
-                    <li style={{ listStylePosition: 'inside',cursor: 'pointer'  }}>Orders</li>
-                    <li style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Reseller</li>
-                    <li style={{ listStylePosition: 'inside',cursor: 'pointer'  }}>FAQ</li>
+                  <ul style={{ listStyleType: 'inherit', padding: 0, margin: 0 }}>
+                    <Typography component='li' style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Download</Typography>
+                    <Typography component='li' style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Shop</Typography>
+                    <Typography component='li' style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Orders</Typography>
+                    <Typography component='li' style={{ listStylePosition: 'inside', cursor: 'pointer' }}>Reseller</Typography>
+                    <Typography component='li' style={{ listStylePosition: 'inside', cursor: 'pointer' }}>FAQ</Typography>
                   </ul>
                 </Box>
               </Box>
@@ -88,7 +88,7 @@ function Footer() {
 
             <Grid item xs={12} md={6}>
               <Box display={"flex"} sx={{ flexDirection: { xs: 'column', sm: "row" }, alignItems: 'center', justifyContent: 'space-between' }}>
-                <Typography sx={{ color: '#fff',cursor: 'pointer' }}>Download</Typography>
+                <Typography sx={{ color: '#fff', cursor: 'pointer' }}>Download</Typography>
                 <Typography sx={{ color: '#fff', cursor: 'pointer' }}>Shop</Typography>
                 <Typography sx={{ color: '#fff', cursor: 'pointer' }}>Orders</Typography>
                 <Typography sx={{ color: '#fff', cursor: 'pointer' }}>Reseller</Typography>

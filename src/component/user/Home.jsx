@@ -49,8 +49,8 @@ const Home = () => {
 
   return (
     <div>
-      <Box sx={{ backgroundColor: "#f4f4f4", py: 6 }}>
-        <Container sx={{ mt: 10 }}>
+      <Box sx={{ backgroundColor: "#f4f4f4" }}>
+        <Container sx={{mt: 10}}>
           <Grid
             container
             spacing={4}
