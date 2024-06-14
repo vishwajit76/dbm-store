@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-    Badge, Box, Button, Drawer, Grid, Rating, Typography , CircularProgress
+    Badge, Box, Button, Grid, Rating, Typography, CircularProgress
 } from '@mui/material';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, increaseQuantity, decreaseQuantity } from '../../redux/cart/cartSlice';
 
 const buttonStyle = {
     p: 0.1,
@@ -12,31 +16,85 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-
-
 const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
-    const [count, setCount] = useState(1);
     const [expanded, setExpanded] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [price, setPrice] = useState(product && product.store[product.store.length - 1].price);
+    const [localQuantity, setLocalQuantity] = useState(0);
+    const dispatch = useDispatch();
+
+    const cartItems = useSelector(state => state.cart.items);
+
+    useEffect(() => {
+        const productInCart = cartItems.find( item => item.id === product && product._id);
+        if (productInCart) {
+            setLocalQuantity(productInCart.quantity);
+        } else {
+            setLocalQuantity(0); 
+        }
+    }, [cartItems, product]);
+
+    const isInCart = () => {
+        const productInCart = cartItems.find(item => item.id === product._id);
+        return productInCart ? productInCart.quantity : 0;
+    };
 
     if (!product) {
         return null;
     }
 
     const toggleExpanded = () => {
-        setExpanded((prevExpanded) => !prevExpanded);
+        setExpanded(prevExpanded => !prevExpanded);
     };
 
-    const handleCounter = (change) => {
-        setCount((prevCount) => Math.max(1, prevCount + change));
-    };
-
-    const handleAddToCart = () => {
+    const addToCartHandler = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 1500);
-    }
+            dispatch(addItem({
+                id: product._id,
+                name: product.name,
+                price: price,
+                rating: 5,
+                image: product.image,
+                quantity: localQuantity === 0 ?  localQuantity + 1 : localQuantity
+            }));
+            toast.success("Product Added To Cart", {
+                position: "bottom-left"
+            });
+        }, 500);
+    };
+
+    const increaseLocalQuantity = () => {
+        setLocalQuantity(prevQuantity => prevQuantity + 1);
+    };
+
+    const decreaseLocalQuantity = () => {
+        if (localQuantity > 0) {
+            setLocalQuantity(prevQuantity => prevQuantity - 1);
+        } else {
+            toast.warn("Quantity cannot be less than 0", {
+                position: "bottom-left"
+            });
+        }
+    };
+
+    const increaseCartItem = (id) => {
+        dispatch(increaseQuantity({ id }));
+    };
+
+    const decreaseCartItem = (id) => {
+        const productInCart = cartItems.find(item => item.id === product._id);
+        if (productInCart && productInCart.quantity > 1) {
+            dispatch(decreaseQuantity({ id }));
+        } else {
+            dispatch(decreaseQuantity({ id }));
+            toast.success("Product Removed From Cart", {
+                position: "bottom-left"
+            });
+        }
+    };
+
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
@@ -65,12 +123,12 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                     <Grid container alignItems="center">
                         <Grid item xs={6}>
                             <Typography sx={{ color: '#818181de' }}>Price</Typography>
-                            <Typography fontWeight={600}>${product.store[product.store.length - 1].price * count}</Typography>
+                            <Typography fontWeight={600}>${price}</Typography>
                         </Grid>
                         <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
-                            <RemoveOutlinedIcon sx={buttonStyle} onClick={() => handleCounter(-1)} />
-                            <Typography>{count}</Typography>
-                            <AddOutlinedIcon fontSize='small' sx={buttonStyle} onClick={() => handleCounter(1)} />
+                            <RemoveOutlinedIcon fontSize='small' sx={buttonStyle} onClick={() => isInCart() > 0 ? decreaseCartItem(product._id) : decreaseLocalQuantity()} />
+                            <Typography>{isInCart() > 0 ? isInCart() : localQuantity}</Typography>
+                            <AddOutlinedIcon fontSize='small' sx={buttonStyle} onClick={() => isInCart() > 0 ? increaseCartItem(product._id) : increaseLocalQuantity()} />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -96,7 +154,7 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                     </Grid>
                     <Grid item xs={4} textAlign="right">
                         <Typography sx={{ color: '#818181de' }}>Price</Typography>
-                        <Typography fontWeight={600}>${product.store[product.store.length - 1].price * count}</Typography>
+                        <Typography fontWeight={600}>${price}</Typography>
                     </Grid>
                 </Grid>
             </Box>
@@ -113,16 +171,17 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                     {expanded ? 'Read less' : 'Read more'}
                 </Typography>
             </Box>
-
             <Button
                 variant="contained"
                 color="black"
                 sx={{ color: '#fff', borderRadius: '10px', p: 2 }}
                 fullWidth
-                onClick={handleAddToCart}
+                disabled={isInCart() > 0}
+                onClick={addToCartHandler}
             >
-                {loading ? <CircularProgress size={24} color='white' /> : "Add to Cart"}
+                {loading ? <CircularProgress size={24} color='inherit' /> : "Add to Cart"}
             </Button>
+            <ToastContainer />
         </Box>
     );
 };

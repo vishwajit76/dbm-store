@@ -132,7 +132,7 @@ const about = () => {
                   margin: "auto",
                   flexWrap: "nowrap",
 
-                  width: { xs: "80%", sm: "100%", md: "100%" }, // Adjust the percentage based on your design needs
+                  width: { xs: "80%", sm: "100%", md: "100%" },
                 }}
               >
                 <img
