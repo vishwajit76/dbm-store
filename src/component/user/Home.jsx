@@ -223,7 +223,7 @@ const Home = () => {
 
           <Grid>
             <Grid item margin={"50px 0"}>
-              <Box>
+              {/* <Box>
                 <img
                   src={wew1}
                   alt=""
@@ -262,7 +262,7 @@ const Home = () => {
                     bottom: "110px",
                   }}
                 />
-              </Box>
+              </Box> */}
 
               <Typography
                 textAlign={"center"}
@@ -380,7 +380,6 @@ const Home = () => {
                             fontSize={"20px"}
                             fontWeight={"500"}
                             sx={{ textAlign: "left" }}
-                            width={"750px"}
                           >
                             Software supports multiple images along with
                             captions for each image which can be sent to all the
