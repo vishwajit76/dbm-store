@@ -1,16 +1,32 @@
-import { Box, Container, CircularProgress, Typography, Rating, Grid, Card, ListItem, List, Drawer, ListItemText, ListItemIcon, Skeleton, IconButton, CardContent } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
-import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Carousel from 'react-multi-carousel';
-import Badge from '@mui/material/Badge';
-import { makeStyles } from '@mui/styles';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import Cart from './cart';
-import 'react-multi-carousel/lib/styles.css';
+import {
+  Box,
+  Container,
+  CircularProgress,
+  Typography,
+  Rating,
+  Grid,
+  Card,
+  ListItem,
+  List,
+  Drawer,
+  ListItemText,
+  ListItemIcon,
+  Skeleton,
+  IconButton,
+  CardContent,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Carousel from "react-multi-carousel";
+import Badge from "@mui/material/Badge";
+import { makeStyles } from "@mui/styles";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import Cart from "./cart";
+import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ShopDetails from "./productDetails";
 import Checkout from "./checkout";
@@ -21,8 +37,8 @@ const useStyles = makeStyles({
     textAlign: "center",
   },
   dotList: {
-    margin: '20px 0'
-  }
+    margin: "20px 0",
+  },
 });
 
 const arrowStyle = {
@@ -211,8 +227,8 @@ const Shop = () => {
   }
 
   return (
-    <Box sx={{ background: '#F4F4F4' }}>
-      <Container >
+    <Box sx={{ background: "#F4F4F4" }}>
+      <Container>
         <Box>
           <Typography
             fontWeight={600}
@@ -237,27 +253,48 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products && products.products.map((item, index) => (
-              <Card
-                key={item.id}
-                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
-                sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2 }}
-              >
-                <Grid
-                  container
-                  sx={{ borderRadius: "15px", backgroundColor: colors[index % colors.length], textAlign: 'center' }}
+            {products &&
+              products.products.map((item, index) => (
+                <Card
+                  key={item.id}
+                  onClick={toggleDetailDrawer(
+                    true,
+                    item,
+                    colors[index % colors.length]
+                  )}
+                  sx={{
+                    width: "80%",
+                    textAlign: "center",
+                    borderRadius: "15px",
+                    p: 2,
+                  }}
                 >
-                  <Grid item xs={12}>
-                    <img width={220} height={220} src={item.image} alt={item.name} />
+                  <Grid
+                    container
+                    sx={{
+                      borderRadius: "15px",
+                      backgroundColor: colors[index % colors.length],
+                      textAlign: "center",
+                    }}
+                  >
+                    <Grid item xs={12}>
+                      <img
+                        width={220}
+                        height={220}
+                        src={item.image}
+                        alt={item.name}
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Typography noWrap sx={{ my: "10px" }}>{item.name}</Typography>
-                <Box display="flex" justifyContent="center">
-                  <Rating readOnly value={5} />
-                  <Typography>99+ Reviews</Typography>
-                </Box>
-              </Card>
-            ))}
+                  <Typography noWrap sx={{ my: "10px" }}>
+                    {item.name}
+                  </Typography>
+                  <Box display="flex" justifyContent="center">
+                    <Rating readOnly value={5} />
+                    <Typography>99+ Reviews</Typography>
+                  </Box>
+                </Card>
+              ))}
           </Carousel>
         </Box>
 
@@ -337,9 +374,11 @@ const Shop = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              padding: "16px",
-              width: "100%",
+              padding: { xs: "8px", md: "16px" },
+              width: {md:"100%" ,sm:'90%', xs:'90%' }, // Ensures the Card takes full width on all screen sizes
               borderRadius: "10px",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Optional: Add a shadow for visual separation
+              backgroundColor: "#FFFFFF", // Optional: Add a background color
             }}
           >
             <Grid container spacing={2} alignItems="center">
@@ -356,44 +395,64 @@ const Shop = () => {
                 <Typography
                   variant="h4"
                   gutterBottom
-                  sx={{ width: "100%", minWidth: "30%", fontWeight: "700" }}
+                  sx={{
+                    width: "100%",
+                    minWidth: "30%",
+                    fontWeight: "700",
+                    fontSize: { xs: "24px", md: "inherit" },
+                    textAlign: { xs: "center", md: "left" }, // Added to ensure text aligns properly
+                  }}
                 >
-                  How It Work
+                  How It Works
                 </Typography>
               </Grid>
               <Grid item xs={12} md={8}>
                 <Card
                   sx={{
                     display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
                     alignItems: "center",
                     gap: "16px",
-                    // backgroundColor: '#F9F9F9',
                     borderRadius: "10px",
                     padding: "16px",
+                    width: {md:"100%" ,sm:'90%', xs:'90%' }, // Ensure the inner Card takes full width
+                    maxWidth: "747px", // Limit the width of the inner Card on larger screens
+                    margin: "0", // Center the inner Card horizontally
+                    textAlign: { xs: "center", sm: "left" }, // Added to ensure content aligns properly
                   }}
                 >
                   <Box
-                    color="white"
                     sx={{
                       bgcolor: "#007BFF",
                       color: "#fff",
                       borderRadius: "50%",
                       p: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      minWidth: { xs: "40px", sm: "50px" }, // Adjust minimum width for icon container
+                      minHeight: { xs: "40px", sm: "50px" }, // Adjust minimum height for icon container
                     }}
                   >
                     <PlayArrowOutlinedIcon fontSize="large" />
                   </Box>
 
-                  <CardContent>
+                  <CardContent sx={{ flex: 1 }}>
                     <Typography
                       variant="h6"
-                      sx={{ width: "526px", fontWeight: "600" }}
+                      sx={{
+                        fontWeight: "600",
+                        fontSize: { xs: "18px", sm: "24px" },
+                        marginBottom: "8px", // Added to separate from the body text
+                      }}
                     >
                       HOW THE BULK WHATSAPP SOFTWARE WORKS?
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ width: "526px", fontSize: "14px" }}
+                      sx={{
+                        fontSize: { xs: "14px", sm: "16px" },
+                      }}
                     >
                       Watch a video which shows a detailed step by step process
                       of how to get started with our Bulk WhatsApp Software.
