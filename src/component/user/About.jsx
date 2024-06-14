@@ -57,7 +57,8 @@ const about = () => {
   };
   return (
     <Box sx={{ bgcolor: "#F4F4F4"}}>
-      <Container
+      <Container>
+      <Box
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -144,9 +145,9 @@ const about = () => {
             </Grid>
           </Grid>
         </Box>
-      </Container>
+      </Box>
 
-      <Container sx={{ padding: 4 }}>
+      <Box sx={{ padding: 4 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={5}>
             <Box
@@ -230,9 +231,9 @@ const about = () => {
             </Box>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
 
-      <Container
+      <Box
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -338,9 +339,9 @@ const about = () => {
             </Grid>
           </Grid>
         </Box>
-      </Container>
+      </Box>
 
-      <Container>
+      <Box>
         <Typography fontWeight={600} fontSize={"25px"} sx={{ marginBottom: 3 }}>
           OUR VISION
         </Typography>
@@ -359,9 +360,9 @@ const about = () => {
           and we do not take responsibility for how the buyer uses this
           software. All disputes are subject to Delhi jurisdiction.
         </Typography>
-      </Container>
+      </Box>
 
-      <Container
+      <Box
         sx={{
           padding: "32px 0",
         }}
@@ -458,8 +459,9 @@ const about = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
 
+    </Container>
     </Box>
   );
 };

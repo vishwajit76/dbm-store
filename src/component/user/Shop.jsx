@@ -333,76 +333,78 @@ const Shop = () => {
             gh
           </Card>
           <Card
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: "center",
+        padding: '16px',
+        width: '100%',
+        minHeight: '200px', // Using minHeight instead of height
+        borderRadius: "10px"
+      }}
+    >
+      <Grid container spacing={2} alignItems="center">
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={{
+            display: 'flex',
+            justifyContent: { xs: 'center', md: 'flex-start' },
+            textAlign: { xs: 'center', md: 'left' }
+          }}
+        >
+          <Typography
+            variant="h4"
+            gutterBottom
+            fontWeight={600}
+            sx={{ width: '100%', minWidth: '30%' }}
+          >
+            How It Works
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Card
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "16px",
-              width: "100%",
-              borderRadius: "10px",
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              width: '98%',
+              borderRadius: '10px',
+              padding: '16px',
+              flexDirection: { xs: 'column', md: 'row' },
+              textAlign: { xs: 'center', md: 'left' }
+              
             }}
           >
-            <Grid container spacing={2} alignItems="center">
-              <Grid
-                item
-                xs={12}
-                md={4}
-                sx={{
-                  display: "flex",
-                  justifyContent: { xs: "center", md: "flex-start" },
-                  textAlign: { xs: "center", md: "left" },
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  sx={{ width: "100%", minWidth: "30%", fontWeight: "700" }}
-                >
-                  How It Work
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={8}>
-                <Card
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    // backgroundColor: '#F9F9F9',
-                    borderRadius: "10px",
-                    padding: "16px",
-                  }}
-                >
-                  <Box
-                    color="white"
-                    sx={{
-                      bgcolor: "#007BFF",
-                      color: "#fff",
-                      borderRadius: "50%",
-                      p: 1,
-                    }}
-                  >
-                    <PlayArrowOutlinedIcon fontSize="large" />
-                  </Box>
-
-                  <CardContent>
-                    <Typography
-                      variant="h6"
-                      sx={{ width: "526px", fontWeight: "600" }}
-                    >
-                      HOW THE BULK WHATSAPP SOFTWARE WORKS?
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ width: "526px", fontSize: "14px" }}
-                    >
-                      Watch a video which shows a detailed step by step process
-                      of how to get started with our Bulk WhatsApp Software.
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
+            <Box
+              sx={{
+                bgcolor: '#007BFF',
+                color: '#fff',
+                borderRadius: '50%',
+                p: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+  
+                margin: { xs: ' auto', md: '0' }
+              }}
+            >
+              <PlayArrowOutlinedIcon fontSize="large" />
+            </Box>
+            <CardContent sx={{ flex: 1 }}>
+              <Typography variant="h6" fontWeight={600}>
+                HOW THE BULK WHATSAPP SOFTWARE WORKS?
+              </Typography>
+              <Typography variant="body1">
+                Watch a video which shows a detailed step by step process of how to get started with our Bulk WhatsApp Software.
+              </Typography>
+            </CardContent>
           </Card>
+        </Grid>
+      </Grid>
+    </Card>
         </Container>
       </Grid>
 
