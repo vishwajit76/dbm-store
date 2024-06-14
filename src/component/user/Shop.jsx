@@ -30,6 +30,7 @@ import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ShopDetails from "./productDetails";
 import Checkout from "./checkout";
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   carousel: {
@@ -111,6 +112,7 @@ const CustomButtonGroup = ({ next, previous }) => (
 );
 
 const Shop = () => {
+  const cartItemCount = useSelector(state => state.cart.items.length);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -488,7 +490,7 @@ const Shop = () => {
           product={drawerProduct}
           color={color}
           cartDrawer={
-            <Badge badgeContent={4} color="primary">
+            <Badge badgeContent={cartItemCount} color="primary">
               <Box
                 sx={{
                   width: 35,
