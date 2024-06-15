@@ -33,6 +33,7 @@ import OrderDetails from "../user/orderDetails";
 import { useSelector } from 'react-redux';
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 
 const pages = [
   { id: "#home", name: "HOME" },
@@ -99,10 +100,19 @@ const Navbar = (props) => {
       onClick={toggleDrawer(false)}
       textAlign="right"
     >
-      <KeyboardBackspaceRoundedIcon
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          paddingLeft: "25px",
+        }}
+      >
+        <img src={logo} alt="Logo" width="70%" />
+      </Box>
+      {/* <KeyboardBackspaceRoundedIcon
         fontSize="large"
         sx={{ margin: "30px 20px 0 0" }}
-      />
+      /> */}
       <List>
         {pages.map((text, index) => (
           <ListItem key={`${text.id}-${index}`}>
@@ -111,12 +121,26 @@ const Navbar = (props) => {
             </ListItemButton>
           </ListItem>
         ))}
-        <ListItem>
-          <Button variant="contained" href="#contact">
-            Let's Talk
-          </Button>
-        </ListItem>
       </List>
+      <Box
+        sx={{
+          backgroundColor: "#fff",
+          position: "fixed",
+          bottom: 0,
+          p: "20px 30px",
+          width: { xs: 190, md: 250 },
+          boxShadow: "0 0 10px gray",
+        }}
+      >
+        <ArrowBackIosNewRoundedIcon
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </Box>
     </Box>
   );
   return (
@@ -132,41 +156,37 @@ const Navbar = (props) => {
                 <img src={logo} alt="Logo" width='100%' />
               </Box>
 
-              {/* links */}
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: {
-                    xs: "none",
-                    md: "flex",
-                    justifyContent: "center",
-                    gap: "25px",
-                  },
-                }}
-              >
-                {pages.map((page, index) => (
-                  <Button
-                    key={`${page.id}-${index}`}
-                    onClick={handleCloseUserMenu}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      fontSize: "12px",
-                    }}
-                    color="khaki"
-                    href={page.id}
-                  >
-                    {page.name}
-                  </Button>
-                ))}
-                <Button variant="contained" href={'#contact'} sx={{
-                  my: 2,
-                  display: "block",
-                  fontSize: "12px",
-                }}
-                >Let's Talk</Button>
-              </Box>
+            {/* links */}
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: {
+                  xs: "none",
+                  md: "flex",
+                  justifyContent: "center",
+                  gap: "25px",
+                },
+              }}
+            >
+              {pages.map((page, index) => (
+                <Typography
+                  component="a"
+                  key={`${page.id}-${index}`}
+                  onClick={handleCloseUserMenu}
+                  sx={{
+                    mx: 2,
+                    color: "#000",
+                    display: "block",
+                    fontSize: "15px",
+                    textDecoration: "none",
+                  }}
+                  color="khaki"
+                  href={page.id}
+                >
+                  {page.name}
+                </Typography>
+              ))}
+            </Box>
 
               {/* cart and avatar*/}
               <Box sx={{ display: "flex", alignItems: "center" }}>
