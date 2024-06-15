@@ -33,6 +33,7 @@ import logo from "../image/logo (1).png";
 import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 
 const pages = [
   { id: "#home", name: "HOME" },
@@ -79,10 +80,19 @@ const Navbar = () => {
       onClick={toggleDrawer(false)}
       textAlign="right"
     >
-      <KeyboardBackspaceRoundedIcon
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          paddingLeft: "25px",
+        }}
+      >
+        <img src={logo} alt="Logo" width="70%" />
+      </Box>
+      {/* <KeyboardBackspaceRoundedIcon
         fontSize="large"
         sx={{ margin: "30px 20px 0 0" }}
-      />
+      /> */}
       <List>
         {pages.map((text, index) => (
           <ListItem key={`${text.id}-${index}`}>
@@ -91,12 +101,26 @@ const Navbar = () => {
             </ListItemButton>
           </ListItem>
         ))}
-        <ListItem>
-          <Button variant="contained" href="#contact">
-            Let's Talk
-          </Button>
-        </ListItem>
       </List>
+      <Box
+        sx={{
+          backgroundColor: "#fff",
+          position: "fixed",
+          bottom: 0,
+          p: "20px 30px",
+          width: { xs: 190, md: 250 },
+          boxShadow: "0 0 10px gray",
+        }}
+      >
+        <ArrowBackIosNewRoundedIcon
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </Box>
     </Box>
   );
   return (
@@ -125,32 +149,23 @@ const Navbar = () => {
               }}
             >
               {pages.map((page, index) => (
-                <Button
+                <Typography
+                  component="a"
                   key={`${page.id}-${index}`}
                   onClick={handleCloseUserMenu}
                   sx={{
-                    my: 2,
-                    color: "white",
+                    mx: 2,
+                    color: "#000",
                     display: "block",
-                    fontSize: "12px",
+                    fontSize: "15px",
+                    textDecoration: "none",
                   }}
                   color="khaki"
                   href={page.id}
                 >
                   {page.name}
-                </Button>
+                </Typography>
               ))}
-              <Button
-                variant="contained"
-                href={"#contact"}
-                sx={{
-                  my: 2,
-                  display: "block",
-                  fontSize: "12px",
-                }}
-              >
-                Let's Talk
-              </Button>
             </Box>
 
             {/* cart and avatar*/}
