@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import img from "../image/logo (1).png";
@@ -27,6 +28,8 @@ function Footer() {
       behavior: "smooth",
     });
   };
+
+  const isLargeDevice = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   // Function to toggle scroll-to-top button visibility based on scroll position
   const checkScrollTop = () => {
@@ -147,7 +150,12 @@ function Footer() {
             <Grid item xs={12} md={5} lg={4}>
               <Grid container spacing={2} justifyContent="space-around">
                 {/* Useful Links */}
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
                   <Box
                     display="flex"
                     flexDirection="column"
@@ -206,7 +214,12 @@ function Footer() {
             </Grid>
 
             {/* Newsletter Subscription */}
-            <Grid item xs={12} md={3}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <Box
                 display="flex"
                 flexDirection="column"
@@ -300,16 +313,16 @@ function Footer() {
                 }}
               >
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Privacy Policy |
+                  Privacy Policy {isLargeDevice && "|"}
                 </Typography>
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Terms and Conditions |
+                  Terms and Conditions {isLargeDevice && "|"}
                 </Typography>
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Refund and Return Policy |
+                  Refund and Return Policy {isLargeDevice && "|"}
                 </Typography>
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Contact |
+                  Contact {isLargeDevice && "|"}
                 </Typography>
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
                   About

@@ -1,18 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Box, Button, Card, Container, Grid, TextField, Typography } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useForm, Controller } from 'react-hook-form';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
-import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
-import contactFormImg from '../image/ContactForm.png';
-import { makeStyles } from '@mui/styles';
-
+import React, { useState, useRef, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useForm, Controller } from "react-hook-form";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import contactFormImg from "../image/ContactForm.png";
+import { makeStyles } from "@mui/styles";
 
 const SITE_KEY = "6LcNLbMpAAAAAHT-3b_fICQjCcUEivSg53-srBQn";
 
@@ -48,20 +55,20 @@ const CustomLeftArrow = ({ onClick }) => (
   <Box
     onClick={onClick}
     sx={{
-      backgroundColor: '#0084FE',
-      color: 'white',
-      borderRadius: '50%',
-      width: '40px',
-      height: '40px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      left: '30px',
+      backgroundColor: "#0084FE",
+      color: "white",
+      borderRadius: "50%",
+      width: "40px",
+      height: "40px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "absolute",
+      left: "30px",
       zIndex: 1,
     }}
   >
-    <KeyboardArrowLeftRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
+    <KeyboardArrowLeftRoundedIcon sx={{ color: "#fff" }} fontSize="large" />
   </Box>
 );
 
@@ -69,26 +76,26 @@ const CustomRightArrow = ({ onClick }) => (
   <Box
     onClick={onClick}
     sx={{
-      backgroundColor: '#0084FE',
-      borderRadius: '50%',
-      width: '40px',
-      height: '40px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      right: '30px',
+      backgroundColor: "#0084FE",
+      borderRadius: "50%",
+      width: "40px",
+      height: "40px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "absolute",
+      right: "30px",
       zIndex: 1,
     }}
   >
-    <KeyboardArrowRightRoundedIcon sx={{ color: '#fff' }} fontSize="large" />
+    <KeyboardArrowRightRoundedIcon sx={{ color: "#fff" }} fontSize="large" />
   </Box>
 );
 
 const useStyles = makeStyles({
   dotList: {
-    margin: '20px 0'
-  }
+    margin: "20px 0",
+  },
 });
 
 const Faq = () => {
@@ -96,7 +103,12 @@ const Faq = () => {
   const [expanded, setExpanded] = useState(0);
   const [error, setError] = useState(null);
   const [products, setProducts] = useState(null);
-  const { handleSubmit, control, reset, formState: { errors } } = useForm();
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -105,15 +117,17 @@ const Faq = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://api.digibulkmarketing.com/products');
+        const response = await fetch(
+          "https://api.digibulkmarketing.com/products"
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
         const data = await response.json();
         setProducts(data);
       } catch (error) {
         setError(error.message);
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
@@ -131,11 +145,10 @@ const Faq = () => {
     return null;
   }
 
-
   return (
-    <Box sx={{ background: '#f4f4f4'}}>
-      <Container >
-        <Box pb={8} textAlign='center'>
+    <Box sx={{ background: "#f4f4f4" }}>
+      <Container>
+        <Box pb={8} textAlign="center">
           <Typography
             fontWeight={600}
             sx={{
@@ -179,10 +192,10 @@ const Faq = () => {
                 >
                   <Typography>{item.title}</Typography>
                 </AccordionSummary>
-                <AccordionDetails sx={{ background: '#1783FE', p: 3, color: '#fff' }}>
-                  <Typography>
-                    {item.content}
-                  </Typography>
+                <AccordionDetails
+                  sx={{ background: "#1783FE", p: 3, color: "#fff" }}
+                >
+                  <Typography>{item.content}</Typography>
                 </AccordionDetails>
               </Accordion>
             ))}
@@ -197,7 +210,10 @@ const Faq = () => {
             </Button>
           </Grid>
           <Grid item md={6} xs={12}>
-            <Typography mb={5} variant='h6' align='left'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Typography>
+            <Typography mb={5} variant="h6" align="left">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry
+            </Typography>
 
             <Carousel
               showDots
@@ -207,8 +223,20 @@ const Faq = () => {
               dotListClass={classes.dotList}
             >
               {products.products.map((item) => (
-                <Card key={item.id} sx={{ textAlign: 'center', borderRadius: "15px", py: { xs: 5, md: 10 } }}>
-                  <img width={250} height={250} src={item.image} alt={item.name} />
+                <Card
+                  key={item.id}
+                  sx={{
+                    textAlign: "center",
+                    borderRadius: "15px",
+                    py: { xs: 5, md: 10 },
+                  }}
+                >
+                  <img
+                    width={250}
+                    height={250}
+                    src={item.image}
+                    alt={item.name}
+                  />
                 </Card>
               ))}
             </Carousel>
@@ -216,7 +244,7 @@ const Faq = () => {
         </Grid>
       </Container>
 
-      <section id="contact" >
+      <section id="contact">
         <Container>
           <Card
             style={{
@@ -235,7 +263,7 @@ const Faq = () => {
               padding: 3,
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
-              alignItems: { xs: "center", md: "flex-start" },
+              alignItems: { xs: "center", md: "center" },
               backgroundColor: "#FFF",
               boxShadow: "none",
             }}
@@ -243,7 +271,7 @@ const Faq = () => {
             <Box
               sx={{
                 width: { xs: "100%", md: "45%" },
-                marginBottom: { xs: 2, md: 0 },
+                // marginBottom: { xs: 2, md: 0 },
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -290,7 +318,13 @@ const Faq = () => {
                     name="phone"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Phone is required" }}
+                    rules={{
+                      required: "Phone is required",
+                      pattern: {
+                        value: /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/,
+                        message: "Invalid Phone Number",
+                      },
+                    }}
                     render={({ field }) => (
                       <TextField
                         {...field}
