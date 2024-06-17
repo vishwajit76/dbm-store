@@ -401,7 +401,8 @@ const Shop = () => {
                     width: "100%",
                     minWidth: "30%",
                     fontWeight: "700",
-                    fontSize: { xs: "24px", md: "inherit" },
+                    fontSize: { xs: "30px", md: "36px" },
+                    margin:"0 50px",
                     textAlign: { xs: "center", md: "left" }, // Added to ensure text aligns properly
                   }}
                 >
@@ -444,7 +445,7 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px" },
+                        fontSize: { xs: "18px", sm: "24px" , md:'30px'},
                         marginBottom: "8px", // Added to separate from the body text
                       }}
                     >

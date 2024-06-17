@@ -61,8 +61,8 @@ const About = () => {
             <Typography
               variant="h5"
               gutterBottom
-              fontWeight={500}
-              fontSize={"25px"}
+              fontWeight={600}
+              fontSize={"30px"}
             >
               Hassle Free Installation & Support Assistance Remotely
             </Typography>
@@ -79,6 +79,7 @@ const About = () => {
               gutterBottom
               color={"#9A9A9A"}
               align="justify"
+              fontSize={'18px'}
             >
               Installation assistance is a Free service offered by Digi Bulk
               Marketing which allows the clients to sit back and relax while we
@@ -155,6 +156,7 @@ const About = () => {
               variant="body1"
               sx={{ marginBottom: 3 }}
               align="justify"
+              fontSize={'18px'} 
             >
               At Digi Bulk Marketing, We Are Passionate About Empowering
               Businesses With Cutting-Edge Marketing Solutions. As A Leading
@@ -194,7 +196,9 @@ const About = () => {
                   <PlayArrowOutlinedIcon fontSize="large" color="white" />
                 </IconButton>
               </Typography>
-              <Typography fontWeight={"600"}>Our Story</Typography>
+             
+              <Typography fontWeight={"600"} >Our  mori Story</Typography>
+          
             </Box>
           </Box>
         </Grid>
@@ -221,6 +225,7 @@ const About = () => {
                 variant="body1"
                 sx={{ marginBottom: 3 }}
                 align="justify"
+                fontSize={'18px'}
               >
                 At Digi Bulk Marketing, We Are Passionate About Empowering
                 Businesses With Cutting-Edge Marketing Solutions. As A Leading
@@ -237,6 +242,8 @@ const About = () => {
               <Box
                 width={150}
                 margin={"30px 0 0 0"}
+                 href="https://www.youtube.com/watch?v=2nsRe8ct_I8&ab_channel=BitBeast"
+                    target="blank"
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -260,7 +267,11 @@ const About = () => {
                     <PlayArrowOutlinedIcon fontSize="large" color="white" />
                   </IconButton>
                 </Typography>
-                <Typography fontWeight={"600"}>Our Story</Typography>
+               
+      <Typography fontWeight="600">
+        Our Story
+      </Typography>
+    
               </Box>
             </Box>
           </CardContent>
@@ -286,10 +297,10 @@ const About = () => {
       </Grid>
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography fontWeight={600} fontSize={"25px"} sx={{ marginBottom: 3 }}>
+        <Typography fontWeight={600} fontSize={"30px"} sx={{ marginBottom: 3 }}>
           OUR VISION
         </Typography>
-        <Typography align="justify">
+        <Typography align="justify" fontSize={'18px'}>
           This site is not a part of WhatsApp or Facebook / Meta. Mentioned
           names or logos are properties of their respective companies. The
           information on this website is for educational purposes only, we
@@ -357,9 +368,9 @@ const About = () => {
 
       <Grid container spacing={4} sx={{ padding: "34px" }}>
         <Grid item xs={12} md={6}>
-          <Typography variant="h3">Trust Is Earned, </Typography>
-          <Typography variant="h3"> Not Given</Typography>
-          <Typography align="justify" marginTop={"30px"}>
+          <Typography  fontSize={'50px'}>Trust Is Earned, </Typography>
+          <Typography  fontSize={'50px'}> Not Given</Typography>
+          <Typography align="justify" marginTop={"30px"} fontSize={'18px'}> 
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
