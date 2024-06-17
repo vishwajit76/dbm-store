@@ -77,13 +77,14 @@ const Home = () => {
                     color: "#fff",
                     fontWeight: "bold",
                     display: "inline-block",
-                    backgroundColor: "primary.main",
+                    backgroundColor: "#0084FE",
                     p: 1,
+                   fontSize:'48px',
                     borderRadius: 2,
                     transform: "rotate(-8deg)",
                     position: { xs: "relative", md: "absolute" },
                     top: { xs: "30px", md: "-24px" },
-                    left: { xs: "-11px", md: "45px" },
+                    left: { xs: "-28px", md: "28px" },
                     mb: { xs: 2, md: 0 },
                   }}
                 >
@@ -98,6 +99,8 @@ const Home = () => {
                 >
                   WhatsApp
                 </Typography>
+
+
                 <Typography
                   variant="h3"
                   component="div"
@@ -380,6 +383,7 @@ const Home = () => {
                             fontSize={"20px"}
                             fontWeight={"500"}
                             sx={{ textAlign: "left" }}
+                        
                           >
                             Software supports multiple images along with
                             captions for each image which can be sent to all the

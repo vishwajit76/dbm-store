@@ -11,6 +11,7 @@ import { ThemeProvider } from "@emotion/react";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
+import Termpage from "./component/user/Termpage";
 
 
 const theme = createTheme({
@@ -55,7 +56,7 @@ function App() {
           <section id="about"><About /></section>
 
           <section id="faq"> <Faq /></section>
-
+ <Termpage/>
           <Footer />
         </Box>
 

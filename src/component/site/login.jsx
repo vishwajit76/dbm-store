@@ -3,6 +3,7 @@ import PhoneInput from "react-phone-input-2";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import "react-phone-input-2/lib/style.css";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Phone } from "@mui/icons-material";
 
 function Login({ onClose }) {
   const handleChange = (newValue) => {
@@ -11,23 +12,80 @@ function Login({ onClose }) {
 
   const [number, setNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
+  const [otpSent, setOtpSent] = useState(false); // State to track if OTP has been sent
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSendOtp = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOtpSent(true);
-    }, 2000);
+    if (!otpSent) { // Check if OTP has already been sent
+      setLoading(true);
+      const data = {
+        phone: "+"+ number,
+        master_reseller_id:"626f85e0544a264104223e37",
+        auth_type: "phone" 
+      };
+      
+      fetch("https://api.digibulkmarketing.com/user/send-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Include any additional headers as needed
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          setLoading(false);
+          setOtpSent(true); // Mark OTP as sent
+        })
+        .catch((error) => {
+          console.error("Error sending OTP:", error);
+          setLoading(false);
+          setError("Failed to send OTP. Please try again."); // Set error state
+        });
+    }
   };
+  console.log("phone",Phone);
 
-  const handleSubmit = () => {
+  const handleVerifyOtp = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      onClose();
-    }, 1500);
+    const data = {
+      phone: "+" + number,
+      otp: 123123,
+      master_reseller_id:"626f85e0544a264104223e37",
+      auth_type: "phone"
+
+    };
+
+    fetch("https://api.digibulkmarketing.com/user/verify-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Include any additional headers as needed
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLoading(false);
+        if (data.status) {
+          onClose(); // Close login modal or navigate to next step upon successful verification
+        } else {
+          setError("Invalid OTP. Please try again."); // Set error state for unsuccessful verification
+        }
+      })
+      .catch((error) => {
+        console.error("Error verifying OTP:", error);
+        setLoading(false);
+        setError("Failed to verify OTP. Please try again."); // Set error state
+      });
   };
 
   return (
@@ -69,7 +127,7 @@ function Login({ onClose }) {
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleSubmit();
+                  handleVerifyOtp();
                 }
               }}
               sx={{
@@ -85,9 +143,9 @@ function Login({ onClose }) {
             fullWidth
             variant="contained"
             color="secondary"
-            onClick={handleSubmit}
+            onClick={handleVerifyOtp}
             sx={{ mt: 2 }}
-            disabled={!otp}
+            disabled={!otp || loading}
           >
             {loading ? (
               <CircularProgress size={24} color="inherit" />
@@ -95,6 +153,11 @@ function Login({ onClose }) {
               "Submit"
             )}
           </Button>
+          {error && (
+            <Typography variant="body2" color="error" sx={{ mt: 2, textAlign: "center" }}>
+              {error}
+            </Typography>
+          )}
         </>
       ) : (
         <>
@@ -107,9 +170,7 @@ function Login({ onClose }) {
               height: "40px",
               fontFamily: "Monospace",
               border: "1px solid #AEB4BE",
-              marginBottom: "16px", 
-             
-              
+              marginBottom: "16px",
             }}
             containerStyle={{ width: "100%" }}
             country={"in"}
@@ -119,21 +180,19 @@ function Login({ onClose }) {
               name: "phone",
               required: true,
               type: "tel",
-              
-             
             }}
             onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                    handleSendOtp();
-                }
-              }}
+              if (e.key === "Enter") {
+                handleSendOtp();
+              }
+            }}
           />
           <Button
             fullWidth
             variant="contained"
             color="primary"
             onClick={handleSendOtp}
-            disabled={!number}
+            disabled={!number || loading}
             sx={{ mt: 2 }}
           >
             {loading ? (
@@ -142,6 +201,11 @@ function Login({ onClose }) {
               "Send OTP"
             )}
           </Button>
+          {error && (
+            <Typography variant="body2" color="error" sx={{ mt: 2, textAlign: "center" }}>
+              {error}
+            </Typography>
+          )}
         </>
       )}
     </Box>
