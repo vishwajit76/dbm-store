@@ -138,9 +138,10 @@ const Faq = () => {
         <Box pb={8} textAlign='center'>
           <Typography
             fontWeight={600}
+            variant='h3'
             sx={{
               background: "#f4f4f4",
-              fontSize: { xs: "20px", sm: "30px", md: "45px" },
+              
             }}
           >
             Frequently
