@@ -33,6 +33,7 @@ import logo from "../image/logo (1).png";
 import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
+import { store } from '../../redux/store';
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 
 const pages = [
@@ -55,7 +56,8 @@ const Navbar = () => {
     "/static/images/avatar/2.jpg"
   );
   const [details, setDetails] = useState(false);
-
+  console.log(store.getState());
+  
   const toggleOrderDetailsDrawer = (newOpen) => () => {
     setDetails(newOpen);
     if (newOpen) setOpenOrder(false);
@@ -170,7 +172,7 @@ const Navbar = () => {
 
             {/* cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Badge badgeContent={4} color="primary" sx={{ mx: 3 }}>
+              <Badge badgeContent={0} color="primary" sx={{ mx: 3 }}>
                 <Box
                   sx={{
                     width: 35,
@@ -190,7 +192,6 @@ const Navbar = () => {
               <Box sx={{ flexGrow: 0 }}>
                 <IconButton
                   onClick={handleClick}
-                  onMouseEnter={handleClick}
                   sx={{ p: 0 }}
                 >
                   <Avatar
