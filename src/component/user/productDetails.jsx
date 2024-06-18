@@ -16,23 +16,26 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
+const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
     const [expanded, setExpanded] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState(product && product.store[product.store.length - 1].price);
-    const [localQuantity, setLocalQuantity] = useState(0);
+    const [basePrice] = useState(product && product.store[product.store.length - 3].price);
+    const [price, setPrice] = useState(basePrice);
+    const [localQuantity, setLocalQuantity] = useState(1);
     const dispatch = useDispatch();
 
     const cartItems = useSelector(state => state.cart.items);
 
     useEffect(() => {
-        const productInCart = cartItems.find( item => item.id === product && product._id);
+        const productInCart = cartItems.find(item => item.id === product?._id);
         if (productInCart) {
             setLocalQuantity(productInCart.quantity);
+            setPrice(basePrice * productInCart.quantity);
         } else {
-            setLocalQuantity(0); 
+            setLocalQuantity(1);
+            setPrice(basePrice);
         }
-    }, [cartItems, product]);
+    }, [cartItems, product, basePrice]);
 
     const isInCart = () => {
         const productInCart = cartItems.find(item => item.id === product._id);
@@ -54,10 +57,10 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
             dispatch(addItem({
                 id: product._id,
                 name: product.name,
-                price: price,
+                price: basePrice,
                 rating: 5,
                 image: product.image,
-                quantity: localQuantity === 0 ?  localQuantity + 1 : localQuantity
+                quantity: localQuantity
             }));
             toast.success("Product Added To Cart", {
                 position: "bottom-left"
@@ -66,27 +69,36 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
     };
 
     const increaseLocalQuantity = () => {
-        setLocalQuantity(prevQuantity => prevQuantity + 1);
+        setLocalQuantity(prevQuantity => {
+            const newQuantity = prevQuantity + 1;
+            setPrice(basePrice * newQuantity);
+            return newQuantity;
+        });
     };
 
     const decreaseLocalQuantity = () => {
-        if (localQuantity > 0) {
-            setLocalQuantity(prevQuantity => prevQuantity - 1);
-        } else {
-            toast.warn("Quantity cannot be less than 0", {
-                position: "bottom-left"
-            });
-        }
+        setLocalQuantity(prevQuantity => {
+            if (prevQuantity > 1) {
+                const newQuantity = prevQuantity - 1;
+                setPrice(basePrice * newQuantity);
+                return newQuantity;
+            }
+            return prevQuantity;
+        });
     };
 
     const increaseCartItem = (id) => {
         dispatch(increaseQuantity({ id }));
+        const newQuantity = isInCart() + 1;
+        setPrice(basePrice * newQuantity);
     };
 
     const decreaseCartItem = (id) => {
         const productInCart = cartItems.find(item => item.id === product._id);
         if (productInCart && productInCart.quantity > 1) {
             dispatch(decreaseQuantity({ id }));
+            const newQuantity = isInCart() - 1;
+            setPrice(basePrice * newQuantity);
         } else {
             dispatch(decreaseQuantity({ id }));
             toast.success("Product Removed From Cart", {
@@ -103,11 +115,26 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                     cursor="pointer"
                     onClick={onClose}
                 />
-                <Typography fontWeight={600}>Detail Product</Typography>
+                <Typography fontWeight={600}>Product Detail</Typography>
                 {cartDrawer}
             </Grid>
 
-            <Grid
+            <Box>
+                <Badge badgeContent="NEW" color="primary" sx={{ ml: 2 }} />
+                <Grid container alignItems="flex-end">
+                    <Grid item xs={8}>
+                        <Typography sx={{ my: '10px', fontWeight: 'bold' }}>
+                            {product.name}
+                        </Typography>
+                        <Grid container justifyContent="space-between">
+                            <Rating readOnly value={5} />
+                            <Typography>99+ Reviews</Typography>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+
+            {/* <Grid
                 container
                 sx={{ borderRadius: '15px' }}
                 p={2}
@@ -132,32 +159,13 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
             <Grid container my={5}>
                 <Grid item xs={12} sx={{ borderRadius: '15px', backgroundColor: color, textAlign: 'center', p: '7px 0' }}>
                     <img width="80%" src={product.image} alt="Product" />
                 </Grid>
             </Grid>
-
-            <Box>
-                <Badge badgeContent="NEW" color="primary" sx={{ ml: 2 }} />
-                <Grid container alignItems="flex-end">
-                    <Grid item xs={8}>
-                        <Typography sx={{ my: '10px', fontWeight: 'bold' }}>
-                            {product.name}
-                        </Typography>
-                        <Grid container justifyContent="space-between">
-                            <Rating readOnly value={5} />
-                            <Typography>99+ Reviews</Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={4} textAlign="right">
-                        <Typography sx={{ color: '#818181de' }}>Price</Typography>
-                        <Typography fontWeight={600}>${price}</Typography>
-                    </Grid>
-                </Grid>
-            </Box>
 
             <Box sx={{ my: 5 }}>
                 <Typography fontWeight="bold">Descriptions</Typography>
@@ -171,6 +179,17 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
                     {expanded ? 'Read less' : 'Read more'}
                 </Typography>
             </Box>
+
+            <Grid container my={2}>
+                <Grid item xs={6}>
+                    <Typography fontWeight={600}>${price}</Typography>
+                </Grid>
+                <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
+                    <RemoveOutlinedIcon  sx={buttonStyle} onClick={() => isInCart() > 0 ? decreaseCartItem(product._id) : decreaseLocalQuantity()} />
+                    <Typography>{isInCart() > 0 ? isInCart() : localQuantity}</Typography>
+                    <AddOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? increaseCartItem(product._id) : increaseLocalQuantity()} />
+                </Grid>
+            </Grid>
             <Button
                 variant="contained"
                 color="black"
@@ -186,4 +205,4 @@ const ShopDetails = ({ onClose, product, color, cartDrawer }) => {
     );
 };
 
-export default ShopDetails;
+export default ProductDetails;

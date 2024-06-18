@@ -28,7 +28,7 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Cart from "./cart";
 import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
-import ShopDetails from "./productDetails";
+import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector } from 'react-redux';
 
@@ -125,11 +125,11 @@ const Shop = () => {
 
   const toggleDetailDrawer =
     (newOpen, product = null, color) =>
-    () => {
-      setDetailDrawer(newOpen);
-      setDrawerProduct(product);
-      setColor(color);
-    };
+      () => {
+        setDetailDrawer(newOpen);
+        setDrawerProduct(product);
+        setColor(color);
+      };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -255,37 +255,92 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products &&
-              products.products.map((item, index) => (
-                <Card
-                  key={item.id}
-                  onClick={toggleDetailDrawer(
-                    true,
-                    item,
-                    colors[index % colors.length]
-                  )}
-                  sx={{
-                    width: "80%",
-                    textAlign: "center",
-                    borderRadius: "15px",
-                    p: 2,
-                  }}
+            {products && products.products.map((item, index) => (
+              <Card
+                key={item.id}
+                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
+                // sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2, cursor: 'pointer', border: '1px solid #fff', '&:hover': { border: '1px solid #000 ' } }}
+                sx={{
+                  width: '80%',
+                  textAlign: 'center',
+                  borderRadius: "15px",
+                  p: 2,
+                  cursor: 'pointer',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before, &::after': {
+                    content: '""',
+                    position: 'absolute',
+                    width: '2px',
+                    height: '2px',
+                    backgroundColor: '#0084FE',
+                    transition: 'all 0.3s ease',
+                  },
+                  '&::before': {
+                    top: 0,
+                    left: 0,
+                  },
+                  '&::after': {
+                    bottom: 0,
+                    right: 0,
+                  },
+                  '&:hover::before': {
+                    width: '1%',
+                    height: '100%',
+                  },
+                  '&:hover::after': {
+                    width: '1%',
+                    height: '100%',
+                  },
+                }}
+              >
+
+                <Box
+                sx={{
+                  overflow: 'hidden',
+                  '&::before, &::after': {
+                    content: '""',
+                    position: 'absolute',
+                    width: '2px',
+                    height: '2px',
+                    backgroundColor: ' #0084FE',
+                    transition: 'all 0.3s ease',
+                  },
+                  '&::before': {
+                    bottom: 0,
+                    left: 0,
+                    transitionDelay: '0.3s',
+                  },
+                  '&::after': {
+                    top: 0,
+                    right: 0,
+                    transitionDelay: '0.3s',
+                  },
+                  '&:hover::before': {
+                    width: '100%',
+                    height: '1%',
+                  },
+                  '&:hover::after': {
+                    width: '100%',
+                    height: '1%',
+                  },
+                }}
                 >
                   <Grid
                     container
                     sx={{
-                      borderRadius: "15px",
-                      backgroundColor: colors[index % colors.length],
-                      textAlign: "center",
+                      borderRadius: "15px", backgroundColor: colors[index % colors.length], textAlign: 'center'
                     }}
                   >
-                    <Grid item xs={12}>
-                      <img
-                        width={220}
-                        height={220}
-                        src={item.image}
-                        alt={item.name}
-                      />
+                    <Grid item xs={12} sx={{
+                      '& img': {
+                        transition: 'transform 0.3s ease-in-out',
+                      },
+                      '&:hover img': {
+                        transform: 'scale(1.1)',
+                      },
+                    }}>
+                      <img width={220} height={220} src={item.image} alt={item.name} />
                     </Grid>
                   </Grid>
                   <Typography noWrap sx={{ my: "10px" }}>
@@ -295,8 +350,9 @@ const Shop = () => {
                     <Rating readOnly value={5} />
                     <Typography>99+ Reviews</Typography>
                   </Box>
-                </Card>
-              ))}
+                </Box>
+              </Card>
+            ))}
           </Carousel>
         </Box>
 
@@ -377,7 +433,7 @@ const Shop = () => {
               flexDirection: "column",
               alignItems: "center",
               padding: { xs: "8px", md: "16px" },
-              width: {md:"100%" ,sm:'90%', xs:'90%' }, // Ensures the Card takes full width on all screen sizes
+              width: { md: "100%", sm: '90%', xs: '90%' }, // Ensures the Card takes full width on all screen sizes
               borderRadius: "10px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Optional: Add a shadow for visual separation
               backgroundColor: "#FFFFFF", // Optional: Add a background color
@@ -418,7 +474,7 @@ const Shop = () => {
                     gap: "16px",
                     borderRadius: "10px",
                     padding: "16px",
-                    width: {md:"100%" ,sm:'90%', xs:'90%' }, // Ensure the inner Card takes full width
+                    width: { md: "100%", sm: '90%', xs: '90%' }, // Ensure the inner Card takes full width
                     maxWidth: "747px", // Limit the width of the inner Card on larger screens
                     margin: "0", // Center the inner Card horizontally
                     textAlign: { xs: "center", sm: "left" }, // Added to ensure content aligns properly
@@ -486,7 +542,7 @@ const Shop = () => {
         open={detailDrawer}
         onClose={toggleDetailDrawer(false)}
       >
-        <ShopDetails
+        <ProductDetails
           onClose={toggleDetailDrawer(false)}
           product={drawerProduct}
           color={color}
