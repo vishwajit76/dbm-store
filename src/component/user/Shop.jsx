@@ -26,6 +26,7 @@ import Badge from "@mui/material/Badge";
 import { makeStyles } from "@mui/styles";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Cart from "./cart";
+import axiosInstance from '../../util/lang/'; 
 import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
