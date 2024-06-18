@@ -26,7 +26,7 @@ import Badge from "@mui/material/Badge";
 import { makeStyles } from "@mui/styles";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Cart from "./cart";
-import axiosInstance from '../../util/lang/'; 
+import axiosInstance from '../../util/axiosInstance';
 import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
@@ -164,13 +164,8 @@ const Shop = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://api.digibulkmarketing.com/products"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await response.json();
+        const response = await axiosInstance.get("/products");
+        const data = response.data;
         setProducts(data);
         if (data.products.length > 0) {
           setSelectedProduct(data.products[0]);
@@ -182,7 +177,6 @@ const Shop = () => {
     };
     fetchData();
   }, []);
-
   const handleProductChange = (index) => {
     setSelectedProduct(products.products[index]);
   };
@@ -297,35 +291,35 @@ const Shop = () => {
               >
 
                 <Box
-                sx={{
-                  overflow: 'hidden',
-                  '&::before, &::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '2px',
-                    height: '2px',
-                    backgroundColor: ' #0084FE',
-                    transition: 'all 0.3s ease',
-                  },
-                  '&::before': {
-                    bottom: 0,
-                    left: 0,
-                    transitionDelay: '0.3s',
-                  },
-                  '&::after': {
-                    top: 0,
-                    right: 0,
-                    transitionDelay: '0.3s',
-                  },
-                  '&:hover::before': {
-                    width: '100%',
-                    height: '1%',
-                  },
-                  '&:hover::after': {
-                    width: '100%',
-                    height: '1%',
-                  },
-                }}
+                  sx={{
+                    overflow: 'hidden',
+                    '&::before, &::after': {
+                      content: '""',
+                      position: 'absolute',
+                      width: '2px',
+                      height: '2px',
+                      backgroundColor: ' #0084FE',
+                      transition: 'all 0.3s ease',
+                    },
+                    '&::before': {
+                      bottom: 0,
+                      left: 0,
+                      transitionDelay: '0.3s',
+                    },
+                    '&::after': {
+                      top: 0,
+                      right: 0,
+                      transitionDelay: '0.3s',
+                    },
+                    '&:hover::before': {
+                      width: '100%',
+                      height: '1%',
+                    },
+                    '&:hover::after': {
+                      width: '100%',
+                      height: '1%',
+                    },
+                  }}
                 >
                   <Grid
                     container
@@ -459,7 +453,7 @@ const Shop = () => {
                     minWidth: "30%",
                     fontWeight: "700",
                     fontSize: { xs: "30px", md: "36px" },
-                    margin:"0 50px",
+                    margin: "0 50px",
                     textAlign: { xs: "center", md: "left" }, // Added to ensure text aligns properly
                   }}
                 >
@@ -502,7 +496,7 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px" , md:'30px'},
+                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
                         marginBottom: "8px", // Added to separate from the body text
                       }}
                     >
