@@ -1,5 +1,5 @@
 import React from "react";
-import './App.css'
+import "./App.css";
 import { ThemeProvider, Box, createTheme } from "@mui/material";
 import Navbar from "./component/site/navbar";
 import Home from "./component/user/Home";
@@ -67,7 +67,7 @@ function App() {
         <section id="faq">
           <Faq />
         </section>
-        <Termpage />
+        {/* <Termpage /> */}
         <Footer />
       </Box>
     </ThemeProvider>
