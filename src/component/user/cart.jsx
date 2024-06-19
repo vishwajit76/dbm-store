@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Container, Grid, Typography, Divider } from '@mui/material';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
@@ -52,7 +52,7 @@ export default function Cart({ onClose, onClick }) {
             <ToastContainer />
             <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
                 <Grid container alignItems="center" justifyContent="space-between" mb={3}>
-                    <KeyboardBackspaceRoundedIcon
+                    <NavigateBeforeRoundedIcon
                         fontSize="large"
                         cursor="pointer"
                         onClick={onClose}
@@ -78,7 +78,7 @@ export default function Cart({ onClose, onClick }) {
                                     <Typography>{item.name}</Typography>
                                     <Grid container alignItems="center">
                                         <Grid item xs={6}>
-                                            <Typography fontWeight={600}>${(item.price * item.quantity).toFixed(2)}</Typography>
+                                            <Typography fontWeight={600}>₹{(item.price * item.quantity).toFixed(2)}</Typography>
                                         </Grid>
                                         <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
                                             <RemoveOutlinedIcon sx={buttonStyle} onClick={() => decreaseCartItem(item.id, item.quantity)} />
@@ -101,7 +101,7 @@ export default function Cart({ onClose, onClick }) {
                     </Container>
                 )}
                 {cartData.length !== 0 && (
-                    <Box sx={{position: 'sticky' , bottom: 0 , background: '#fff'}}>
+                    <Box sx={{ position: 'sticky', bottom: 0, background: '#fff' }}>
                         <Grid container justifyContent='space-between' alignItems='center' my={2} p={1} border='2px solid black' borderRadius={2}>
                             <Box display='flex'>
                                 <DiscountRoundedIcon /><Typography mx={2}>{couponCode.toUpperCase()}</Typography>
@@ -115,21 +115,22 @@ export default function Cart({ onClose, onClick }) {
                             </Grid>
                             <Grid item xs={12} container justifyContent='space-between'>
                                 <Typography sx={{ color: '#818181de' }}>{`Discount(10%)`}</Typography>
-                                <Typography></Typography>
+                                <Typography>{((subtotal).toFixed(2) * 0.1).toFixed(2)}</Typography>
                             </Grid>
                             <Grid item xs={12}><Divider /></Grid>
                             <Grid item xs={12} container justifyContent='space-between'>
                                 <Typography fontWeight={600}>Final Price</Typography>
-                                <Typography fontWeight={600}>${((subtotal).toFixed(2) * 0.9).toFixed(2)}</Typography>
+                                <Typography fontWeight={600}>₹{((subtotal).toFixed(2) * 0.9).toFixed(2)}</Typography>
                             </Grid>
                         </Grid>
                         <Button
                             variant="contained"
-                            sx={{ color: '#fff', borderRadius: '10px', p: 1, mt: 2 }}
+                            color="black"
+                            sx={{ color: '#fff', borderRadius: 2, p: 2, my: 2 }}
                             fullWidth
                             onClick={onClick}
                         >
-                            Check Out Now
+                            Checkout Now
                         </Button>
                     </Box>
                 )}

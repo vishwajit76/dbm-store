@@ -1,5 +1,5 @@
 import { Box, Grid, Rating, Typography, Badge, Divider, Stepper, Step, StepLabel } from '@mui/material'
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import zomatoImg from '../image/google-map-extractor-7 1.png';
 import React, { useState } from 'react'
 
@@ -14,7 +14,7 @@ const orderDetails = ({ onClose }) => {
         <div>
             <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
                 <Grid container alignItems="center" justifyContent="space-between" mb={3}>
-                    <KeyboardBackspaceRoundedIcon
+                    <NavigateBeforeRoundedIcon
                         fontSize="large"
                         cursor="pointer"
                         onClick={onClose}

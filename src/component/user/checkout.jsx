@@ -137,18 +137,18 @@ const Checkout = ({ onClose }) => {
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
                 <Grid item>
 
-                <NavigateBeforeRoundedIcon
-                    fontSize="large"
-                    cursor="pointer"
-                    onClick={onClose}
+                    <NavigateBeforeRoundedIcon
+                        fontSize="large"
+                        cursor="pointer"
+                        onClick={onClose}
                     />
-                    </Grid>
-                   
+                </Grid>
+                <Grid item xs={10} md={10} container justifyContent="center">
 
-                
-                <Typography fontWeight={600}  align="center">Checkout</Typography>
-                    </Grid>
-            
+
+                    <Typography fontWeight={600} align="center">Checkout</Typography>
+                </Grid>
+            </Grid>
 
             <Box sx={style}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" >
@@ -163,16 +163,16 @@ const Checkout = ({ onClose }) => {
                         mt: 2,
                     }}
                 >
-                   <RadioGroup
-    row
-    aria-labelledby="demo-row-radio-buttons-group-label"
-    name="row-radio-buttons-group"
-    value={selectedOption}
-    onChange={(e) => setSelectedOption(e.target.value)}
->
-    <FormControlLabel value="home" control={<Radio />} label="Home" />
-    <FormControlLabel value="office" control={<Radio />} label="Office" />
-</RadioGroup>
+                    <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectedOption}
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                    >
+                        <FormControlLabel value="home" control={<Radio />} label="Home" />
+                        <FormControlLabel value="office" control={<Radio />} label="Office" />
+                    </RadioGroup>
                     <Grid container spacing={2}>
                         <Grid item xs={12} >
                             <TextField
@@ -217,7 +217,7 @@ const Checkout = ({ onClose }) => {
                                     {errors.phone}
                                 </Typography>
                             )}
-                        </Grid> 
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 label="Billing address"
@@ -252,7 +252,7 @@ const Checkout = ({ onClose }) => {
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                        <TextField
+                            <TextField
                                 label="Country"
                                 variant="outlined"
                                 fullWidth
@@ -275,20 +275,14 @@ const Checkout = ({ onClose }) => {
                         </Grid>
                     </Grid>
                     <Box display="flex" justifyContent="space-between" mt={2} >
-                        {/* <Button variant="contained" onClick={handleSubmit} fullWidth>
-                            Place order
-                        </Button> */}
-
-<Button
-                variant="contained"
-                color="black"
-                sx={{ color: '#fff', borderRadius: '10px', p: 2 }}
-                fullWidth
-                // disabled={isInCart() > 0}
-                // onClick={addToCartHandler}
-            >
-                Place order {/* {loading ? <CircularProgress size={24} color='inherit' /> : "Add to Cart"} */}
-            </Button>
+                        <Button
+                            variant="contained"
+                            color="black"
+                            sx={{ color: '#fff', borderRadius: 2, p: 2 }}
+                            fullWidth
+                        >
+                            Place Order
+                        </Button>
                     </Box>
                 </Box>
             </Box>

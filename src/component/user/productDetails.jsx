@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     Badge, Box, Button, Grid, Rating, Typography, CircularProgress
 } from '@mui/material';
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { ToastContainer, toast } from 'react-toastify';
@@ -119,7 +119,7 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
-                <KeyboardBackspaceRoundedIcon
+                <NavigateBeforeRoundedIcon
                     fontSize="large"
                     sx={{ cursor: 'pointer' }}
                     onClick={onClose}
