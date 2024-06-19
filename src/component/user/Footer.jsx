@@ -114,8 +114,8 @@ function Footer() {
                 <Box textAlign={{ xs: "center", sm: "left" }}>
                   <Typography sx={{ color: "black" }}>
                     <strong>Address:</strong>
+                    B204, Sumel Business Park – 7,
                   </Typography>
-                  <Typography>B204, Sumel Business Park – 7,</Typography>
                   <Typography>Odhav, Ahmedabad – 382415</Typography>
                   <Box
                     display="flex"
