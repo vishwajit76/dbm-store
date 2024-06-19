@@ -434,7 +434,7 @@ const Shop = () => {
               flexDirection: "column",
               alignItems: "center",
               
-              padding: { xs: "8px", md: "16px" },
+              padding: { xs: "8px", md: "50px" },
               width: { md: "100%", sm: '90%', xs: '90%' }, // Ensures the Card takes full width on all screen sizes
               borderRadius: "10px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Optional: Add a shadow for visual separation
@@ -468,7 +468,7 @@ const Shop = () => {
                   How It Works
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={8}>
+              <Grid item xs={12} md={8} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Card
                   sx={{
                     display: "flex",
@@ -476,9 +476,9 @@ const Shop = () => {
                     alignItems: "center",
                     gap: "16px",
                     justifyContent:"center",
-
+                    padding:'10px',
                     borderRadius: "10px",
-                    padding: "55px",
+                    justifyItems:"center",
                     width: { md: "85%", sm: '90%', xs: '90%' }, // Ensure the inner Card takes full width
                     maxWidth: "747px", // Limit the width of the inner Card on larger screens
                     margin: "0", // Center the inner Card horizontally
