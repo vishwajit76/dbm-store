@@ -1,5 +1,5 @@
 import React from "react";
-import './App.css'
+import "./App.css";
 import { ThemeProvider, Box, createTheme } from "@mui/material";
 import Navbar from "./component/site/navbar";
 import Home from "./component/user/Home";
@@ -52,12 +52,22 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box sx={{ bgcolor: "#F4F4F4" }}>
         <Navbar />
-        <section id="home"><Home /></section>
-        <section id="shop"><Shop /></section>
-        <section id="featured"><Featured /></section>
-        <section id="about"><About /></section>
-        <section id="faq"><Faq /></section>
-    
+        <section id="home">
+          <Home />
+        </section>
+        <section id="shop">
+          <Shop />
+        </section>
+        <section id="featured">
+          <Featured />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="faq">
+          <Faq />
+        </section>
+        {/* <Termpage /> */}
         <Footer />
       </Box>
     </ThemeProvider>
