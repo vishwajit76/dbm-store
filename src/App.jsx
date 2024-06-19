@@ -87,7 +87,7 @@ import About from "./component/user/About";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
-import Termpage from "./component/user/Termpage";
+// import Termpage from "./component/user/Termpage";
 
 // Define the theme directly inside App.js
 const theme = createTheme({
@@ -136,7 +136,7 @@ function App() {
         <section id="featured"><Featured /></section>
         <section id="about"><About /></section>
         <section id="faq"><Faq /></section>
-        <Termpage />
+    
         <Footer />
       </Box>
     </ThemeProvider>

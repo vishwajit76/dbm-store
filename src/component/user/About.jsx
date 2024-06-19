@@ -53,6 +53,8 @@ const About = () => {
     setRecaptchaValue(value);
   };
 
+  const [youtubeID] = useState('2nsRe8ct_I8')
+
   return (
     <Container sx={{ bgcolor: "#F4F4F4", padding: 4 }}>
       <Grid container spacing={4} alignItems="center">
@@ -69,17 +71,19 @@ const About = () => {
             <Typography
               variant="subtitle1"
               gutterBottom
-              color={"#9A9A9A"}
-              fontWeight={600}
+              color={"#1783FE"}
+              // fontWeight={600}
+              fontSize={'18px'}
             >
               AnyWhere. AnyTime. AnyDesk
             </Typography>
             <Typography
               variant="body1"
               gutterBottom
-              color={"#9A9A9A"}
+              // color={"#9A9A9A"}
               align="justify"
               fontSize={'18px'}
+              
             >
               Installation assistance is a Free service offered by Digi Bulk
               Marketing which allows the clients to sit back and relax while we
@@ -94,6 +98,7 @@ const About = () => {
             <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: "center", md: "flex-end" } }}>
   <Button
     variant="contained"
+    sx={{margin:' 30px 0 '}}
     color="primary"
     href="https://anydesk.com/en/downloads/windows"
     target="_blank"
@@ -196,8 +201,9 @@ const About = () => {
                   <PlayArrowOutlinedIcon fontSize="large" color="white" />
                 </IconButton>
               </Typography>
-             
-              <Typography fontWeight={"600"} >Our  mori Story</Typography>
+             <a href="https://www.youtube.com/watch?v=2nsRe8ct_I8&ab_channel=BitBeast" style={{ textDecoration: 'none', color:'#000' }} >
+              <Typography fontWeight={"600"} sx={{textDecoration:"none"}} >Our Story</Typography>
+             </a>
           
             </Box>
           </Box>
@@ -268,9 +274,9 @@ const About = () => {
                   </IconButton>
                 </Typography>
                
-      <Typography fontWeight="600">
-        Our Story
-      </Typography>
+                <a href="https://www.youtube.com/watch?v=2nsRe8ct_I8&ab_channel=BitBeast" style={{ textDecoration: 'none', color:'#000' }} >
+              <Typography fontWeight={"600"} sx={{textDecoration:"none"}} >Our Story</Typography>
+             </a>
     
               </Box>
             </Box>
