@@ -58,7 +58,8 @@ const Navbar = () => {
     "/static/images/avatar/2.jpg"
   );
   const [details, setDetails] = useState(false);
-  
+  console.log(store.getState());
+
   const toggleOrderDetailsDrawer = (newOpen) => () => {
     setDetails(newOpen);
     if (newOpen) setOpenOrder(false);
@@ -104,7 +105,13 @@ const Navbar = () => {
             </ListItemButton>
           </ListItem>
         ))}
+        <Divider />
       </List>
+      <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+        <Button variant="contained" href="#contact">
+          Let's talk
+        </Button>
+      </Box>
       <Box
         sx={{
           backgroundColor: "#fff",
@@ -149,6 +156,7 @@ const Navbar = () => {
                   justifyContent: "center",
                   gap: "25px",
                 },
+                alignItems: "center", // Centering elements vertically
               }}
             >
               {pages.map((page, index) => (
@@ -169,6 +177,9 @@ const Navbar = () => {
                   {page.name}
                 </Typography>
               ))}
+              <Button variant="contained" href="#contact">
+                Let's talk
+              </Button>
             </Box>
 
             {/* cart and avatar*/}
@@ -191,10 +202,7 @@ const Navbar = () => {
               </Badge>
 
               <Box sx={{ flexGrow: 0 }}>
-                <IconButton
-                  onClick={handleClick}
-                  sx={{ p: 0 }}
-                >
+                <IconButton onClick={handleClick} sx={{ p: 0 }}>
                   <Avatar
                     alt="Profile Picture"
                     src={profilePicture}
