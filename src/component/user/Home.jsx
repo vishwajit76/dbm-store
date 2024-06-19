@@ -71,26 +71,25 @@ const Home = () => {
                 component="div"
                 sx={{ fontWeight: "800", mb: 2 }}
               >
-                <Box
-                  component="span"
-                  sx={{
-                    color: "#fff",
-                    fontWeight: "bold",
-                    display: "inline-block",
-                    backgroundColor: "#0084FE",
-                    p: 1,
-                   fontSize:'48px',
-                    borderRadius: 2,
-                    transform: "rotate(-8deg)",
-                    position: { xs: "relative", md: "absolute" },
-                    top: { xs: "30px", md: "-24px" },
-                    left: { xs: "-28px", md: "28px" },
-                    mb: { xs: 2, md: 0 },
-                  }}
-                >
-                  <Typography></Typography>
-                  #1 Bulk
-                </Box>
+               <Box
+  component="span"
+  sx={{
+    color: "#fff",
+    fontWeight: "bold",
+    display: "inline-block",
+    backgroundColor: "#0084FE",
+    p: 1,
+    fontSize: { xs: '28px', sm: '30px', md: '48px' }, // Define different font sizes for breakpoints
+    borderRadius: 2,
+    transform: "rotate(-8deg)",
+    position: { xs: "relative", md: "absolute" },
+    top: { xs: "30px", sm: '34px', md: "-24px" },
+    left: { xs: "-3px", sm: '-40px', md: "28px" },
+    mb: { xs: 2, md: 0 },
+  }}
+>
+  #1 Bulk
+</Box>
               </Typography>
               <Box sx={{ fontSize: "fontSize"  }}>
                 <Typography
@@ -175,38 +174,46 @@ const Home = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Button
-                    variant="contained"
+                  <Box
+                    // variant="contained"
                     color="white"
                     sx={{
-                      backgroundColor: "white",
+                      backgroundColor: "#fff",
                       color: "black",
                       marginBottom: "15px",
                       zIndex: 1,
                       display: "flex",
+                      alignItems:'center',
+                      justifyContent:"center",
                       whiteSpace: "nowrap",
                       borderRadius: "8px",
+                      fontFamily:"",
+                      boxShadow:'0.5px 0.5px 0.5px',
                       transform: {
                         xs: "rotate(-5deg)",
                         md: "translateX(-50%) rotate(-5deg)",
                       },
-                      width: { xs: "70px", md: "auto" },
-                      fontSize: { xs: "10px", md: "14px" },
+                      width: { xs: "70px", md: "115px" },
+                      height:{ xs: "30px", md: "40px" },
+                      fontSize: { xs: "10px", md: "20px" },
                     }}
                   >
                     Easy use
-                  </Button>
+                  </Box>
 
-                  <Button
-                    variant="contained"
+                  <Box
+                    // variant="contained"
                     sx={{
-                      wordSpacing: "0px",
-                      whiteSpace: "none",
-                      backgroundColor: "primary.main",
-                      color: "white",
-                      borderRadius: "8px",
-                      // position: "absolute",
+                     backgroundColor: "#0084FE",
+                      color: "#fff",
+                      marginBottom: "15px",
                       zIndex: 1,
+                      display: "flex",
+                      alignItems:'center',
+                      justifyContent:"center",
+                      whiteSpace: "nowrap",
+                      borderRadius: "8px",
+                      fontFamily:"",
 
                       // bottom: { xs: "20px", md: "80px" },
                       // right: { xs: "220px", md: "340px" },
@@ -214,12 +221,13 @@ const Home = () => {
                         xs: "rotate(5deg)",
                         md: "translateX(-50%) rotate(5deg)",
                       },
-                      width: { xs: "70px", md: "auto" },
-                      fontSize: { xs: "10px", md: "14px" },
+                      width: { xs: "70px", md: "115px" },
+                      height:{ xs: "30px", md: "40px" },
+                      fontSize: { xs: "10px", md: "20px" },
                     }}
                   >
                     Powerful
-                  </Button>
+                  </Box>
                 </Box>
               </Box>
             </Grid>
@@ -372,7 +380,7 @@ const Home = () => {
                         >
                           <img src={bulkimg} alt="" />
                         </Box>
-                        <CardContent sx={{ p: 0 }}>
+                        <CardContent sx={{ p: 2 }}>
                           <Typography
                             variant="h6"
                             component="div"
@@ -384,7 +392,7 @@ const Home = () => {
                           </Typography>
                           <Typography
                             variant="body2"
-                            color="textSecondary"
+                            color="#000"
                             fontSize={"18px"}
                             fontWeight={"500"}
                             sx={{ textAlign: "left" }}
@@ -629,6 +637,7 @@ const Home = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             borderRadius: "50%",
+                            boxShadow: "0px 0px 10px lightgray",
                             backgroundColor: "#fff",
                             width: 200,
                             height: 200,
@@ -638,7 +647,7 @@ const Home = () => {
                         >
                           <img src={bulkimgPdf} alt="" />
                         </Box>
-                        <CardContent sx={{ p: 0 }}>
+                        <CardContent sx={{ p: 2 }}>
                           <Typography
                             variant="h6"
                             component="div"
@@ -650,7 +659,7 @@ const Home = () => {
                           </Typography>
                           <Typography
                             variant="body2"
-                            color="textSecondary"
+                            color="#000"
                             fontSize={"18px"}
                             sx={{ textAlign: "left" }}
                           >
@@ -889,6 +898,7 @@ const Home = () => {
                             alignItems: "center",
                             borderRadius: "50%",
                             backgroundColor: "#fff",
+                            boxShadow: "0px 0px 10px lightgray",
                             width: 200,
                             height: 200,
                             mb: isSmallScreen ? 2 : 0,
@@ -897,7 +907,7 @@ const Home = () => {
                         >
                           <img src={bulkimgaudio} alt="" />
                         </Box>
-                        <CardContent sx={{ p: 0 }}>
+                        <CardContent sx={{ p: 2 }}>
                           <Typography
                             variant="h6"
                             component="div"
@@ -909,7 +919,7 @@ const Home = () => {
                           </Typography>
                           <Typography
                             variant="body2"
-                            color="textSecondary"
+                            color="#000"
                             fontSize={"18px"}
                             sx={{ textAlign: "left" }}
                           >

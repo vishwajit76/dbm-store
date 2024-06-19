@@ -433,6 +433,7 @@ const Shop = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              
               padding: { xs: "8px", md: "16px" },
               width: { md: "100%", sm: '90%', xs: '90%' }, // Ensures the Card takes full width on all screen sizes
               borderRadius: "10px",
@@ -474,9 +475,11 @@ const Shop = () => {
                     flexDirection: { xs: "column", sm: "row" },
                     alignItems: "center",
                     gap: "16px",
+                    justifyContent:"center",
+
                     borderRadius: "10px",
-                    padding: "16px",
-                    width: { md: "100%", sm: '90%', xs: '90%' }, // Ensure the inner Card takes full width
+                    padding: "55px",
+                    width: { md: "85%", sm: '90%', xs: '90%' }, // Ensure the inner Card takes full width
                     maxWidth: "747px", // Limit the width of the inner Card on larger screens
                     margin: "0", // Center the inner Card horizontally
                     textAlign: { xs: "center", sm: "left" }, // Added to ensure content aligns properly
@@ -503,9 +506,8 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
-                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
-                        marginBottom: "8px", // Added to separate from the body text
+                        fontSize: { xs: "18px", sm: "22px", md: '20px' },
+                        marginBottom: "10px", // Added to separate from the body text
                       }}
                     >
                       HOW THE BULK WHATSAPP SOFTWARE WORKS?
