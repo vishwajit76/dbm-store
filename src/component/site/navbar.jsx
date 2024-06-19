@@ -36,7 +36,9 @@ import { Logout } from "@mui/icons-material";
 import { store } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import {  useDispatch } from 'react-redux';
 
+  import { clearUser } from "../../redux/user/userSlice";
 const pages = [
   { id: "#home", name: "HOME" },
   { id: "#shop", name: "SHOP" },
@@ -47,11 +49,13 @@ const pages = [
 
 const Navbar = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.token ? true : false);
   const [loading, setLoading] = useState(false);
   const cartItemCount = useSelector(state => state.cart.items.length);
   const [profilePicture, setProfilePicture] = useState(
@@ -59,6 +63,7 @@ const Navbar = () => {
   );
   const [details, setDetails] = useState(false);
   console.log(store.getState());
+  const dispatch = useDispatch();
 
   const toggleOrderDetailsDrawer = (newOpen) => () => {
     setDetails(newOpen);
@@ -66,12 +71,13 @@ const Navbar = () => {
   };
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+  const handleLoginModal = (newOpen) => () => setOpenLoginModal(newOpen);
   const handleClick = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+ 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
   const toggleCartDrawer = (newOpen) => () => setOpenCart(newOpen);
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
-
   const toggleCheckoutDrawer = (newOpen) => () => {
     setCheckoutDrawer(newOpen);
     if (newOpen) setOpenCart(false);
@@ -203,7 +209,7 @@ const Navbar = () => {
               </Badge>
 
               <Box sx={{ flexGrow: 0 }}>
-                <IconButton onClick={handleClick} sx={{ p: 0 }}>
+                <IconButton onClick={isLoggedIn ? handleClick : handleLoginModal(true)} sx={{ p: 0 }}>
                   <Avatar
                     alt="Profile Picture"
                     src={profilePicture}
@@ -277,8 +283,16 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              {/* <EditProfile /> */}
-              <Login onClose={handleCloseModal} />
+              <EditProfile />
+            </Modal>
+
+            <Modal
+              open={openLoginModal}
+              onClose={handleLoginModal(false)}
+              aria-labelledby="parent-modal-title"
+              aria-describedby="parent-modal-description"
+            >
+              <Login onClose={handleLoginModal(false)} onLogin={() => setIsLoggedIn(true)}/>
             </Modal>
 
             {/* user menu */}
@@ -336,11 +350,13 @@ const Navbar = () => {
                 Orders
               </MenuItem>
               <Divider />
-              <MenuItem onClick={handleCloseUserMenu} data-item="Logout">
+              <MenuItem onClick={ dispatch(clearUser())} data-item="Logout">
+                  
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
-                Logout
+                
+                Logout 
               </MenuItem>
             </Menu>
 
@@ -352,3 +368,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
