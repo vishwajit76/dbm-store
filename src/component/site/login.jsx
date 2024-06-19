@@ -7,7 +7,7 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken, setUserDetail } from '../../redux/user/userSlice';
 
-function Login({ onClose }) {
+function Login({ onClose , onLogin }) {
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
@@ -81,6 +81,7 @@ function Login({ onClose }) {
       setLoading(false);
       if (result.status) {
         onClose();
+        onLogin()
         dispatch(setToken(result.token))
         dispatch(setUserDetail(result))
         console.log(result);

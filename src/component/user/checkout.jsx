@@ -275,9 +275,20 @@ const Checkout = ({ onClose }) => {
                         </Grid>
                     </Grid>
                     <Box display="flex" justifyContent="space-between" mt={2} >
-                        <Button variant="contained" onClick={handleSubmit} fullWidth>
+                        {/* <Button variant="contained" onClick={handleSubmit} fullWidth>
                             Place order
-                        </Button>
+                        </Button> */}
+
+<Button
+                variant="contained"
+                color="black"
+                sx={{ color: '#fff', borderRadius: '10px', p: 2 }}
+                fullWidth
+                // disabled={isInCart() > 0}
+                // onClick={addToCartHandler}
+            >
+                Place order {/* {loading ? <CircularProgress size={24} color='inherit' /> : "Add to Cart"} */}
+            </Button>
                     </Box>
                 </Box>
             </Box>
