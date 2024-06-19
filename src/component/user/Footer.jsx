@@ -114,8 +114,8 @@ function Footer() {
                 <Box textAlign={{ xs: "center", sm: "left" }}>
                   <Typography sx={{ color: "black" }}>
                     <strong>Address:</strong>
+                    B204, Sumel Business Park – 7,
                   </Typography>
-                  <Typography>B204, Sumel Business Park – 7,</Typography>
                   <Typography>Odhav, Ahmedabad – 382415</Typography>
                   <Box
                     display="flex"
@@ -145,28 +145,6 @@ function Footer() {
                   textAlign="center" // Center text
                   mt={2} // Adjust margin top for spacing
                 >
-                  {/* <Typography
-                    mt={4}
-                    onClick={handleEmailClick}
-                    style={{
-                      cursor: "pointer",
-                      color: "black",
-                      textAlign: "center",
-                    }} // Center text
-                  >
-                    Email: info@digibulkmarketing.com
-                  </Typography> */}
-                  {/* <Typography
-                    mt={0}
-                    onClick={handlePhoneClick}
-                    style={{
-                      cursor: "pointer",
-                      color: "black",
-                      textAlign: "center",
-                    }} // Center text
-                  >
-                    Phone: 1800-889-8358
-                  </Typography> */}
                   <Box
                     sx={{
                       display: "flex",
@@ -234,9 +212,9 @@ function Footer() {
                     display="flex"
                     flexDirection="column"
                     justifyContent="flex-start"
-                    alignItems="center" // Center items
-                    textAlign="center" // Center text
-                    mt={{ xs: 4, sm: 0 }}
+                    alignItems="flex-start" // Align items at the start
+                    textAlign="left" // Align text to the left
+                    mt={{ xs: 0, sm: 4 }} // Adjust margin top for different screen sizes
                   >
                     <Typography fontWeight={600}>USEFUL LINKS</Typography>
                     <Box mt={3}>
@@ -248,7 +226,6 @@ function Footer() {
                           display: "flex",
                           flexDirection: "column",
                           gap: "8px",
-                          alignItems: "center", // Center list items
                         }}
                       >
                         <Typography
@@ -299,9 +276,9 @@ function Footer() {
                 display="flex"
                 flexDirection="column"
                 justifyContent="flex-start"
-                alignItems="center" // Center items
-                textAlign="center" // Center text
-                mt={{ xs: 4, sm: 0 }}
+                alignItems={{ xs: "center", sm: "flex-start" }} // Center on xs, start on sm and above
+                textAlign="left" // Align text to the left
+                mt={{ xs: 0, sm: 4 }} // Adjust margin top for different screen sizes
               >
                 <Typography fontWeight={600}>NEWSLETTER</Typography>
                 <Stack spacing={2} mt={3} width="100%" alignItems="center">
@@ -321,12 +298,16 @@ function Footer() {
                     display="flex"
                     justifyContent="center" // Center button
                     width="100%"
+                    sx={{
+                      justifyContent: { xs: "center", sm: "flex-start" }, // Center on xs, start on sm and above
+                      mt: { xs: 3, sm: 0 }, // Adjust margin top for different screen sizes
+                    }}
                   >
                     <Button
                       sx={{
-                        mt: 3,
                         backgroundColor: "#0084FE",
                         color: "white",
+                        marginTop: "12px",
                       }}
                       type="submit"
                       variant="contained"
