@@ -9,6 +9,10 @@ import {
   Typography,
   IconButton,
   useMediaQuery,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import img from "../image/logo (1).png";
@@ -20,6 +24,9 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 function Footer() {
   const [showScroll, setShowScroll] = useState(false);
+  const [termsDialogOpen, setTermsDialogOpen] = useState(false);
+  const [privacyDialogOpen, setPrivacyDialogOpen] = useState(false);
+  const [refundDialogOpen, setRefundDialogOpen] = useState(false);
 
   // Function to scroll to the top of the page
   const scrollToTop = () => {
@@ -55,25 +62,50 @@ function Footer() {
     window.location.href = "tel:18008898358";
   };
 
+  const handleTermsDialogOpen = () => {
+    setTermsDialogOpen(true);
+  };
+
+  const handleTermsDialogClose = () => {
+    setTermsDialogOpen(false);
+  };
+
+  const handlePrivacyDialogOpen = () => {
+    setPrivacyDialogOpen(true);
+  };
+
+  const handlePrivacyDialogClose = () => {
+    setPrivacyDialogOpen(false);
+  };
+
+  const handleRefundDialogOpen = () => {
+    setRefundDialogOpen(true);
+  };
+
+  const handleRefundDialogClose = () => {
+    setRefundDialogOpen(false);
+  };
+
   return (
     <>
       <Box sx={{ backgroundColor: "#fff" }}>
         <Container sx={{ paddingBottom: "20px" }}>
-          <Grid container spacing={4} marginTop={10}>
+          <Grid
+            container
+            spacing={4}
+            marginTop={10}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
             {/* Address and Contact Information */}
             <Grid item xs={12} md={4}>
               <Box
                 display="flex"
-                justifyContent={{ xs: "center", sm: "flex-start" }}
                 flexDirection="column"
-                alignItems="center"
-                textAlign={{ xs: "center", sm: "left" }}
+                justifyContent={{ xs: "flex-start", md: "center" }} // Center content on medium size
+                alignItems={{ xs: "center", md: "center" }} // Center items on medium size
+                textAlign={{ xs: "center", md: "center" }} // Center text on medium size
               >
-                <img
-                  src={img}
-                  alt="Logo"
-                  style={{ maxWidth: "40%", height: "auto" }}
-                />
+                <img src={img} alt="Logo" style={{ height: "70px" }} />
                 <Box mt={4}>
                   <Typography>
                     Address: B204, Sumel Business Park – 7,
@@ -83,26 +115,36 @@ function Footer() {
                     display="flex"
                     flexDirection="column"
                     justifyContent="flex-start"
+                    alignItems="center" // Center items
                   >
                     <Typography
                       mt={4}
                       onClick={handleEmailClick}
-                      style={{ cursor: "pointer", color: "black" }}
+                      style={{
+                        cursor: "pointer",
+                        color: "black",
+                        textAlign: "center",
+                      }} // Center text
                     >
                       Email: info@digibulkmarketing.com
                     </Typography>
                     <Typography
                       mt={0}
                       onClick={handlePhoneClick}
-                      style={{ cursor: "pointer", color: "black" }}
+                      style={{
+                        cursor: "pointer",
+                        color: "black",
+                        textAlign: "center",
+                      }} // Center text
                     >
                       Phone: 1800-889-8358
                     </Typography>
                     <Box
                       sx={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent: "center", // Center icons
                         paddingTop: "15px",
+                        gap: "10px", // Add space between icons
                       }}
                     >
                       <FacebookIcon
@@ -110,6 +152,7 @@ function Footer() {
                           backgroundColor: "lightblue",
                           borderRadius: "50%",
                           padding: "8px",
+                          cursor: "pointer",
                         }}
                       />
                       <XIcon
@@ -117,6 +160,7 @@ function Footer() {
                           backgroundColor: "lightblue",
                           borderRadius: "50%",
                           padding: "8px",
+                          cursor: "pointer",
                         }}
                       />
                       <YouTubeIcon
@@ -124,6 +168,7 @@ function Footer() {
                           backgroundColor: "lightblue",
                           borderRadius: "50%",
                           padding: "8px",
+                          cursor: "pointer",
                         }}
                       />
                       <GoogleIcon
@@ -131,6 +176,7 @@ function Footer() {
                           backgroundColor: "lightblue",
                           borderRadius: "50%",
                           padding: "8px",
+                          cursor: "pointer",
                         }}
                       />
                       <InstagramIcon
@@ -138,6 +184,7 @@ function Footer() {
                           backgroundColor: "lightblue",
                           borderRadius: "50%",
                           padding: "8px",
+                          cursor: "pointer",
                         }}
                       />
                     </Box>
@@ -160,8 +207,8 @@ function Footer() {
                     display="flex"
                     flexDirection="column"
                     justifyContent="flex-start"
-                    alignItems={{ xs: "center", sm: "flex-start" }}
-                    textAlign={{ xs: "center", sm: "left" }}
+                    alignItems="center" // Center items
+                    textAlign="center" // Center text
                     mt={{ xs: 4, sm: 0 }}
                   >
                     <Typography fontWeight={600}>USEFUL LINKS</Typography>
@@ -174,6 +221,7 @@ function Footer() {
                           display: "flex",
                           flexDirection: "column",
                           gap: "8px",
+                          alignItems: "center", // Center list items
                         }}
                       >
                         <Typography
@@ -224,12 +272,12 @@ function Footer() {
                 display="flex"
                 flexDirection="column"
                 justifyContent="flex-start"
-                alignItems={{ xs: "center", sm: "flex-start" }}
-                textAlign={{ xs: "center", sm: "left" }}
+                alignItems="center" // Center items
+                textAlign="center" // Center text
                 mt={{ xs: 4, sm: 0 }}
               >
                 <Typography fontWeight={600}>NEWSLETTER</Typography>
-                <Stack spacing={2} mt={3} width="100%">
+                <Stack spacing={2} mt={3} width="100%" alignItems="center">
                   <TextField
                     variant="standard"
                     color="black"
@@ -242,7 +290,11 @@ function Footer() {
                     label="Enter your email"
                     fullWidth
                   />
-                  <Box display="flex" justifyContent="center" width="100%">
+                  <Box
+                    display="flex"
+                    justifyContent="center" // Center button
+                    width="100%"
+                  >
                     <Button
                       sx={{
                         mt: 3,
@@ -270,7 +322,7 @@ function Footer() {
             position: "fixed",
             bottom: 0,
             right: 0,
-            padding: "10px",
+            padding: "5px",
             borderRadius: "50%",
           }}
         >
@@ -286,24 +338,19 @@ function Footer() {
       )}
 
       {/* Footer Bottom */}
-      <Box
-        sx={{ backgroundColor: "#8C8C8C" }}
-        // margin=" 50px 0 0 0 "
-        padding=" 20px 0"
-      >
+      <Box sx={{ backgroundColor: "#8C8C8C" }} padding="20px 0">
         <Container>
           <Grid container display="flex">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <Typography
                 fontSize="14px"
                 sx={{ color: "#fff", alignItems: "center" }}
               >
-                Copyright © Designed & Developed by BITBEAST PRIVATE LIMITED
-                2023
+                Copyright © Designed & Developed by BITBEAST Pvt. Ltd. 2024
               </Typography>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={7}>
               <Box
                 display="flex"
                 sx={{
@@ -312,17 +359,26 @@ function Footer() {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Privacy Policy {isLargeDevice && "|"}
+                <Typography
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handlePrivacyDialogOpen}
+                >
+                  Privacy Policy
+                </Typography>
+                <Typography
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handleTermsDialogOpen}
+                >
+                  Terms and Conditions
+                </Typography>
+                <Typography
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handleRefundDialogOpen}
+                >
+                  Refund and Return Policy
                 </Typography>
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Terms and Conditions {isLargeDevice && "|"}
-                </Typography>
-                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Refund and Return Policy {isLargeDevice && "|"}
-                </Typography>
-                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
-                  Contact {isLargeDevice && "|"}
+                  Contact
                 </Typography>
                 <Typography sx={{ color: "#fff", cursor: "pointer" }}>
                   About
@@ -332,6 +388,45 @@ function Footer() {
           </Grid>
         </Container>
       </Box>
+
+      {/* Privacy Policy Dialog */}
+      <Dialog open={privacyDialogOpen} onClose={handlePrivacyDialogClose}>
+        <DialogTitle>{"Privacy Policy"}</DialogTitle>
+        <DialogContent>
+          <Typography>Here is the privacy policy...</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handlePrivacyDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Terms and Conditions Dialog */}
+      <Dialog open={termsDialogOpen} onClose={handleTermsDialogClose}>
+        <DialogTitle>{"Terms and Conditions"}</DialogTitle>
+        <DialogContent>
+          <Typography>Here are the terms and conditions...</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleTermsDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Refund and Return Policy Dialog */}
+      <Dialog open={refundDialogOpen} onClose={handleRefundDialogClose}>
+        <DialogTitle>{"Refund and Return Policy"}</DialogTitle>
+        <DialogContent>
+          <Typography>Here is the refund and return policy...</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRefundDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
