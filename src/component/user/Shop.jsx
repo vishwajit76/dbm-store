@@ -124,13 +124,11 @@ const Shop = () => {
   const [color, setColor] = useState();
   const classes = useStyles();
 
-  const toggleDetailDrawer =
-    (newOpen, product = null, color) =>
-      () => {
-        setDetailDrawer(newOpen);
-        setDrawerProduct(product);
-        setColor(color);
-      };
+  const toggleDetailDrawer = (newOpen, product = null, color) => () => {
+    setDetailDrawer(newOpen);
+    setDrawerProduct(product);
+    setColor(color);
+  };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -148,9 +146,11 @@ const Shop = () => {
     tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
   };
+
   const carouselResponsive = {
     all: { breakpoint: { max: 4000, min: 0 }, items: 1 },
   };
+
   const colors = [
     "#FBF5EC",
     "#E8F5E9",
@@ -164,6 +164,8 @@ const Shop = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const response = await axiosInstance.get("/products");
+        const data = response.data;
         const response = await axiosInstance.get("/products");
         const data = response.data;
         setProducts(data);
@@ -188,6 +190,7 @@ const Shop = () => {
       </Container>
     );
   }
+
   if (!products) {
     return (
       <Box sx={{ background: "#F4F4F4" }}>
@@ -254,12 +257,10 @@ const Shop = () => {
               <Card
                 key={item.id}
                 onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
-                // sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2, cursor: 'pointer', border: '1px solid #fff', '&:hover': { border: '1px solid #000 ' } }}
                 sx={{
                   width: '80%',
                   textAlign: 'center',
-                  borderRadius: "15px",
-                  p: 2,
+                  // borderRadius: "15px",
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
@@ -270,6 +271,7 @@ const Shop = () => {
                     height: '2px',
                     backgroundColor: '#0084FE',
                     transition: 'all 0.3s ease',
+                    borderRadius: '15px', // Set border-radius for the pseudo-elements
                   },
                   '&::before': {
                     top: 0,
@@ -282,14 +284,15 @@ const Shop = () => {
                   '&:hover::before': {
                     width: '1%',
                     height: '100%',
+                    borderRadius: '15px', // Apply border-radius on hover
                   },
                   '&:hover::after': {
                     width: '1%',
                     height: '100%',
+                    borderRadius: '15px', // Apply border-radius on hover
                   },
                 }}
               >
-
                 <Box
                   sx={{
                     overflow: 'hidden',
@@ -347,6 +350,7 @@ const Shop = () => {
                   </Box>
                 </Box>
               </Card>
+
             ))}
           </Carousel>
         </Box>
@@ -454,6 +458,7 @@ const Shop = () => {
                     fontWeight: "700",
                     fontSize: { xs: "30px", md: "36px" },
                     margin: "0 50px",
+                    margin: "0 50px",
                     textAlign: { xs: "center", md: "left" }, // Added to ensure text aligns properly
                   }}
                 >
@@ -496,6 +501,7 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
+                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
                         fontSize: { xs: "18px", sm: "24px", md: '30px' },
                         marginBottom: "8px", // Added to separate from the body text
                       }}

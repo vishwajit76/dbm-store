@@ -34,6 +34,7 @@ import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
 import { store } from '../../redux/store';
+import { useSelector } from 'react-redux';
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 
 const pages = [
@@ -52,11 +53,11 @@ const Navbar = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
   const [loading, setLoading] = useState(false);
+  const cartItemCount = useSelector(state => state.cart.items.length);
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
   const [details, setDetails] = useState(false);
-  console.log(store.getState());
   
   const toggleOrderDetailsDrawer = (newOpen) => () => {
     setDetails(newOpen);
@@ -172,7 +173,7 @@ const Navbar = () => {
 
             {/* cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Badge badgeContent={0} color="primary" sx={{ mx: 3 }}>
+              <Badge badgeContent={cartItemCount} color="primary" sx={{ mx: 3 }}>
                 <Box
                   sx={{
                     width: 35,
@@ -333,6 +334,7 @@ const Navbar = () => {
                 Logout
               </MenuItem>
             </Menu>
+
           </Toolbar>
         </Container>
       </AppBar>
