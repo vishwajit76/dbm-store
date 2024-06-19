@@ -101,93 +101,120 @@ function Footer() {
               <Box
                 display="flex"
                 flexDirection="column"
-                justifyContent={{ xs: "flex-start", md: "center" }} // Center content on medium size
-                alignItems={{ xs: "center", md: "center" }} // Center items on medium size
-                textAlign={{ xs: "center", md: "center" }} // Center text on medium size
+                justifyContent="center" // Center content vertically
+                alignItems={{ xs: "center", md: "flex-start" }} // Center horizontally on xs, start on md
+                textAlign="center" // Center text on all screen sizes
               >
-                <img src={img} alt="Logo" style={{ height: "70px" }} />
-                <Box mt={4}>
-                  <Typography>
-                    Address: B204, Sumel Business Park – 7,
+                <img
+                  src={img}
+                  alt="Logo"
+                  style={{ height: "70px", marginBottom: "20px" }}
+                />{" "}
+                {/* Adjust margin bottom for spacing */}
+                <Box textAlign={{ xs: "center", sm: "left" }}>
+                  <Typography sx={{ color: "black" }}>
+                    <strong>Address:</strong>
                   </Typography>
+                  <Typography>B204, Sumel Business Park – 7,</Typography>
                   <Typography>Odhav, Ahmedabad – 382415</Typography>
                   <Box
                     display="flex"
                     flexDirection="column"
-                    justifyContent="flex-start"
-                    alignItems="center" // Center items
+                    alignItems={{ xs: "center", sm: "flex-start" }}
+                    mt={3}
                   >
                     <Typography
-                      mt={4}
                       onClick={handleEmailClick}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                        textAlign: "center",
-                      }} // Center text
+                      sx={{ cursor: "pointer", color: "black" }}
                     >
-                      Email: info@digibulkmarketing.com
+                      <strong>Email:</strong> info@digibulkmarketing.com
                     </Typography>
                     <Typography
-                      mt={0}
                       onClick={handlePhoneClick}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                        textAlign: "center",
-                      }} // Center text
+                      sx={{ cursor: "pointer", color: "black" }}
                     >
-                      Phone: 1800-889-8358
+                      <strong>Phone:</strong> 1800-889-8358
                     </Typography>
-                    <Box
+                  </Box>
+                </Box>
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="flex-start"
+                  alignItems="center" // Center items
+                  textAlign="center" // Center text
+                  mt={2} // Adjust margin top for spacing
+                >
+                  {/* <Typography
+                    mt={4}
+                    onClick={handleEmailClick}
+                    style={{
+                      cursor: "pointer",
+                      color: "black",
+                      textAlign: "center",
+                    }} // Center text
+                  >
+                    Email: info@digibulkmarketing.com
+                  </Typography> */}
+                  {/* <Typography
+                    mt={0}
+                    onClick={handlePhoneClick}
+                    style={{
+                      cursor: "pointer",
+                      color: "black",
+                      textAlign: "center",
+                    }} // Center text
+                  >
+                    Phone: 1800-889-8358
+                  </Typography> */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center", // Center icons
+                      paddingTop: "15px",
+                      gap: "10px", // Add space between icons
+                    }}
+                  >
+                    <FacebookIcon
                       sx={{
-                        display: "flex",
-                        justifyContent: "center", // Center icons
-                        paddingTop: "15px",
-                        gap: "10px", // Add space between icons
+                        backgroundColor: "lightblue",
+                        borderRadius: "50%",
+                        padding: "8px",
+                        cursor: "pointer",
                       }}
-                    >
-                      <FacebookIcon
-                        sx={{
-                          backgroundColor: "lightblue",
-                          borderRadius: "50%",
-                          padding: "8px",
-                          cursor: "pointer",
-                        }}
-                      />
-                      <XIcon
-                        sx={{
-                          backgroundColor: "lightblue",
-                          borderRadius: "50%",
-                          padding: "8px",
-                          cursor: "pointer",
-                        }}
-                      />
-                      <YouTubeIcon
-                        sx={{
-                          backgroundColor: "lightblue",
-                          borderRadius: "50%",
-                          padding: "8px",
-                          cursor: "pointer",
-                        }}
-                      />
-                      <GoogleIcon
-                        sx={{
-                          backgroundColor: "lightblue",
-                          borderRadius: "50%",
-                          padding: "8px",
-                          cursor: "pointer",
-                        }}
-                      />
-                      <InstagramIcon
-                        sx={{
-                          backgroundColor: "lightblue",
-                          borderRadius: "50%",
-                          padding: "8px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </Box>
+                    />
+                    <XIcon
+                      sx={{
+                        backgroundColor: "lightblue",
+                        borderRadius: "50%",
+                        padding: "8px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <YouTubeIcon
+                      sx={{
+                        backgroundColor: "lightblue",
+                        borderRadius: "50%",
+                        padding: "8px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <GoogleIcon
+                      sx={{
+                        backgroundColor: "lightblue",
+                        borderRadius: "50%",
+                        padding: "8px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <InstagramIcon
+                      sx={{
+                        backgroundColor: "lightblue",
+                        borderRadius: "50%",
+                        padding: "8px",
+                        cursor: "pointer",
+                      }}
+                    />
                   </Box>
                 </Box>
               </Box>
