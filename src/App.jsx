@@ -1,4 +1,5 @@
 import React from "react";
+import './App.css'
 import { ThemeProvider, Box, createTheme } from "@mui/material";
 import Navbar from "./component/site/navbar";
 import Home from "./component/user/Home";

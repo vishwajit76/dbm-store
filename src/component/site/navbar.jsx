@@ -51,10 +51,8 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(
-    "/static/images/avatar/2.jpg"
-  );
+  // const [loading, setLoading] = useState(false);
+  const [profilePicture] = useState("/static/images/avatar/2.jpg");
   const [details, setDetails] = useState(false);
   console.log(store.getState());
 
@@ -168,6 +166,7 @@ const Navbar = () => {
                     display: "block",
                     fontSize: "15px",
                     textDecoration: "none",
+                    behavior: "smooth",
                   }}
                   color="khaki"
                   href={page.id}
