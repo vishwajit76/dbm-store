@@ -170,6 +170,7 @@ const Navbar = () => {
                     display: "block",
                     fontSize: "15px",
                     textDecoration: "none",
+                    behavior: "smooth",
                   }}
                   color="khaki"
                   href={page.id}
