@@ -166,8 +166,6 @@ const Shop = () => {
       try {
         const response = await axiosInstance.get("/products");
         const data = response.data;
-        const response = await axiosInstance.get("/products");
-        const data = response.data;
         setProducts(data);
         if (data.products.length > 0) {
           setSelectedProduct(data.products[0]);
@@ -258,9 +256,10 @@ const Shop = () => {
                 key={item.id}
                 onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
                 sx={{
-                  width: '80%',
+                  width: '85%',
                   textAlign: 'center',
-                  // borderRadius: "15px",
+                  // borderRadius: 5,
+                  p: 2,
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
@@ -271,7 +270,6 @@ const Shop = () => {
                     height: '2px',
                     backgroundColor: '#0084FE',
                     transition: 'all 0.3s ease',
-                    borderRadius: '15px', // Set border-radius for the pseudo-elements
                   },
                   '&::before': {
                     top: 0,
@@ -282,14 +280,14 @@ const Shop = () => {
                     right: 0,
                   },
                   '&:hover::before': {
+                    backgroundColor: '#0084FE',
                     width: '1%',
                     height: '100%',
-                    borderRadius: '15px', // Apply border-radius on hover
                   },
                   '&:hover::after': {
+                    backgroundColor: '#0084FE',
                     width: '1%',
                     height: '100%',
-                    borderRadius: '15px', // Apply border-radius on hover
                   },
                 }}
               >
@@ -341,10 +339,14 @@ const Shop = () => {
                       <img width={220} height={220} src={item.image} alt={item.name} />
                     </Grid>
                   </Grid>
-                  <Typography noWrap sx={{ my: "10px" }}>
+                  <Typography noWrap my={1}>
                     {item.name}
                   </Typography>
-                  <Box display="flex" justifyContent="center">
+                  <Typography my={1}>
+                    ₹{item.variations.reduce((min, variation) => Math.min(min, variation.price), Infinity)} -
+                    ₹{item.variations.reduce((max, variation) => Math.max(max, variation.price), -Infinity)}
+                  </Typography>
+                  <Box display="flex" justifyContent="space-evenly">
                     <Rating readOnly value={5} />
                     <Typography>99+ Reviews</Typography>
                   </Box>

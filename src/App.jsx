@@ -131,6 +131,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box sx={{ bgcolor: "#F4F4F4" }}>
         <Navbar />
+        
         <section id="home"><Home /></section>
         <section id="shop"><Shop /></section>
         <section id="featured"><Featured /></section>

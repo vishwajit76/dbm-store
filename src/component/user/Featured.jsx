@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 
 const StyledBadge = styled(Badge)(({ transform }) => ({
   '& .MuiBadge-badge': {
-    right: -12,
+    right: 12,
     top: 12,
     padding: '20px',
     backgroundColor: '#007bff',
@@ -204,7 +204,7 @@ const Featured = () => {
         </Typography>
         <Grid container sx={{justifyContent: {md:"space-between" , sm:'center' ,  xs:'center'}}}  display={'flex'}>
       {products.map((product, index) => (
-        <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+        <Grid item key={index} xs={12} sm={6} md={4}>
           <StyledBadge
             badgeContent={`${product.discount} Off`}
             transform={transformations[index % transformations.length]}

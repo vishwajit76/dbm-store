@@ -59,7 +59,7 @@ export default function Cart({ onClose, onClick }) {
                     />
                     <Typography fontWeight={600}>Cart</Typography>
                 </Grid>
-                <Box height='43vh' overflow='auto'>
+                <Box overflow='auto'>
                     <Grid container>
                         {cartData.map((item, index) => (
                             <Grid
@@ -100,44 +100,40 @@ export default function Cart({ onClose, onClick }) {
                         <Button variant='contained' sx={{ my: 2 }} href='#shop' onClick={onClose}>Continue Shopping</Button>
                     </Container>
                 )}
+                {cartData.length !== 0 && (
+                    <Box sx={{position: 'sticky' , bottom: 0 , background: '#fff'}}>
+                        <Grid container justifyContent='space-between' alignItems='center' my={2} p={1} border='2px solid black' borderRadius={2}>
+                            <Box display='flex'>
+                                <DiscountRoundedIcon /><Typography mx={2}>{couponCode.toUpperCase()}</Typography>
+                            </Box>
+                            <Button variant='outlined' color='black'>Apply</Button>
+                        </Grid>
+                        <Grid container alignItems="center">
+                            <Grid item xs={12} container justifyContent='space-between'>
+                                <Typography sx={{ color: '#818181de' }}>Subtotal</Typography>
+                                <Typography>${(subtotal).toFixed(2)}</Typography>
+                            </Grid>
+                            <Grid item xs={12} container justifyContent='space-between'>
+                                <Typography sx={{ color: '#818181de' }}>{`Discount(10%)`}</Typography>
+                                <Typography></Typography>
+                            </Grid>
+                            <Grid item xs={12}><Divider /></Grid>
+                            <Grid item xs={12} container justifyContent='space-between'>
+                                <Typography fontWeight={600}>Final Price</Typography>
+                                <Typography fontWeight={600}>${((subtotal).toFixed(2) * 0.9).toFixed(2)}</Typography>
+                            </Grid>
+                        </Grid>
+                        <Button
+                            variant="contained"
+                            sx={{ color: '#fff', borderRadius: '10px', p: 1, mt: 2 }}
+                            fullWidth
+                            onClick={onClick}
+                        >
+                            Check Out Now
+                        </Button>
+                    </Box>
+                )}
             </Box>
-            {cartData.length !== 0 && (
-                <Box sx={{ backgroundColor: '#fff', position: 'fixed', bottom: 0, p: '20px 30px', width: { xs: 250, md: 350 }, boxShadow: '0 0 5px gray' }}>
-                    <Grid container justifyContent='space-between' alignItems='center' my={2} p={1} border='2px solid black' borderRadius={2}>
-                        <Box display='flex'>
-                            <DiscountRoundedIcon /><Typography mx={2}>{couponCode.toUpperCase()}</Typography>
-                        </Box>
-                        <Button variant='outlined' color='black'>Apply</Button>
-                    </Grid>
-                    <Grid container alignItems="center">
-                        <Grid item xs={12} container justifyContent='space-between'>
-                            <Typography sx={{ color: '#818181de' }}>Subtotal</Typography>
-                            <Typography>${(subtotal).toFixed(2)}</Typography>
-                        </Grid>
-                        <Grid item xs={12} container justifyContent='space-between'>
-                            <Typography sx={{ color: '#818181de' }}>discount</Typography>
-                            <Typography>10%</Typography>
-                        </Grid>
-                        <Grid item xs={12} container justifyContent='space-between'>
-                            <Typography sx={{ color: '#818181de' }}>Delivery Cost</Typography>
-                            <Typography color='green' sx={{ color: '#21E500' }}>FREE</Typography>
-                        </Grid>
-                        <Grid item xs={12}><Divider /></Grid>
-                        <Grid item xs={12} container justifyContent='space-between'>
-                            <Typography fontWeight={600}>Final Price</Typography>
-                            <Typography fontWeight={600}>${(subtotal).toFixed(2) * 0.9}</Typography>
-                        </Grid>
-                    </Grid>
-                    <Button
-                        variant="contained"
-                        sx={{ color: '#fff', borderRadius: '10px', p: 1, mt: 2 }}
-                        fullWidth
-                        onClick={onClick}
-                    >
-                        Check Out Now
-                    </Button>
-                </Box>
-            )}
         </div>
     );
 }

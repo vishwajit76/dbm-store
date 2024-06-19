@@ -9,12 +9,12 @@ export const cartSlice = createSlice({
     },
     reducers: {
         addItem: (state, action) => {
-            const { id, name, price, rating, image, quantity } = action.payload;
+            const { id, name, price, rating, image, quantity , variations } = action.payload;
             const existingItemIndex = state.items.findIndex(item => item.id === id);
             if (existingItemIndex !== -1) {
                 state.items[existingItemIndex].quantity += quantity;
             } else {
-                state.items.push({ id, name, price, rating, image, quantity });
+                state.items.push({ id, name, price, rating, image, quantity, variations });
             }
             state.count += quantity;
             state.subtotal += price * quantity;
