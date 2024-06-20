@@ -353,7 +353,7 @@ const Shop = () => {
                     }}>
                       <img width={220} height={220} src={item.image} alt={item.name} />
                     </Grid>
-                  </Grid>
+                  </Box>
                   <Typography noWrap my={1}>
                     {item.name}
                   </Typography>
