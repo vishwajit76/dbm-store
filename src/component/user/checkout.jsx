@@ -135,19 +135,16 @@ const Checkout = ({ onClose }) => {
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
-                <Grid item>
+               
 
                     <NavigateBeforeRoundedIcon
                         fontSize="large"
                         cursor="pointer"
                         onClick={onClose}
                     />
-                </Grid>
-                <Grid item xs={10} md={10} container justifyContent="center">
-
-
+        
                     <Typography fontWeight={600} align="center">Checkout</Typography>
-                </Grid>
+               
             </Grid>
 
             <Box sx={style}>
