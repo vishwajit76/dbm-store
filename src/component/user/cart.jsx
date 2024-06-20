@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import DiscountRoundedIcon from '@mui/icons-material/DiscountRounded';
 import emptyCart from '../image/emptyCart.png';
 import 'react-toastify/dist/ReactToastify.css';
-import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart } from '../../redux/cart/cartSlice';
+import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart, cartProduct } from '../../redux/cart/cartSlice';
 
 const buttonStyle = {
     p: 0.1,
@@ -17,24 +17,33 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-export default function Cart({ onClose, onClick }) {
+export default function Cart({ onClose, onClick, openProduct }) {
     const cartData = useSelector(state => state.cart.items);
     const subtotal = useSelector(state => state.cart.subtotal);
-    const couponCode = 'a5623d'
+    const couponCode = 'a5623d';
     const dispatch = useDispatch();
 
-    const handleRemoveFromCart = (indexToRemove) => {
+    const handleRemoveFromCart = (indexToRemove, e) => {
+        e.stopPropagation(); 
         dispatch(removeFromCart(indexToRemove));
         toast.info("Product removed from cart", {
             position: "bottom-left"
         });
     };
 
-    const increaseCartItem = (id) => {
+    const handleOpenProduct = (product, e) => {
+        e.stopPropagation(); 
+        openProduct();
+        dispatch(cartProduct({ product }));
+    };
+
+    const increaseCartItem = (id, e) => {
+        e.stopPropagation(); 
         dispatch(increaseQuantity({ id }));
     };
 
-    const decreaseCartItem = (id, quantity) => {
+    const decreaseCartItem = (id, quantity, e) => {
+        e.stopPropagation(); 
         if (quantity <= 1) {
             toast.info("Product removed from cart", {
                 position: "bottom-left"
@@ -70,6 +79,7 @@ export default function Cart({ onClose, onClick }) {
                                 my={1}
                                 boxShadow="0 0 10px #eee"
                                 justifyContent="space-between"
+                                onClick={(e) => handleOpenProduct(item.product, e)}
                             >
                                 <Grid item xs={2} container sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', alignItems: 'center', justifyContent: 'center' }}>
                                     <img width={50} height={50} src={item.image} alt="Product" />
@@ -78,17 +88,19 @@ export default function Cart({ onClose, onClick }) {
                                     <Typography>{item.name}</Typography>
                                     <Grid container alignItems="center">
                                         <Grid item xs={6}>
+                                            <Typography fontWeight={600}>₹{item.price} x {item.quantity}</Typography>
                                             <Typography fontWeight={600}>₹{(item.price * item.quantity).toFixed(2)}</Typography>
                                         </Grid>
                                         <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
-                                            <RemoveOutlinedIcon sx={buttonStyle} onClick={() => decreaseCartItem(item.id, item.quantity)} />
+                                            <RemoveOutlinedIcon sx={buttonStyle} onClick={(e) => decreaseCartItem(item.id, item.quantity, e)} />
                                             <Typography>{item.quantity}</Typography>
-                                            <AddOutlinedIcon fontSize='small' sx={buttonStyle} onClick={() => increaseCartItem(item.id)} />
+                                            <AddOutlinedIcon fontSize='small' sx={buttonStyle} onClick={(e) => increaseCartItem(item.id, e)} />
                                         </Grid>
                                     </Grid>
+                                    <Typography>{item.variation.title}</Typography>
                                 </Grid>
                                 <Grid item xs={1} container justifyContent='end'>
-                                    <CloseIcon cursor='pointer' fontSize='5px' onClick={() => handleRemoveFromCart(index)} />
+                                    <CloseIcon cursor='pointer' fontSize='5px' onClick={(e) => handleRemoveFromCart(index, e)} /> 
                                 </Grid>
                             </Grid>
                         ))}
@@ -111,16 +123,16 @@ export default function Cart({ onClose, onClick }) {
                         <Grid container alignItems="center">
                             <Grid item xs={12} container justifyContent='space-between'>
                                 <Typography sx={{ color: '#818181de' }}>Subtotal</Typography>
-                                <Typography>${(subtotal).toFixed(2)}</Typography>
+                                <Typography>₹{subtotal.toFixed(2)}</Typography>
                             </Grid>
                             <Grid item xs={12} container justifyContent='space-between'>
                                 <Typography sx={{ color: '#818181de' }}>{`Discount(10%)`}</Typography>
-                                <Typography>{((subtotal).toFixed(2) * 0.1).toFixed(2)}</Typography>
+                                <Typography>-₹{(subtotal * 0.1).toFixed(2)}</Typography>
                             </Grid>
                             <Grid item xs={12}><Divider /></Grid>
                             <Grid item xs={12} container justifyContent='space-between'>
                                 <Typography fontWeight={600}>Final Price</Typography>
-                                <Typography fontWeight={600}>₹{((subtotal).toFixed(2) * 0.9).toFixed(2)}</Typography>
+                                <Typography fontWeight={600}>₹{(subtotal * 0.9).toFixed(2)}</Typography>
                             </Grid>
                         </Grid>
                         <Button

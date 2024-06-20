@@ -36,9 +36,10 @@ import { Logout } from "@mui/icons-material";
 import { store } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import {  useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-  import { clearUser } from "../../redux/user/userSlice";
+import { clearUser } from "../../redux/user/userSlice";
+import ProductDetails from "../user/productDetails";
 const pages = [
   { id: "#home", name: "HOME" },
   { id: "#shop", name: "SHOP" },
@@ -55,14 +56,15 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.token ? true : false);
   const [loading, setLoading] = useState(false);
   const cartItemCount = useSelector(state => state.cart.items.length);
+  const drawerProduct = useSelector(state => state.cart.selectedProduct)
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
   const [details, setDetails] = useState(false);
-  console.log(store.getState());
   const dispatch = useDispatch();
 
   const toggleOrderDetailsDrawer = (newOpen) => () => {
@@ -74,9 +76,14 @@ const Navbar = () => {
   const handleLoginModal = (newOpen) => () => setOpenLoginModal(newOpen);
   const handleClick = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
- 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
-  const toggleCartDrawer = (newOpen) => () => setOpenCart(newOpen);
+  const toggleCartDrawer = (newOpen) => () => {
+    setOpenCart(newOpen);
+     if(newOpen) {
+      setDetails(false)
+      setOpenDetails(false)
+     }};
+  const toggleDetailsDrawer = (newOpen) => () => {setOpenDetails(newOpen); if(newOpen) setOpenCart(false)};
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
     setCheckoutDrawer(newOpen);
@@ -252,6 +259,7 @@ const Navbar = () => {
               <Cart
                 onClose={toggleCartDrawer(false)}
                 onClick={toggleCheckoutDrawer(true)}
+                openProduct={toggleDetailsDrawer(true)}
               />
             </Drawer>
 
@@ -276,6 +284,35 @@ const Navbar = () => {
               <OrderDetails onClose={toggleOrderDetailsDrawer(false)} />
             </Drawer>
 
+            {/* product details drawer */}
+            <Drawer
+              anchor="right"
+              open={openDetails}
+              onClose={toggleDetailsDrawer(false)}
+            >
+              <ProductDetails
+                onClose={toggleDetailsDrawer(false)}
+                product={drawerProduct}
+                cartDrawer={
+                  <Badge badgeContent={cartItemCount} color="primary">
+                    <Box
+                      sx={{
+                        width: 35,
+                        height: 35,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                        borderRadius: "50%",
+                      }}
+                      onClick={toggleCartDrawer(true)}
+                    >
+                      <ShoppingBagOutlinedIcon color="black" />
+                    </Box>
+                  </Badge>
+                }
+              />
+            </Drawer>
             {/* edit profile modal */}
             <Modal
               open={openModal}
@@ -292,7 +329,7 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <Login onClose={handleLoginModal(false)} onLogin={() => setIsLoggedIn(true)}/>
+              <Login onClose={handleLoginModal(false)} onLogin={() => setIsLoggedIn(true)} />
             </Modal>
 
             {/* user menu */}
@@ -350,13 +387,13 @@ const Navbar = () => {
                 Orders
               </MenuItem>
               <Divider />
-              <MenuItem onClick={ dispatch(clearUser())} data-item="Logout">
-                  
+              <MenuItem onClick={dispatch(clearUser())} data-item="Logout">
+
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
-                
-                Logout 
+
+                Logout
               </MenuItem>
             </Menu>
 

@@ -33,7 +33,8 @@ import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { cartProduct } from '../../redux/cart/cartSlice'
 
 const useStyles = makeStyles({
   carousel: {
@@ -118,23 +119,24 @@ const Shop = () => {
   const cartItemCount = useSelector(state => state.cart.items.length);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
-  const [drawerProduct, setDrawerProduct] = useState(null);
+  // const [drawerProduct, setDrawerProduct] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
   const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [cartDrawer, setCartDrawer] = useState(false);
-  const [color, setColor] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const classes = useStyles();
   const [tabValue, setTabValue] = React.useState(0);
-
-  const toggleDetailDrawer = (newOpen, product = null, color) => () => {
-    setDetailDrawer(newOpen);
-    setDrawerProduct(product);
-    setColor(color);
-  };
-
+  const dispatch = useDispatch()
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  console.log(drawerProduct);
+
+  const toggleDetailDrawer = (newOpen, product = null) => () => {
+    setDetailDrawer(newOpen);
+    if (newOpen) setCartDrawer(false)
+    dispatch(cartProduct({product}))
+  };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -370,7 +372,7 @@ const Shop = () => {
         </Box>
 
         <Grid container spacing={5} alignItems="center">
-          <Grid container item md={6} xs={12} alignItems='center' sx={{flexDirection: {xs: 'column-reverse' , md: 'row'}}}>
+          <Grid container item md={6} xs={12} alignItems='center' sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
             <Grid item xs={12} md={2} textAlign='center' my={2}>
               <Tabs
                 orientation={isMdUp ? 'vertical' : 'horizontal'}
@@ -380,7 +382,7 @@ const Shop = () => {
                 onChange={handleTabChange}
                 aria-label="Vertical tabs example"
                 sx={{
-                  height: {xs: 'auto' , md: 450},
+                  height: { xs: 'auto', md: 450 },
                   alignItems: 'center',
                   '& .MuiTabs-indicator': { display: 'none' },
                   '& .Mui-selected': { border: '2px solid black' },
@@ -572,6 +574,7 @@ const Shop = () => {
         <Cart
           onClose={toggleCartDrawer(false)}
           onClick={toggleCheckoutDrawer(true)}
+          openProduct={toggleDetailDrawer(true)}
         />
       </Drawer>
 
@@ -584,7 +587,6 @@ const Shop = () => {
         <ProductDetails
           onClose={toggleDetailDrawer(false)}
           product={drawerProduct}
-          color={color}
           cartDrawer={
             <Badge badgeContent={cartItemCount} color="primary">
               <Box
