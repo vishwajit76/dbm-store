@@ -28,12 +28,12 @@ import Badge from "@mui/material/Badge";
 import { makeStyles } from "@mui/styles";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Cart from "./cart";
-import axiosInstance from "../../util/axiosInstance";
+import axiosInstance from '../../util/axiosInstance';
 import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   carousel: {
@@ -115,7 +115,7 @@ const CustomButtonGroup = ({ next, previous }) => (
 );
 
 const Shop = () => {
-  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const cartItemCount = useSelector(state => state.cart.items.length);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [drawerProduct, setDrawerProduct] = useState(null);
@@ -305,40 +305,37 @@ const Shop = () => {
               >
                 <Box
                   sx={{
-                    width: "80%",
-                    textAlign: "center",
-                    borderRadius: "15px",
-                    p: 2,
-                    cursor: "pointer",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&::before, &::after": {
+                    overflow: 'hidden',
+                    '&::before, &::after': {
                       content: '""',
-                      position: "absolute",
-                      width: "2px",
-                      height: "2px",
-                      backgroundColor: "#0084FE",
-                      transition: "all 0.3s ease",
+                      position: 'absolute',
+                      width: '2px',
+                      height: '2px',
+                      backgroundColor: ' #0084FE',
+                      transition: 'all 0.3s ease',
                     },
-                    "&::before": {
-                      top: 0,
-                      left: 0,
-                    },
-                    "&::after": {
+                    '&::before': {
                       bottom: 0,
+                      left: 0,
+                      transitionDelay: '0.3s',
+                    },
+                    '&::after': {
+                      top: 0,
                       right: 0,
+                      transitionDelay: '0.3s',
                     },
-                    "&:hover::before": {
-                      width: "1%",
-                      height: "100%",
+                    '&:hover::before': {
+                      width: '100%',
+                      height: '1%',
                     },
-                    "&:hover::after": {
-                      width: "1%",
-                      height: "100%",
+                    '&:hover::after': {
+                      width: '100%',
+                      height: '1%',
                     },
                   }}
                 >
-                  <Box
+                  <Grid
+                    container
                     sx={{
                       borderRadius: "15px", backgroundColor: colors[index % colors.length], textAlign: 'center'
                     }}
@@ -353,7 +350,7 @@ const Shop = () => {
                     }}>
                       <img width={220} height={220} src={item.image} alt={item.name} />
                     </Grid>
-                  </Box>
+                  </Grid>
                   <Typography noWrap my={1}>
                     {item.name}
                   </Typography>
@@ -388,6 +385,10 @@ const Shop = () => {
                   '& .MuiTabs-indicator': { display: 'none' },
                   '& .Mui-selected': { border: '2px solid black' },
                   '& .MuiTabs-scrollButtons': {
+                    width: '2em',
+                    height: '2em'
+                  },
+                  '& .MuiTouchRipple-root': {
                     width: '2em',
                     height: '2em'
                   }
@@ -502,15 +503,13 @@ const Shop = () => {
                   How It Works
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={8} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Grid item xs={12} md={8}>
                 <Card
                   sx={{
                     display: "flex",
                     flexDirection: { xs: "column", sm: "row" },
                     alignItems: "center",
                     gap: "16px",
-                    justifyContent:"center",
-                    padding:'10px',
                     borderRadius: "10px",
                     padding: "16px",
                     width: { md: "100%", sm: '90%', xs: '90%' },
@@ -540,8 +539,9 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
-                        marginBottom: "8px", // Added to separate from the body text
+                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
+                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
+                        marginBottom: "8px",
                       }}
                     >
                       HOW THE BULK WHATSAPP SOFTWARE WORKS?
