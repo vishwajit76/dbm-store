@@ -59,6 +59,9 @@ const Navbar = () => {
     store.getState().user.token ? true : false
   );
   const [loading, setLoading] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+  const [ProductDetails, setProductDetails] = useState(false);
+  const [drawerProduct, setDrawerProduct] = useState(false);
   const cartItemCount = useSelector((state) => state.cart.items.length);
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
@@ -79,11 +82,15 @@ const Navbar = () => {
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
   const toggleCartDrawer = (newOpen) => () => {
     setOpenCart(newOpen);
-     if(newOpen) {
-      setDetails(false)
-      setOpenDetails(false)
-     }};
-  const toggleDetailsDrawer = (newOpen) => () => {setOpenDetails(newOpen); if(newOpen) setOpenCart(false)};
+    if (newOpen) {
+      setDetails(false);
+      setOpenDetails(false);
+    }
+  };
+  const toggleDetailsDrawer = (newOpen) => () => {
+    setOpenDetails(newOpen);
+    if (newOpen) setOpenCart(false);
+  };
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
     setCheckoutDrawer(newOpen);
@@ -177,7 +184,7 @@ const Navbar = () => {
                   key={`${page.id}-${index}`}
                   onClick={handleCloseUserMenu}
                   sx={{
-                    mx: {md: 2 , lg: 5},
+                    mx: { md: 2, lg: 5 },
                     color: "#000",
                     display: "block",
                     fontSize: "15px",
