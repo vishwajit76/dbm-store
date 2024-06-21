@@ -8,7 +8,7 @@ axiosInstance.interceptors.request.use((config) => {
   const token = state.user.token; // Adjust based on your state structure
   const user = state.user.detail; // Adjust based on your state structure
   console.log('Token in interceptor:', token); // Log the token
-  console.log('User in interceptor:', user); // Log the user details
+  console.log('User in interceptor:', user); // Log the user details  
   const isMultipartData = config.headers['Content-Type'] === 'multipart/form-data';
   config.headers = {
     'Content-Type': isMultipartData ? 'multipart/form-data' : 'application/json',

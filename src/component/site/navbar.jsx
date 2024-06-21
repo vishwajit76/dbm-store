@@ -33,13 +33,12 @@ import logo from "../image/logo (1).png";
 import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
-import { store } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import { store } from "../../redux/store";
+import { useSelector } from "react-redux";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
 import { clearUser } from "../../redux/user/userSlice";
-import ProductDetails from "../user/productDetails";
 const pages = [
   { id: "#home", name: "HOME" },
   { id: "#shop", name: "SHOP" },
@@ -56,12 +55,11 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
-  const [openDetails, setOpenDetails] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.token ? true : false);
-  const isLoggedIn = useSelector(state => state.cart.isLoggedIn)
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    store.getState().user.token ? true : false
+  );
   const [loading, setLoading] = useState(false);
-  const cartItemCount = useSelector(state => state.cart.items.length);
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const cartItemCount = useSelector((state) => state.cart.items.length);
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
@@ -77,6 +75,7 @@ const Navbar = () => {
   const handleLoginModal = (newOpen) => () => setOpenLoginModal(newOpen);
   const handleClick = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
   const toggleCartDrawer = (newOpen) => () => {
     setOpenCart(newOpen);
@@ -168,7 +167,6 @@ const Navbar = () => {
                   xs: "none",
                   md: "flex",
                   justifyContent: "center",
-                  gap: "25px",
                 },
                 alignItems: "center", // Centering elements vertically
               }}
@@ -179,7 +177,7 @@ const Navbar = () => {
                   key={`${page.id}-${index}`}
                   onClick={handleCloseUserMenu}
                   sx={{
-                    mx: 2,
+                    mx: {md: 2 , lg: 5},
                     color: "#000",
                     display: "block",
                     fontSize: "15px",
@@ -199,7 +197,11 @@ const Navbar = () => {
 
             {/* cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Badge badgeContent={cartItemCount} color="primary" sx={{ mx: 3 }}>
+              <Badge
+                badgeContent={cartItemCount}
+                color="primary"
+                sx={{ mx: 3 }}
+              >
                 <Box
                   sx={{
                     width: 35,
@@ -217,7 +219,10 @@ const Navbar = () => {
               </Badge>
 
               <Box sx={{ flexGrow: 0 }}>
-                <IconButton onClick={isLoggedIn ? handleClick : handleLoginModal(true)} sx={{ p: 0 }}>
+                <IconButton
+                  onClick={isLoggedIn ? handleClick : handleLoginModal(true)}
+                  sx={{ p: 0 }}
+                >
                   <Avatar
                     alt="Profile Picture"
                     src={profilePicture}
@@ -330,7 +335,10 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <Login onClose={handleLoginModal(false)} />
+              <Login
+                onClose={handleLoginModal(false)}
+                onLogin={() => setIsLoggedIn(true)}
+              />
             </Modal>
 
             {/* user menu */}
@@ -389,15 +397,12 @@ const Navbar = () => {
               </MenuItem>
               <Divider />
               <MenuItem onClick={dispatch(clearUser())} data-item="Logout">
-
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
-
                 Logout
               </MenuItem>
             </Menu>
-
           </Toolbar>
         </Container>
       </AppBar>
@@ -406,5 +411,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

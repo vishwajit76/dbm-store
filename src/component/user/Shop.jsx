@@ -14,7 +14,7 @@ import {
   ListItemIcon,
   Skeleton,
   CardContent,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -22,25 +22,24 @@ import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRigh
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useMediaQuery, useTheme } from '@mui/material';
+import { useMediaQuery, useTheme } from "@mui/material";
 import Carousel from "react-multi-carousel";
 import Badge from "@mui/material/Badge";
 import { makeStyles } from "@mui/styles";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Cart from "./cart";
-import axiosInstance from '../../util/axiosInstance';
+import axiosInstance from "../../util/axiosInstance";
 import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
-import { useSelector, useDispatch } from 'react-redux';
-import { cartProduct } from '../../redux/cart/cartSlice'
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   carousel: {
     padding: "100px 0",
     textAlign: "center",
-  }
+  },
 });
 
 const arrowStyle = {
@@ -48,7 +47,7 @@ const arrowStyle = {
   p: 1,
   borderRadius: "50%",
   ml: 2,
-  cursor: 'pointer'
+  cursor: "pointer",
 };
 
 const messages = [
@@ -73,7 +72,7 @@ const CustomLeftArrow = ({ onClick }) => (
       position: "absolute",
       left: "30px",
       zIndex: 1,
-      cursor: 'pointer'
+      cursor: "pointer",
     }}
   >
     <KeyboardArrowLeftRoundedIcon sx={{ color: "#fff" }} fontSize="large" />
@@ -94,7 +93,7 @@ const CustomRightArrow = ({ onClick }) => (
       position: "absolute",
       right: "30px",
       zIndex: 1,
-      cursor: 'pointer'
+      cursor: "pointer",
     }}
   >
     <KeyboardArrowRightRoundedIcon sx={{ color: "#fff" }} fontSize="large" />
@@ -116,7 +115,7 @@ const CustomButtonGroup = ({ next, previous }) => (
 );
 
 const Shop = () => {
-  const cartItemCount = useSelector(state => state.cart.items.length);
+  const cartItemCount = useSelector((state) => state.cart.items.length);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   // const [drawerProduct, setDrawerProduct] = useState(null);
@@ -126,18 +125,17 @@ const Shop = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const classes = useStyles();
   const [tabValue, setTabValue] = React.useState(0);
-  const dispatch = useDispatch()
-  const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
-  console.log(drawerProduct);
-  console.log('dhruv');
 
-  const toggleDetailDrawer = (newOpen, product = null) => () => {
-    setDetailDrawer(newOpen);
-    if (newOpen) setCartDrawer(false)
-    dispatch(cartProduct({product}))
-  };
+  const toggleDrawer =
+    (newOpen, product = null) =>
+    () => {
+      setOpen(newOpen);
+      setDrawerProduct(product);
+      setColor(color);
+    };
+
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -177,13 +175,14 @@ const Shop = () => {
         const data = response.data;
         setProducts(data);
         if (data.products.length > 0) {
-          setSelectedProduct(data.products[0]);
+          setSelectedProduct(data.products[0]); // Set the initial selected product
         }
       } catch (error) {
         setError(error.message);
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -253,7 +252,13 @@ const Shop = () => {
             }}
           >
             New
-            <Box component="span" sx={{ color: "primary.main", mx: 1 }}>
+            <Box
+              component="span"
+              sx={{
+                color: "primary.main",
+                mx: 1,
+              }}
+            >
               arrival
             </Box>
             for you
@@ -267,170 +272,206 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products && products.products.map((item, index) => (
-              <Card
-                key={item.id}
-                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
-                sx={{
-                  width: '85%',
-                  textAlign: 'center',
-                  p: 2,
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&::before, &::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '2px',
-                    height: '2px',
-                    backgroundColor: '#0084FE',
-                    transition: 'all 0.3s ease',
-                  },
-                  '&::before': {
-                    top: 0,
-                    left: 0,
-                  },
-                  '&::after': {
-                    bottom: 0,
-                    right: 0,
-                  },
-                  '&:hover::before': {
-                    backgroundColor: '#0084FE',
-                    width: '1%',
-                    height: '100%',
-                  },
-                  '&:hover::after': {
-                    backgroundColor: '#0084FE',
-                    width: '1%',
-                    height: '100%',
-                  },
-                }}
-              >
-                <Box
+            {products &&
+              products.products.map((item, index) => (
+                <Card
+                  key={item.id}
+                  onClick={toggleDetailDrawer(
+                    true,
+                    item,
+                    colors[index % colors.length]
+                  )}
                   sx={{
-                    overflow: 'hidden',
-                    '&::before, &::after': {
+                    width: "85%",
+                    textAlign: "center",
+                    p: 2,
+                    cursor: "pointer",
+                    position: "relative",
+                    overflow: "hidden",
+                    "&::before, &::after": {
                       content: '""',
-                      position: 'absolute',
-                      width: '2px',
-                      height: '2px',
-                      backgroundColor: ' #0084FE',
-                      transition: 'all 0.3s ease',
+                      position: "absolute",
+                      width: "2px",
+                      height: "2px",
+                      backgroundColor: "#0084FE",
+                      transition: "all 0.3s ease",
                     },
-                    '&::before': {
-                      bottom: 0,
-                      left: 0,
-                      transitionDelay: '0.3s',
-                    },
-                    '&::after': {
+                    "&::before": {
                       top: 0,
+                      left: 0,
+                    },
+                    "&::after": {
+                      bottom: 0,
                       right: 0,
-                      transitionDelay: '0.3s',
                     },
-                    '&:hover::before': {
-                      width: '100%',
-                      height: '1%',
+                    "&:hover::before": {
+                      backgroundColor: "#0084FE",
+                      width: "1%",
+                      height: "100%",
                     },
-                    '&:hover::after': {
-                      width: '100%',
-                      height: '1%',
+                    "&:hover::after": {
+                      backgroundColor: "#0084FE",
+                      width: "1%",
+                      height: "100%",
                     },
                   }}
                 >
-                  <Grid
-                    container
+                  <Box
                     sx={{
-                      borderRadius: "15px", backgroundColor: colors[index % colors.length], textAlign: 'center'
+                      overflow: "hidden",
+                      "&::before, &::after": {
+                        content: '""',
+                        position: "absolute",
+                        width: "2px",
+                        height: "2px",
+                        backgroundColor: " #0084FE",
+                        transition: "all 0.3s ease",
+                      },
+                      "&::before": {
+                        bottom: 0,
+                        left: 0,
+                        transitionDelay: "0.3s",
+                      },
+                      "&::after": {
+                        top: 0,
+                        right: 0,
+                        transitionDelay: "0.3s",
+                      },
+                      "&:hover::before": {
+                        width: "100%",
+                        height: "1%",
+                      },
+                      "&:hover::after": {
+                        width: "100%",
+                        height: "1%",
+                      },
                     }}
                   >
-                    <Grid item xs={12} sx={{
-                      '& img': {
-                        transition: 'transform 0.3s ease-in-out',
-                      },
-                      '&:hover img': {
-                        transform: 'scale(1.1)',
-                      },
-                    }}>
-                      <img width={220} height={220} src={item.image} alt={item.name} />
+                    <Grid
+                      container
+                      sx={{
+                        borderRadius: "15px",
+                        backgroundColor: colors[index % colors.length],
+                        textAlign: "center",
+                      }}
+                    >
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          "& img": {
+                            transition: "transform 0.3s ease-in-out",
+                          },
+                          "&:hover img": {
+                            transform: "scale(1.1)",
+                          },
+                        }}
+                      >
+                        <img
+                          width={220}
+                          height={220}
+                          src={item.image}
+                          alt={item.name}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Typography noWrap my={1}>
-                    {item.name}
-                  </Typography>
-                  <Typography my={1}>
-                    ₹{item.variations.reduce((min, variation) => Math.min(min, variation.price), Infinity)} -
-                    ₹{item.variations.reduce((max, variation) => Math.max(max, variation.price), -Infinity)}
-                  </Typography>
-                  <Box display="flex" justifyContent="space-evenly">
-                    <Rating readOnly value={5} />
-                    <Typography>99+ Reviews</Typography>
+                    <Typography noWrap my={1}>
+                      {item.name}
+                    </Typography>
+                    <Typography my={1}>
+                      ₹
+                      {item.variations.reduce(
+                        (min, variation) => Math.min(min, variation.price),
+                        Infinity
+                      )}{" "}
+                      - ₹
+                      {item.variations.reduce(
+                        (max, variation) => Math.max(max, variation.price),
+                        -Infinity
+                      )}
+                    </Typography>
+                    <Box display="flex" justifyContent="space-evenly">
+                      <Rating readOnly value={5} />
+                      <Typography>99+ Reviews</Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Card>
-
-            ))}
+                </Card>
+              ))}
           </Carousel>
         </Box>
 
         <Grid container spacing={5} alignItems="center">
-          <Grid container item md={6} xs={12} alignItems='center' sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
-            <Grid item xs={12} md={2} textAlign='center' my={2}>
+          <Grid
+            container
+            item
+            md={6}
+            xs={12}
+            alignItems="center"
+            sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
+          >
+            <Grid item xs={12} md={2} textAlign="center" my={2}>
               <Tabs
-                orientation={isMdUp ? 'vertical' : 'horizontal'}
+                orientation={isMdUp ? "vertical" : "horizontal"}
                 variant="scrollable"
                 value={tabValue}
                 allowScrollButtonsMobile
                 onChange={handleTabChange}
                 aria-label="Vertical tabs example"
                 sx={{
-                  height: { xs: 'auto', md: 450 },
-                  alignItems: 'center',
-                  '& .MuiTabs-indicator': { display: 'none' },
-                  '& .Mui-selected': { border: '2px solid black' },
-                  '& .MuiTabs-scrollButtons': {
-                    width: '2em',
-                    height: '2em'
+                  height: { xs: "auto", md: 450 },
+                  alignItems: "center",
+                  "& .MuiTabs-indicator": { display: "none" },
+                  "& .Mui-selected": { border: "2px solid black" },
+                  "& .MuiTabs-scrollButtons": {
+                    width: "2em",
+                    height: "2em",
                   },
-                  '& .MuiTouchRipple-root': {
-                    width: '2em',
-                    height: '2em'
-                  }
-                }}>
+                  "& .MuiTouchRipple-root": {
+                    width: "2em",
+                    height: "2em",
+                  },
+                }}
+              >
                 {products.products.map((item, index) => (
-                  <Tab label={<img src={item.image} alt={item.name} width={50} />} />
+                  <Tab
+                    label={<img src={item.image} alt={item.name} width={50} />}
+                  />
                 ))}
               </Tabs>
             </Grid>
             <Grid item xs={12} md={10}>
               <Carousel
                 responsive={carouselResponsive}
-                afterChange={(previousSlide, { currentSlide }) => handleProductChange(currentSlide)}
+                afterChange={(previousSlide, { currentSlide }) =>
+                  handleProductChange(currentSlide)
+                }
                 customLeftArrow={<CustomLeftArrow />}
                 customRightArrow={<CustomRightArrow />}
               >
-                {products && products.products.map((item) => (
-                  <Card
-                    key={item.id}
-                    sx={{
-                      textAlign: "center",
-                      borderRadius: "15px",
-                      py: { xs: 5, md: 10 },
-                      px: { xs: 0, md: 3 },
-                    }}
-                  >
-                    <img
-                      width={300}
-                      height={300}
-                      src={selectedProduct?.image}
-                      alt={item.name}
-                    />
-                  </Card>
-                ))}
+                {products &&
+                  products.products.map((item) => (
+                    <Card
+                      key={item.id}
+                      sx={{
+                        textAlign: "center",
+                        borderRadius: "15px",
+                        py: { xs: 5, md: 10 },
+                        px: { xs: 0, md: 3 },
+                      }}
+                    >
+                      <img
+                        width={300}
+                        height={300}
+                        src={selectedProduct?.image}
+                        alt={item.name}
+                      />
+                    </Card>
+                  ))}
               </Carousel>
             </Grid>
           </Grid>
           <Grid item md={6} xs={12}>
-            <Typography ml="16px" variant="h5" fontWeight={600}>
+            <Typography variant="h4" fontWeight={600}>
               {selectedProduct && selectedProduct.name}
             </Typography>
             <List>
@@ -444,6 +485,94 @@ const Shop = () => {
               ))}
             </List>
           </Grid>
+        </Grid>
+
+        <Grid>
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "32px 0",
+            }}
+          >
+            <Card
+              style={{
+                clipPath: "polygon(50% 0%, 35% 100%, 65% 100%)",
+                transform: "translate(0%, 0%)",
+                backgroundColor: "white",
+              }}
+              sx={{ maxWidth: "50%", width: "100%", justifyContent: "center" }}
+            >
+              gh
+            </Card>
+            <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "16px",
+                width: "100%",
+              }}
+            >
+              <Grid container spacing={2} alignItems="center">
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  sx={{
+                    display: "flex",
+                    justifyContent: { xs: "center", md: "flex-start" },
+                    textAlign: { xs: "center", md: "left" },
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    sx={{ width: "100%", minWidth: "30%" }}
+                  >
+                    How It Work
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "16px",
+                      // backgroundColor: '#f9f9f9',
+                      borderRadius: "10px",
+                      padding: "16px",
+                    }}
+                  >
+                    <Box>
+                      <IconButton
+                        color="white"
+                        variant="contained"
+                        sx={{
+                          fontSize: "3rem",
+                          bgcolor: "#007bff",
+                          color: "#fff",
+                        }}
+                      >
+                        <PlayArrowOutlinedIcon fontSize="large" />
+                      </IconButton>
+                    </Box>
+                    <CardContent>
+                      <Typography variant="h6">
+                        HOW THE BULK WHATSAPP SOFTWARE WORKS?
+                      </Typography>
+                      <Typography variant="body1">
+                        Watch a video which shows a detailed step by step
+                        process of how to get started with our Bulk WhatsApp
+                        Software.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Card>
+          </Container>
         </Grid>
       </Container>
 
@@ -473,7 +602,7 @@ const Shop = () => {
               flexDirection: "column",
               alignItems: "center",
               padding: { xs: "8px", md: "16px" },
-              width: { md: "100%", sm: '90%', xs: '90%' },
+              width: { md: "100%", sm: "90%", xs: "90%" },
               borderRadius: "10px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
               backgroundColor: "#FFFFFF",
@@ -515,7 +644,7 @@ const Shop = () => {
                     gap: "16px",
                     borderRadius: "10px",
                     padding: "16px",
-                    width: { md: "100%", sm: '90%', xs: '90%' },
+                    width: { md: "100%", sm: "90%", xs: "90%" },
                     maxWidth: "747px",
                     margin: "0",
                     textAlign: { xs: "center", sm: "left" },
@@ -542,8 +671,8 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
-                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
+                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
+                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
                         marginBottom: "8px",
                       }}
                     >
@@ -580,11 +709,7 @@ const Shop = () => {
       </Drawer>
 
       {/* product details drawer */}
-      <Drawer
-        anchor="right"
-        open={detailDrawer}
-        onClose={toggleDetailDrawer(false)}
-      >
+      <Drawer anchor="right" open={detailDrawer} onClose={false}>
         <ProductDetails
           onClose={toggleDetailDrawer(false)}
           product={drawerProduct}

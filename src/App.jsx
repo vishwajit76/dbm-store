@@ -56,7 +56,7 @@ function App() {
           <Home />
         </section>
         <section id="shop">
-          <Shop />
+          {/* <Shop /> */}
         </section>
         <section id="featured">
           <Featured />
