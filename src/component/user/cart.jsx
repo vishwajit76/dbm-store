@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import DiscountRoundedIcon from '@mui/icons-material/DiscountRounded';
 import emptyCart from '../image/emptyCart.png';
 import 'react-toastify/dist/ReactToastify.css';
-import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart, cartProduct } from '../../redux/cart/cartSlice';
+import { removeFromCart, increaseQuantity, decreaseQuantity, cartProduct } from '../../redux/cart/cartSlice';
 
 const buttonStyle = {
     p: 0.1,
@@ -74,7 +74,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
                             <Grid
                                 key={index}
                                 container
-                                sx={{ borderRadius: '15px' }}
+                                sx={{ borderRadius: '15px' , cursor: 'pointer' }}
                                 p={1}
                                 my={1}
                                 boxShadow="0 0 10px #eee"

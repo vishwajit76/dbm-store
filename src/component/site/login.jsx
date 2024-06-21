@@ -7,7 +7,7 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken, setUserDetail } from '../../redux/user/userSlice';
 
-function Login({ onClose , onLogin }) {
+function Login({ onClose }) {
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
@@ -67,7 +67,6 @@ function Login({ onClose , onLogin }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Include any additional headers as needed
         },
         body: JSON.stringify(data),
       });
@@ -80,18 +79,18 @@ function Login({ onClose , onLogin }) {
 
       setLoading(false);
       if (result.status) {
-        onClose();
-        onLogin()
-        dispatch(setToken(result.token))
+        dispatch(setToken(result))
         dispatch(setUserDetail(result))
+        localStorage.setItem('result' , result)
         console.log(result);
+        onClose();
       } else {
-        setError("Invalid OTP. Please try again."); // Set error state for unsuccessful verification
+        setError("Invalid OTP. Please try again."); 
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
       setLoading(false);
-      setError("Failed to verify OTP. Please try again."); // Set error state
+      setError("Failed to verify OTP. Please try again.");
     }
   };
 
