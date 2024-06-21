@@ -8,7 +8,7 @@ import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, increaseQuantity, decreaseQuantity } from '../../redux/cart/cartSlice';
+import { addItem, increaseQuantity, decreaseQuantity, cartProduct } from '../../redux/cart/cartSlice';
 
 const buttonStyle = {
     p: 0.1,
@@ -16,11 +16,13 @@ const buttonStyle = {
     cursor: 'pointer',
 };
 
-const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
+const ProductDetails = ({ onClose, product, cartDrawer }) => {
+    const productData = product?.product
     const [expanded, setExpanded] = useState(false);
     const [selectedVariation, setSelectedVariation] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const [basePrice, setBasePrice] = useState(product?.variations[0]?.price);
+    const [variation, setVariation] = useState(productData?.variations[0])
+    const [loading, setLoading] = useState(false); productData
+    const [basePrice, setBasePrice] = useState(productData?.variations[0]?.price);
     const [price, setPrice] = useState(basePrice);
     const [localQuantity, setLocalQuantity] = useState(1);
     const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
     const cartItems = useSelector(state => state.cart.items);
 
     useEffect(() => {
-        const productInCart = cartItems.find(item => item.id === product?._id);
+        const productInCart = cartItems.find(item => item.id === productData?._id);
         if (productInCart) {
             setLocalQuantity(productInCart.quantity);
             setPrice(basePrice * productInCart.quantity);
@@ -36,14 +38,14 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
             setLocalQuantity(1);
             setPrice(basePrice);
         }
-    }, [cartItems, product, basePrice]);
+    }, [cartItems, productData, basePrice]);
 
     const isInCart = () => {
-        const productInCart = cartItems.find(item => item.id === product._id);
+        const productInCart = cartItems.find(item => item.id === productData._id);
         return productInCart ? productInCart.quantity : 0;
     };
 
-    if (!product) {
+    if (!productData) {
         return null;
     }
 
@@ -56,13 +58,14 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
         setTimeout(() => {
             setLoading(false);
             dispatch(addItem({
-                id: product._id,
-                name: product.name,
+                product: productData,
+                id: productData._id,
+                name: productData.name,
                 price: basePrice,
                 rating: 5,
-                image: product.image,
+                image: productData.image,
                 quantity: localQuantity,
-                variations: product?.variations
+                variation: variation
             }));
             toast.success("Product Added To Cart", {
                 position: "bottom-left"
@@ -96,7 +99,7 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
     };
 
     const decreaseCartItem = (id) => {
-        const productInCart = cartItems.find(item => item.id === product._id);
+        const productInCart = cartItems.find(item => item.id === productData._id);
         if (productInCart && productInCart.quantity > 1) {
             dispatch(decreaseQuantity({ id }));
             const newQuantity = isInCart() - 1;
@@ -109,9 +112,11 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
         }
     };
 
-    const handleVariationClick = (index) => {
+    const handleVariationClick = (index, id) => {
+        const variation = productData.variations.find(item => id === item._id)
         setSelectedVariation(index);
-        const selectedProduct = product.variations.find((item, idx) => idx === index);
+        setVariation(variation)
+        const selectedProduct = productData.variations.find((item, idx) => idx === index);
         setBasePrice(selectedProduct.price);
         setPrice(selectedProduct.price * localQuantity);
     }
@@ -133,7 +138,7 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
                 <Grid container alignItems="flex-end" spacing={2}>
                     <Grid item xs={8}>
                         <Typography sx={{ my: 1, fontWeight: 'bold' }}>
-                            {product.name}
+                            {productData.name}
                         </Typography>
                         <Grid container justifyContent="space-between">
                             <Rating readOnly value={5} />
@@ -143,16 +148,16 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
                     <Grid container item xs={4} justifyContent="end">
                         <Typography color='khaki' my={1}>price</Typography>
                         <Typography fontWeight='bold'>
-                            ₹{product.variations.reduce((min, variation) => Math.min(min, variation.price), Infinity)} -
-                            ₹{product.variations.reduce((max, variation) => Math.max(max, variation.price), -Infinity)}
+                            ₹{productData.variations.reduce((min, variation) => Math.min(min, variation.price), Infinity)} -
+                            ₹{productData.variations.reduce((max, variation) => Math.max(max, variation.price), -Infinity)}
                         </Typography>
                     </Grid>
                 </Grid>
             </Box>
 
             <Grid container my={5}>
-                <Grid item xs={12} sx={{ borderRadius: 2, backgroundColor: color, textAlign: 'center', p: 1 }}>
-                    <img width="80%" src={product.image} alt="Product" />
+                <Grid item xs={12} sx={{ borderRadius: 2, backgroundColor: '#eee', textAlign: 'center', p: 1 }}>
+                    <img width="80%" src={productData.image} alt="Product" />
                 </Grid>
             </Grid>
 
@@ -170,14 +175,14 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
             </Box>
 
             <Grid container spacing={2}>
-                {product.variations.map((item, index) => (
+                {productData.variations.map((item, index) => (
                     <Grid item xs={4} key={index}>
                         <Box
                             textAlign='center'
                             borderRadius={5}
                             p={1}
                             border={`2px solid ${selectedVariation === index ? 'blue' : 'gray'}`}
-                            onClick={() => handleVariationClick(index)}
+                            onClick={() => handleVariationClick(index, item._id)}
                             sx={{ cursor: 'pointer' }}
                         >
                             <Typography>{item.title}</Typography>
@@ -191,9 +196,9 @@ const ProductDetails = ({ onClose, product, color, cartDrawer }) => {
                     <Typography fontWeight={600}>₹{price}</Typography>
                 </Grid>
                 <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
-                    <RemoveOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? decreaseCartItem(product._id) : decreaseLocalQuantity()} />
+                    <RemoveOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? decreaseCartItem(productData._id) : decreaseLocalQuantity()} />
                     <Typography>{isInCart() > 0 ? isInCart() : localQuantity}</Typography>
-                    <AddOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? increaseCartItem(product._id) : increaseLocalQuantity()} />
+                    <AddOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? increaseCartItem(productData._id) : increaseLocalQuantity()} />
                 </Grid>
             </Grid>
 

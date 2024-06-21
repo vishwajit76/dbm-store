@@ -26,12 +26,13 @@ import Badge from "@mui/material/Badge";
 import { makeStyles } from "@mui/styles";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Cart from "./cart";
-import axiosInstance from "../../util/axiosInstance";
+import axiosInstance from '../../util/axiosInstance';
 import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
+import { cartProduct } from '../../redux/cart/cartSlice'
 
 const useStyles = makeStyles({
   carousel: {
@@ -113,24 +114,26 @@ const CustomButtonGroup = ({ next, previous }) => (
 );
 
 const Shop = () => {
-  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const cartItemCount = useSelector(state => state.cart.items.length);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [drawerProduct, setDrawerProduct] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
   const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [cartDrawer, setCartDrawer] = useState(false);
   const [color, setColor] = useState();
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const classes = useStyles();
+  const [tabValue, setTabValue] = React.useState(0);
 
-  const toggleDetailDrawer =
-    (newOpen, product = null, color) =>
-    () => {
-      setDetailDrawer(newOpen);
-      setDrawerProduct(product);
-      setColor(color);
-    };
+  const toggleDetailDrawer = (newOpen, product = null, color) => () => {
+    setDetailDrawer(newOpen);
+    setDrawerProduct(product);
+    setColor(color);
+  };
+
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -261,40 +264,37 @@ const Shop = () => {
                   )}
                   // sx={{ width: '80%', textAlign: 'center', borderRadius: "15px", p: 2, cursor: 'pointer', border: '1px solid #fff', '&:hover': { border: '1px solid #000 ' } }}
                   sx={{
-                    width: "80%",
-                    textAlign: "center",
-                    borderRadius: "15px",
-                    p: 2,
-                    cursor: "pointer",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&::before, &::after": {
+                    overflow: 'hidden',
+                    '&::before, &::after': {
                       content: '""',
-                      position: "absolute",
-                      width: "2px",
-                      height: "2px",
-                      backgroundColor: "#0084FE",
-                      transition: "all 0.3s ease",
+                      position: 'absolute',
+                      width: '2px',
+                      height: '2px',
+                      backgroundColor: ' #0084FE',
+                      transition: 'all 0.3s ease',
                     },
-                    "&::before": {
-                      top: 0,
-                      left: 0,
-                    },
-                    "&::after": {
+                    '&::before': {
                       bottom: 0,
+                      left: 0,
+                      transitionDelay: '0.3s',
+                    },
+                    '&::after': {
+                      top: 0,
                       right: 0,
+                      transitionDelay: '0.3s',
                     },
-                    "&:hover::before": {
-                      width: "1%",
-                      height: "100%",
+                    '&:hover::before': {
+                      width: '100%',
+                      height: '1%',
                     },
-                    "&:hover::after": {
-                      width: "1%",
-                      height: "100%",
+                    '&:hover::after': {
+                      width: '100%',
+                      height: '1%',
                     },
                   }}
                 >
-                  <Box
+                  <Grid
+                    container
                     sx={{
                       overflow: "hidden",
                       "&::before, &::after": {
@@ -353,7 +353,7 @@ const Shop = () => {
                         />
                       </Grid>
                     </Grid>
-                  </Box>
+                  </Grid>
                   <Typography noWrap my={1}>
                     {item.name}
                   </Typography>
@@ -373,19 +373,38 @@ const Shop = () => {
         </Box>
 
         <Grid container spacing={5} alignItems="center">
-          <Grid item md={6} xs={12}>
-            <Carousel
-              showDots
-              responsive={carouselResponsive}
-              afterChange={(previousSlide, { currentSlide }) =>
-                handleProductChange(currentSlide)
-              }
-              customLeftArrow={<CustomLeftArrow />}
-              customRightArrow={<CustomRightArrow />}
-              dotListClass={classes.dotList}
-            >
-              {products &&
-                products.products.map((item) => (
+          <Grid container item md={6} xs={12} alignItems='center' sx={{flexDirection: {xs: 'column-reverse' , md: 'row'}}}>
+            <Grid item xs={12} md={2} textAlign='center' my={2}>
+              <Tabs
+                orientation={isMdUp ? 'vertical' : 'horizontal'}
+                variant="scrollable"
+                value={tabValue}
+                allowScrollButtonsMobile
+                onChange={handleTabChange}
+                aria-label="Vertical tabs example"
+                sx={{
+                  height: {xs: 'auto' , md: 450},
+                  alignItems: 'center',
+                  '& .MuiTabs-indicator': { display: 'none' },
+                  '& .Mui-selected': { border: '2px solid black' },
+                  '& .MuiTabs-scrollButtons': {
+                    width: '2em',
+                    height: '2em'
+                  }
+                }}>
+                {products.products.map((item, index) => (
+                  <Tab label={<img src={item.image} alt={item.name} width={50} />} />
+                ))}
+              </Tabs>
+            </Grid>
+            <Grid item xs={12} md={10}>
+              <Carousel
+                responsive={carouselResponsive}
+                afterChange={(previousSlide, { currentSlide }) => handleProductChange(currentSlide)}
+                customLeftArrow={<CustomLeftArrow />}
+                customRightArrow={<CustomRightArrow />}
+              >
+                {products && products.products.map((item) => (
                   <Card
                     key={item.id}
                     sx={{
@@ -517,8 +536,9 @@ const Shop = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
-                        marginBottom: "8px", // Added to separate from the body text
+                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
+                        fontSize: { xs: "18px", sm: "24px", md: '30px' },
+                        marginBottom: "8px",
                       }}
                     >
                       HOW THE BULK WHATSAPP SOFTWARE WORKS?
@@ -549,6 +569,7 @@ const Shop = () => {
         <Cart
           onClose={toggleCartDrawer(false)}
           onClick={toggleCheckoutDrawer(true)}
+          openProduct={toggleDetailDrawer(true)}
         />
       </Drawer>
 
@@ -561,7 +582,6 @@ const Shop = () => {
         <ProductDetails
           onClose={toggleDetailDrawer(false)}
           product={drawerProduct}
-          color={color}
           cartDrawer={
             <Badge badgeContent={cartItemCount} color="primary">
               <Box
