@@ -57,7 +57,8 @@ const Navbar = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.token ? true : false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.token ? true : false);
+  const isLoggedIn = useSelector(state => state.cart.isLoggedIn)
   const [loading, setLoading] = useState(false);
   const cartItemCount = useSelector(state => state.cart.items.length);
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
@@ -329,7 +330,7 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <Login onClose={handleLoginModal(false)} onLogin={() => setIsLoggedIn(true)} />
+              <Login onClose={handleLoginModal(false)} />
             </Modal>
 
             {/* user menu */}
