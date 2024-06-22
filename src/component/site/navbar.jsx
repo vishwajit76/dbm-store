@@ -37,8 +37,7 @@ import { store } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import { useDispatch } from 'react-redux';
-
-import { clearUser } from "../../redux/user/userSlice";
+import { clearUser } from "../../redux/auth/authSlice";
 import ProductDetails from "../user/productDetails";
 const pages = [
   { id: "#home", name: "HOME" },
@@ -57,8 +56,7 @@ const Navbar = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.token ? true : false);
-  const isLoggedIn = useSelector(state => state.cart.isLoggedIn)
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const [loading, setLoading] = useState(false);
   const cartItemCount = useSelector(state => state.cart.items.length);
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
@@ -80,16 +78,22 @@ const Navbar = () => {
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
   const toggleCartDrawer = (newOpen) => () => {
     setOpenCart(newOpen);
-     if(newOpen) {
+    if (newOpen) {
       setDetails(false)
       setOpenDetails(false)
-     }};
-  const toggleDetailsDrawer = (newOpen) => () => {setOpenDetails(newOpen); if(newOpen) setOpenCart(false)};
+    }
+  };
+  const toggleDetailsDrawer = (newOpen) => () => { setOpenDetails(newOpen); if (newOpen) setOpenCart(false) };
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
     setCheckoutDrawer(newOpen);
     if (newOpen) setOpenCart(false);
   };
+
+  const handleLogout = () => {
+    setAnchorElUser(null)
+    dispatch(clearUser())
+  }
 
   const DrawerList = (
     <Box
@@ -107,10 +111,6 @@ const Navbar = () => {
       >
         <img src={logo} alt="Logo" width="70%" />
       </Box>
-      {/* <KeyboardBackspaceRoundedIcon
-        fontSize="large"
-        sx={{ margin: "30px 20px 0 0" }}
-      /> */}
       <List>
         {pages.map((text, index) => (
           <ListItem key={`${text.id}-${index}`}>
@@ -167,9 +167,8 @@ const Navbar = () => {
                 display: {
                   xs: "none",
                   md: "flex",
-                  justifyContent: "center",
-                  gap: "25px",
                 },
+                justifyContent: "center",
                 alignItems: "center", // Centering elements vertically
               }}
             >
@@ -179,7 +178,7 @@ const Navbar = () => {
                   key={`${page.id}-${index}`}
                   onClick={handleCloseUserMenu}
                   sx={{
-                    mx: 2,
+                    mx: { md: 2 , lg: 4 },
                     color: "#000",
                     display: "block",
                     fontSize: "15px",
@@ -192,13 +191,13 @@ const Navbar = () => {
                   {page.name}
                 </Typography>
               ))}
-              <Button variant="contained" href="#contact">
-                Let's talk
-              </Button>
             </Box>
 
-            {/* cart and avatar*/}
+            {/* let's talk , cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button variant="contained" href="#contact" sx={{display: { xs: "none", md: "flex" }}}>
+                Let's talk
+              </Button>
               <Badge badgeContent={cartItemCount} color="primary" sx={{ mx: 3 }}>
                 <Box
                   sx={{
@@ -388,12 +387,10 @@ const Navbar = () => {
                 Orders
               </MenuItem>
               <Divider />
-              <MenuItem onClick={dispatch(clearUser())} data-item="Logout">
-
+              <MenuItem onClick={handleLogout} data-item="Logout">
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
-
                 Logout
               </MenuItem>
             </Menu>

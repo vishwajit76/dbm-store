@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Badge, Box, Button, Grid, Rating, Typography, CircularProgress
-} from '@mui/material';
+import { Badge, Box, Button, Grid, Rating, Typography, CircularProgress, Checkbox } from '@mui/material';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import { addItem, increaseQuantity, decreaseQuantity, cartProduct } from '../../redux/cart/cartSlice';
 
 const buttonStyle = {
@@ -156,8 +156,9 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
             </Box>
 
             <Grid container my={5}>
-                <Grid item xs={12} sx={{ borderRadius: 2, backgroundColor: '#eee', textAlign: 'center', p: 1 }}>
+                <Grid item xs={12} sx={{ borderRadius: 2, backgroundColor: '#eee', textAlign: 'center' }}>
                     <img width="80%" src={productData.image} alt="Product" />
+                    <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
                 </Grid>
             </Grid>
 
@@ -176,7 +177,7 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
 
             <Grid container spacing={2}>
                 {productData.variations.map((item, index) => (
-                    <Grid item xs={4} key={index}>
+                    <Grid item xs={6} md={4} key={index}>
                         <Box
                             textAlign='center'
                             borderRadius={5}

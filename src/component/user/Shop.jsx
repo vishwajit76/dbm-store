@@ -119,7 +119,6 @@ const Shop = () => {
   const cartItemCount = useSelector(state => state.cart.items.length);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
-  // const [drawerProduct, setDrawerProduct] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
   const [checkoutDrawer, setCheckoutDrawer] = useState(false);
   const [cartDrawer, setCartDrawer] = useState(false);
@@ -130,8 +129,6 @@ const Shop = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
-  console.log(drawerProduct);
-  console.log('dhruv');
 
   const toggleDetailDrawer = (newOpen, product = null) => () => {
     setDetailDrawer(newOpen);
@@ -397,7 +394,7 @@ const Shop = () => {
                   }
                 }}>
                 {products.products.map((item, index) => (
-                  <Tab label={<img src={item.image} alt={item.name} width={50} />} />
+                  <Tab key={index} label={<img src={item.image} alt={item.name} width={50} />} />
                 ))}
               </Tabs>
             </Grid>
@@ -620,4 +617,5 @@ const Shop = () => {
     </Box>
   );
 };
+
 export default Shop;

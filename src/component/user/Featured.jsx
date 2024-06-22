@@ -48,7 +48,7 @@ const StyledBadge = styled(Badge)(({ transform }) => ({
 }));
 
 const arrowStyle = {
-  border: 1, p: 1, borderRadius: '50%', ml: 2
+  border: 1, p: 1, borderRadius: '50%', ml: 2 , cursor: 'pointer'
 };
 
 const transformations = ['rotate(-8deg)', 'rotate(12deg)', 'rotate(12deg)'];
