@@ -33,7 +33,8 @@ import "react-multi-carousel/lib/styles.css";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { cartProduct } from "../../redux/cart/cartSlice";
 
 const useStyles = makeStyles({
   carousel: {
@@ -125,17 +126,20 @@ const Shop = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const classes = useStyles();
   const [tabValue, setTabValue] = React.useState(0);
-
-  const toggleDrawer =
-    (newOpen, product = null) =>
-    () => {
-      setOpen(newOpen);
-      setDrawerProduct(product);
-      setColor(color);
-    };
-
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
+  console.log(drawerProduct);
+  console.log("dhruv");
+
+  const toggleDetailDrawer =
+    (newOpen, product = null) =>
+    () => {
+      setDetailDrawer(newOpen);
+      if (newOpen) setCartDrawer(false);
+      dispatch(cartProduct({ product }));
+    };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -175,14 +179,13 @@ const Shop = () => {
         const data = response.data;
         setProducts(data);
         if (data.products.length > 0) {
-          setSelectedProduct(data.products[0]); // Set the initial selected product
+          setSelectedProduct(data.products[0]);
         }
       } catch (error) {
         setError(error.message);
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -252,13 +255,7 @@ const Shop = () => {
             }}
           >
             New
-            <Box
-              component="span"
-              sx={{
-                color: "primary.main",
-                mx: 1,
-              }}
-            >
+            <Box component="span" sx={{ color: "primary.main", mx: 1 }}>
               arrival
             </Box>
             for you
@@ -471,7 +468,7 @@ const Shop = () => {
             </Grid>
           </Grid>
           <Grid item md={6} xs={12}>
-            <Typography variant="h4" fontWeight={600}>
+            <Typography ml="16px" variant="h5" fontWeight={600}>
               {selectedProduct && selectedProduct.name}
             </Typography>
             <List>
@@ -485,94 +482,6 @@ const Shop = () => {
               ))}
             </List>
           </Grid>
-        </Grid>
-
-        <Grid>
-          <Container
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "32px 0",
-            }}
-          >
-            <Card
-              style={{
-                clipPath: "polygon(50% 0%, 35% 100%, 65% 100%)",
-                transform: "translate(0%, 0%)",
-                backgroundColor: "white",
-              }}
-              sx={{ maxWidth: "50%", width: "100%", justifyContent: "center" }}
-            >
-              gh
-            </Card>
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "16px",
-                width: "100%",
-              }}
-            >
-              <Grid container spacing={2} alignItems="center">
-                <Grid
-                  item
-                  xs={12}
-                  md={4}
-                  sx={{
-                    display: "flex",
-                    justifyContent: { xs: "center", md: "flex-start" },
-                    textAlign: { xs: "center", md: "left" },
-                  }}
-                >
-                  <Typography
-                    variant="h4"
-                    gutterBottom
-                    sx={{ width: "100%", minWidth: "30%" }}
-                  >
-                    How It Work
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "16px",
-                      // backgroundColor: '#f9f9f9',
-                      borderRadius: "10px",
-                      padding: "16px",
-                    }}
-                  >
-                    <Box>
-                      <IconButton
-                        color="white"
-                        variant="contained"
-                        sx={{
-                          fontSize: "3rem",
-                          bgcolor: "#007bff",
-                          color: "#fff",
-                        }}
-                      >
-                        <PlayArrowOutlinedIcon fontSize="large" />
-                      </IconButton>
-                    </Box>
-                    <CardContent>
-                      <Typography variant="h6">
-                        HOW THE BULK WHATSAPP SOFTWARE WORKS?
-                      </Typography>
-                      <Typography variant="body1">
-                        Watch a video which shows a detailed step by step
-                        process of how to get started with our Bulk WhatsApp
-                        Software.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            </Card>
-          </Container>
         </Grid>
       </Container>
 
@@ -709,7 +618,11 @@ const Shop = () => {
       </Drawer>
 
       {/* product details drawer */}
-      <Drawer anchor="right" open={detailDrawer} onClose={false}>
+      <Drawer
+        anchor="right"
+        open={detailDrawer}
+        onClose={toggleDetailDrawer(false)}
+      >
         <ProductDetails
           onClose={toggleDetailDrawer(false)}
           product={drawerProduct}

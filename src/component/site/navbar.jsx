@@ -22,7 +22,6 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import Badge from "@mui/material/Badge";
-import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Checkout from "../user/checkout";
@@ -39,6 +38,7 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import { useDispatch } from "react-redux";
 
 import { clearUser } from "../../redux/user/userSlice";
+import Header from "../user/Header";
 const pages = [
   { id: "#home", name: "HOME" },
   { id: "#shop", name: "SHOP" },
@@ -156,6 +156,7 @@ const Navbar = () => {
   return (
     <div style={{ paddingTop: 56 }}>
       <AppBar elevation={0} position="fixed" sx={{ background: "#f4f4f4" }}>
+        <Header />
         <Container>
           <Toolbar
             sx={{ display: "flex", justifyContent: "space-between" }}
