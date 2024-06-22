@@ -5,16 +5,17 @@ export const cartSlice = createSlice({
     initialState: {
         items: [],
         count: 0,
-        subtotal: 0
+        subtotal: 0,
+        selectedProduct: {},
     },
     reducers: {
         addItem: (state, action) => {
-            const { id, name, price, rating, image, quantity , variations } = action.payload;
+            const { product , id, name, price, rating, image, quantity , variation } = action.payload;
             const existingItemIndex = state.items.findIndex(item => item.id === id);
             if (existingItemIndex !== -1) {
                 state.items[existingItemIndex].quantity += quantity;
             } else {
-                state.items.push({ id, name, price, rating, image, quantity, variations });
+                state.items.push({ product ,id, name, price, rating, image, quantity, variation });
             }
             state.count += quantity;
             state.subtotal += price * quantity;
@@ -53,10 +54,13 @@ export const cartSlice = createSlice({
             state.items = [];
             state.count = 0;
             state.subtotal = 0;
+        },
+        cartProduct: (state , action) => {
+            state.selectedProduct = action.payload
         }
     },
 });
 
-export const { addItem, removeFromCart, increaseQuantity, decreaseQuantity, clearCart } = cartSlice.actions;
+export const { addItem, removeFromCart, increaseQuantity, decreaseQuantity, clearCart , cartProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;

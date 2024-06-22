@@ -12,7 +12,10 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import { setPaymentDetails } from '../../redux/payment/paymentSlice'
+import { useDispatch, useSelector } from 'react-redux';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import axiosInstance from '../../util/axiosInstance';
 
 const style = {
     p: 2,
@@ -28,6 +31,11 @@ const Checkout = ({ onClose }) => {
     const [country, setCountry] = useState("");
     const [zip, setZip] = useState("");
     const [selectedOption, setSelectedOption] = useState('home');
+    const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch()
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const [errors, setErrors] = useState({
         name: '',
@@ -53,7 +61,6 @@ const Checkout = ({ onClose }) => {
             zip: ''
         };
 
-        // Validate name
         if (!name.trim()) {
             newErrors.name = 'Name is required';
             valid = false;
@@ -62,7 +69,6 @@ const Checkout = ({ onClose }) => {
             valid = false;
         }
 
-        // Validate email
         if (!email.trim()) {
             newErrors.email = 'Email is required';
             valid = false;
@@ -71,7 +77,6 @@ const Checkout = ({ onClose }) => {
             valid = false;
         }
 
-        // Validate phone number
         if (!phone.trim()) {
             newErrors.phone = 'Phone number is required';
             valid = false;
@@ -80,31 +85,26 @@ const Checkout = ({ onClose }) => {
             valid = false;
         }
 
-        // Validate address
         if (!address.trim()) {
             newErrors.address = 'Address is required';
             valid = false;
         }
 
-        // Validate city
         if (!city.trim()) {
             newErrors.city = 'City is required';
             valid = false;
         }
 
-        // Validate state
         if (!state.trim()) {
             newErrors.state = 'State is required';
             valid = false;
         }
 
-        // Validate country
         if (!country.trim()) {
             newErrors.country = 'Country is required';
             valid = false;
         }
 
-        // Validate zip code
         if (!zip.trim()) {
             newErrors.zip = 'Zip code is required';
             valid = false;
@@ -114,11 +114,26 @@ const Checkout = ({ onClose }) => {
         return valid;
     };
 
+    const buyNow = async () => {
+        try {
+          const response = await axiosInstance.post("/orders/buy" , {
+            "currency":"INR",
+            "payment_method":"razorpay",
+            "items": [{
+            "product_id": "6644a5b13a3674779359ac39",
+            "variation_id": "65926b53dbba6d34a8996e35",
+            "quantity":2
+          }]});
+        } catch (err) {
+            console.log(err);
+        }
+      };
+
     const handleSubmit = () => {
         const isValid = validateForm();
 
         if (isValid) {
-            const profileData = {
+            const userData = {
                 name,
                 email,
                 address,
@@ -128,23 +143,23 @@ const Checkout = ({ onClose }) => {
                 country,
                 zip,
             };
-            localStorage.setItem("profileData", JSON.stringify(profileData));
+            console.log('user-data', { name, email, phone });
+            dispatch(setPaymentDetails(userData))
+            buyNow()
         }
     };
 
     return (
-        <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
+        <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>
             <Grid container alignItems="center" justifyContent="space-between" mb={3}>
-               
+                <NavigateBeforeRoundedIcon
+                    fontSize="large"
+                    cursor="pointer"
+                    onClick={onClose}
+                />
 
-                    <NavigateBeforeRoundedIcon
-                        fontSize="large"
-                        cursor="pointer"
-                        onClick={onClose}
-                    />
-        
-                    <Typography fontWeight={600} align="center">Checkout</Typography>
-               
+                <Typography fontWeight={600} align="center">Checkout</Typography>
+
             </Grid>
 
             <Box sx={style}>
@@ -277,8 +292,9 @@ const Checkout = ({ onClose }) => {
                             color="black"
                             sx={{ color: '#fff', borderRadius: 2, p: 2 }}
                             fullWidth
+                            onClick={handleSubmit}
                         >
-                            Place Order
+                            Make Payment
                         </Button>
                     </Box>
                 </Box>

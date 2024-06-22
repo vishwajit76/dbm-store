@@ -2,26 +2,25 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import "react-phone-input-2/lib/style.css";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Snackbar, Typography } from "@mui/material";
 // import { Phone } from "@mui/icons-material";
 import { useSelector, useDispatch } from 'react-redux';
-import { setToken, setUserDetail } from '../../redux/user/userSlice';
+import { setToken, setUserDetail } from '../../redux/auth/authSlice';
 
-function Login({ onClose , onLogin }) {
+function Login({ onClose }) {
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
 
   const [number, setNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false); // State to track if OTP has been sent
+  const [otpSent, setOtpSent] = useState(false); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
-
   const handleSendOtp = async () => {
-    if (!otpSent) { // Check if OTP has already been sent
+    if (!otpSent) { 
       setLoading(true);
       const data = {
         phone: "+" + number,
@@ -67,7 +66,6 @@ function Login({ onClose , onLogin }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Include any additional headers as needed
         },
         body: JSON.stringify(data),
       });
@@ -80,18 +78,16 @@ function Login({ onClose , onLogin }) {
 
       setLoading(false);
       if (result.status) {
-        onClose();
-        onLogin()
-        dispatch(setToken(result.token))
+        dispatch(setToken(result))
         dispatch(setUserDetail(result))
-        console.log(result);
+        onClose();
       } else {
-        setError("Invalid OTP. Please try again."); // Set error state for unsuccessful verification
+        setError("Invalid OTP. Please try again.");
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
       setLoading(false);
-      setError("Failed to verify OTP. Please try again."); // Set error state
+      setError("Failed to verify OTP. Please try again.");
     }
   };
 
