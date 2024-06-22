@@ -3,12 +3,12 @@ import "./App.css";
 import { ThemeProvider, Box, createTheme } from "@mui/material";
 import Navbar from "./component/site/navbar";
 import Home from "./component/user/Home";
-import Shop from "./component/user/Shop";
+// import Shop from "./component/user/Shop";
 import About from "./component/user/About";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
-// import Termpage from "./component/user/Termpage";
+import Termpage from "./component/user/Termpage";
 
 // Define the theme directly inside App.js
 const theme = createTheme({
@@ -56,7 +56,7 @@ function App() {
           <Home />
         </section>
         <section id="shop">
-          <Shop />
+          {/* <Shop /> */}
         </section>
         <section id="featured">
           <Featured />
@@ -67,7 +67,7 @@ function App() {
         <section id="faq">
           <Faq />
         </section>
-        {/* <Termpage /> */}
+        <Termpage />
         <Footer />
       </Box>
     </ThemeProvider>

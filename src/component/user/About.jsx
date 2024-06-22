@@ -121,21 +121,21 @@ const About = () => {
             <img
               src={img1}
               alt="Your Image"
-              style={{ maxWidth: "100%", height: "auto" }}
+              style={{ maxWidth: "100%", }}
             />
           </Box>
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} alignItems="center" sx={{ marginTop: 4 }}>
-      <Grid item xs={12} md={5}>
+      <Grid container spacing={2} alignItems="center"  sx={{ marginTop: 4 }}>
+      <Grid item xs={12} md={5} justifyContent={'start'}>
   <Box
     sx={{
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       width: { xs: "100%", sm: "100%", md: "380px" }, // Adjusted width for different screen sizes
-      margin: "auto", // Center the Box horizontally
+      margin: "0 15px  ", // Center the Box horizontally
     }}
   >
     <img

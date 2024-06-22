@@ -235,46 +235,7 @@ const Home = () => {
 
           <Grid>
             <Grid item margin={"50px 0"}>
-              {/* <Box>
-                <img
-                  src={wew1}
-                  alt=""
-                  style={{ position: "absolute", left: "0px" }}
-                />
-              </Box>
-              <Box>
-                <img
-                  src={star1}
-                  alt=""
-                  style={{
-                    position: "absolute",
-                    left: "220px",
-                    bottom: "80px",
-                  }}
-                />
-              </Box>
-              <Box>
-                <img
-                  src={wew2}
-                  alt=""
-                  style={{
-                    position: "absolute",
-                    right: "100px",
-                    bottom: "80px",
-                  }}
-                />
-              </Box>
-              <Box>
-                <img
-                  src={star2}
-                  alt=""
-                  style={{
-                    position: "absolute",
-                    right: "30px",
-                    bottom: "110px",
-                  }}
-                />
-              </Box> */}
+            
 
 <Typography
       textAlign={"center"}
