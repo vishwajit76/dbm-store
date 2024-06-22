@@ -32,7 +32,7 @@ function Footer() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", 
+      behavior: "smooth",
     });
   };
 
@@ -206,16 +206,13 @@ function Footer() {
                   item
                   xs={12}
                   sm={6}
-                  sx={{ display: "flex", justifyContent: "center" }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    textAlign: { md: "center", lg: "left", xs: "center" },
+                  }}
                 >
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="flex-start"
-                    alignItems="flex-start" // Align items at the start
-                    textAlign="left" // Align text to the left
-                    mt={{ xs: 0, sm: 4 }} // Adjust margin top for different screen sizes
-                  >
+                  <Box mt={{ xs: 0, sm: 4 }}>
                     <Typography fontWeight={600}>USEFUL LINKS</Typography>
                     <Box mt={3}>
                       <ul
@@ -276,8 +273,13 @@ function Footer() {
                 display="flex"
                 flexDirection="column"
                 justifyContent="flex-start"
-                alignItems={{ xs: "center", sm: "flex-start" }} // Center on xs, start on sm and above
-                textAlign="left" // Align text to the left
+                alignItems={{
+                  xs: "center",
+                  sm: "center",
+                  md: "center",
+                  lg: "flex-start",
+                }} // Center on xs, start on sm and above
+                // textAlign="left" // Align text to the left
                 mt={{ xs: 0, sm: 4 }} // Adjust margin top for different screen sizes
               >
                 <Typography fontWeight={600}>NEWSLETTER</Typography>
@@ -299,7 +301,12 @@ function Footer() {
                     justifyContent="center" // Center button
                     width="100%"
                     sx={{
-                      justifyContent: { xs: "center", sm: "flex-start" }, // Center on xs, start on sm and above
+                      justifyContent: {
+                        xs: "center",
+                        sm: "center",
+                        md: "center",
+                        lg: "flex-start",
+                      }, // Center on xs, start on sm and above
                       mt: { xs: 3, sm: 0 }, // Adjust margin top for different screen sizes
                     }}
                   >
@@ -330,8 +337,10 @@ function Footer() {
             position: "fixed",
             bottom: 0,
             right: 0,
-            padding: "5px",
+            padding: "2px",
             borderRadius: "50%",
+            marginBottom: "7px",
+            marginRight: "10px",
           }}
         >
           <IconButton

@@ -8,7 +8,8 @@ import About from "./component/user/About";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
-import Termpage from "./component/user/Termpage";
+import Header from "./component/user/Header";
+// import Termpage from "./component/user/Termpage";
 
 // Define the theme directly inside App.js
 const theme = createTheme({
@@ -50,6 +51,8 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <Header />
+      
       <Box sx={{ bgcolor: "#F4F4F4" }}>
         <Navbar />
         <section id="home">

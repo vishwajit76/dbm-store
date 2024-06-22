@@ -22,7 +22,6 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import Badge from "@mui/material/Badge";
-import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Checkout from "../user/checkout";
@@ -33,8 +32,8 @@ import logo from "../image/logo (1).png";
 import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
 import { Logout } from "@mui/icons-material";
-import { store } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import { store } from "../../redux/store";
+import { useSelector } from "react-redux";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import { useDispatch } from 'react-redux';
 import { clearUser } from "../../redux/auth/authSlice";
@@ -55,6 +54,10 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    store.getState().user.token ? true : false
+  );
+  const [loading, setLoading] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const [loading, setLoading] = useState(false);
@@ -75,6 +78,7 @@ const Navbar = () => {
   const handleLoginModal = (newOpen) => () => setOpenLoginModal(newOpen);
   const handleClick = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
   const toggleCartDrawer = (newOpen) => () => {
     setOpenCart(newOpen);
@@ -150,6 +154,7 @@ const Navbar = () => {
   return (
     <div style={{ paddingTop: 56 }}>
       <AppBar elevation={0} position="fixed" sx={{ background: "#f4f4f4" }}>
+        <Header />
         <Container>
           <Toolbar
             sx={{ display: "flex", justifyContent: "space-between" }}
@@ -216,7 +221,10 @@ const Navbar = () => {
               </Badge>
 
               <Box sx={{ flexGrow: 0 }}>
-                <IconButton onClick={isLoggedIn ? handleClick : handleLoginModal(true)} sx={{ p: 0 }}>
+                <IconButton
+                  onClick={isLoggedIn ? handleClick : handleLoginModal(true)}
+                  sx={{ p: 0 }}
+                >
                   <Avatar
                     alt="Profile Picture"
                     src={profilePicture}
@@ -329,7 +337,10 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <Login onClose={handleLoginModal(false)} />
+              <Login
+                onClose={handleLoginModal(false)}
+                onLogin={() => setIsLoggedIn(true)}
+              />
             </Modal>
 
             {/* user menu */}
@@ -394,7 +405,6 @@ const Navbar = () => {
                 Logout
               </MenuItem>
             </Menu>
-
           </Toolbar>
         </Container>
       </AppBar>
@@ -403,5 +413,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
