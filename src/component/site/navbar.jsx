@@ -38,6 +38,7 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import { useDispatch } from 'react-redux';
 import { clearUser } from "../../redux/auth/authSlice";
 import ProductDetails from "../user/productDetails";
+import Header from "../user/Header";
 const pages = [
   { id: "#home", name: "HOME" },
   { id: "#shop", name: "SHOP" },
@@ -54,13 +55,13 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    store.getState().user.token ? true : false
-  );
+  // const [isLoggedIn, setIsLoggedIn] = useState(
+  //   store.getState().user.token ? true : false
+  // );
   const [loading, setLoading] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  const [loading, setLoading] = useState(false);
+ 
   const cartItemCount = useSelector(state => state.cart.items.length);
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
   const [profilePicture, setProfilePicture] = useState(
