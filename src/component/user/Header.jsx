@@ -29,13 +29,19 @@ const Header = () => {
   };
 
   const socialMediaIcons = [
-    { icon: <XIcon />, link: "https://www.twitter.com" },
-    { icon: <FacebookIcon />, link: "https://www.facebook.com" },
-    { icon: <InstagramIcon />, link: "https://www.instagram.com" },
+    { icon: <XIcon fontSize="small" />, link: "https://www.twitter.com" },
+    {
+      icon: <FacebookIcon fontSize="small" />,
+      link: "https://www.facebook.com",
+    },
+    {
+      icon: <InstagramIcon fontSize="small" />,
+      link: "https://www.instagram.com",
+    },
   ];
 
   return (
-    <div style={{ backgroundColor: "darkblue" }}>
+    <div style={{ backgroundColor: "#000" }}>
       <Container>
         <Box
           sx={{
@@ -44,11 +50,11 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <Box sx={{ display: 'flex'}}>
-            <EmailIcon sx={{ cursor: "pointer" }} />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <EmailIcon sx={{ cursor: "pointer", fontSize: "medium" }} />
             <Typography
               onClick={handleEmailClick}
-              sx={{ cursor: "pointer", color: "#fff" , ml: 1 }}
+              sx={{ cursor: "pointer", color: "#fff", ml: 1 }}
             >
               info@digibulkmarketing.com
             </Typography>
@@ -56,10 +62,11 @@ const Header = () => {
           <Box
             sx={{
               display: "flex",
+              alignItems: "center",
               gap: "5px",
             }}
           >
-            <CallIcon sx={{ cursor: "pointer" }} />
+            <CallIcon sx={{ cursor: "pointer", fontSize: "medium" }} />
             <Typography
               onClick={handlePhoneClick}
               sx={{ cursor: "pointer", color: "#fff" }}

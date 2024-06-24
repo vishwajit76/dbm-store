@@ -35,7 +35,7 @@ import { Logout } from "@mui/icons-material";
 import { store } from "../../redux/store";
 import { useSelector } from "react-redux";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/auth/authSlice";
 import ProductDetails from "../user/productDetails";
 import Header from "../user/Header";
@@ -55,15 +55,12 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(
-  //   store.getState().user.token ? true : false
-  // );
   const [loading, setLoading] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
- 
-  const cartItemCount = useSelector(state => state.cart.items.length);
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
@@ -84,11 +81,14 @@ const Navbar = () => {
   const toggleCartDrawer = (newOpen) => () => {
     setOpenCart(newOpen);
     if (newOpen) {
-      setDetails(false)
-      setOpenDetails(false)
+      setDetails(false);
+      setOpenDetails(false);
     }
   };
-  const toggleDetailsDrawer = (newOpen) => () => { setOpenDetails(newOpen); if (newOpen) setOpenCart(false) };
+  const toggleDetailsDrawer = (newOpen) => () => {
+    setOpenDetails(newOpen);
+    if (newOpen) setOpenCart(false);
+  };
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
     setCheckoutDrawer(newOpen);
@@ -96,9 +96,9 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    setAnchorElUser(null)
-    dispatch(clearUser())
-  }
+    setAnchorElUser(null);
+    dispatch(clearUser());
+  };
 
   const DrawerList = (
     <Box
@@ -184,7 +184,7 @@ const Navbar = () => {
                   key={`${page.id}-${index}`}
                   onClick={handleCloseUserMenu}
                   sx={{
-                    mx: { md: 2 , lg: 4 },
+                    mx: { md: 2, lg: 4 },
                     color: "#000",
                     display: "block",
                     fontSize: "15px",
@@ -201,10 +201,18 @@ const Navbar = () => {
 
             {/* let's talk , cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button variant="contained" href="#contact" sx={{display: { xs: "none", md: "flex" }}}>
+              <Button
+                variant="contained"
+                href="#contact"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
                 Let's talk
               </Button>
-              <Badge badgeContent={cartItemCount} color="primary" sx={{ mx: 3 }}>
+              <Badge
+                badgeContent={cartItemCount}
+                color="primary"
+                sx={{ mx: 3 }}
+              >
                 <Box
                   sx={{
                     width: 35,
@@ -217,7 +225,10 @@ const Navbar = () => {
                   }}
                   onClick={toggleCartDrawer(true)}
                 >
-                  <ShoppingBagOutlinedIcon color="black" />
+                  <ShoppingBagOutlinedIcon
+                    color="black"
+                    sx={{ cursor: "pointer" }}
+                  />
                 </Box>
               </Badge>
 

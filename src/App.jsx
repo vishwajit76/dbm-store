@@ -10,6 +10,7 @@ import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
 import Header from "./component/user/Header";
 import Termpage from "./component/user/Termpage";
+import Shop from "./component/user/Shop";
 
 // Define the theme directly inside App.js
 const theme = createTheme({
@@ -52,14 +53,14 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      
+
       <Box sx={{ bgcolor: "#F4F4F4" }}>
         <Navbar />
         <section id="home">
           <Home />
         </section>
         <section id="shop">
-          {/* <Shop /> */}
+          <Shop />
         </section>
         <section id="featured">
           <Featured />

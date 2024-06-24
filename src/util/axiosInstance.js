@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { store } from '.././redux/store'; 
+import { store } from '.././redux/store';
 const axiosInstance = axios.create({
   baseURL: 'https://api.digibulkmarketing.com/',
 });
 axiosInstance.interceptors.request.use((config) => {
   const state = store.getState();
-  const token = state.auth.token; 
-  const user = state.auth.detail; 
-  
+  const token = state.auth.token;
+  const user = state.auth.detail;
+
   const isMultipartData = config.headers['Content-Type'] === 'multipart/form-data';
   config.headers = {
     'Content-Type': isMultipartData ? 'multipart/form-data' : 'application/json',

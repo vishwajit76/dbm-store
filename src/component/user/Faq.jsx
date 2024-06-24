@@ -20,36 +20,9 @@ import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftR
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import contactFormImg from "../image/ContactForm.png";
 import { makeStyles } from "@mui/styles";
+import axiosInstance from "../../util/axiosInstance";
 
 const SITE_KEY = "6LcNLbMpAAAAAHT-3b_fICQjCcUEivSg53-srBQn";
-
-const faqData = [
-  {
-    title: "What WhatsApp tool do you provide?",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-  },
-  {
-    title: "What WhatsApp tool do you provide?",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-  },
-  {
-    title: "What WhatsApp tool do you provide?",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-  },
-  {
-    title: "What WhatsApp tool do you provide?",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-  },
-  {
-    title: "What WhatsApp tool do you provide?",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-  },
-];
 
 const CustomLeftArrow = ({ onClick }) => (
   <Box
@@ -103,6 +76,7 @@ const Faq = () => {
   const [expanded, setExpanded] = useState(0);
   const [error, setError] = useState(null);
   const [products, setProducts] = useState(null);
+  const [faqData, setFaqData] = useState([]);
   const {
     handleSubmit,
     control,
@@ -113,6 +87,25 @@ const Faq = () => {
   const onSubmit = (data) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.post("/products/product-by-id", {
+          master_reseller_id: "626f85e0544a264104223e37",
+          product_id: "62677b1d52f74219882d4f38",
+        });
+        // Assuming your API returns an array of FAQ objects in response.data
+        setFaqData(response.data.product.faqs);
+        console.log(("response data is : ", response.data));
+      } catch (error) {
+        console.error("Error fetching FAQ data:", error);
+        // Handle error states as needed
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,10 +144,9 @@ const Faq = () => {
         <Box pb={8} textAlign="center">
           <Typography
             fontWeight={600}
-            variant='h3'
+            variant="h3"
             sx={{
               background: "#f4f4f4",
-              
             }}
           >
             Frequently
@@ -178,8 +170,8 @@ const Faq = () => {
           </Typography>
         </Box>
         <Grid container spacing={5} pb={5}>
-          <Grid item xs={12} md={6}>
-            {faqData.map((item, index) => (
+          <Grid item xs={12} md={6} sx={{ height: "570px", overflowY: "auto" }}>
+            {faqData?.map((item, index) => (
               <Accordion
                 sx={{ my: 2, py: 1 }}
                 key={index}
@@ -196,19 +188,10 @@ const Faq = () => {
                 <AccordionDetails
                   sx={{ background: "#1783FE", p: 3, color: "#fff" }}
                 >
-                  <Typography>{item.content}</Typography>
+                  <Typography>{item.description}</Typography>
                 </AccordionDetails>
               </Accordion>
             ))}
-            <Typography mt={3} variant="h5">
-              Can't find an answer to your question?
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ borderRadius: "10px", py: 1, my: 1 }}
-            >
-              Submit a request
-            </Button>
           </Grid>
           <Grid item md={6} xs={12}>
             <Typography mb={5} variant="h6" align="left">
@@ -243,6 +226,17 @@ const Faq = () => {
             </Carousel>
           </Grid>
         </Grid>
+        <Grid xs={12} md={6}>
+          <Typography variant="h5">
+            Can't find an answer to your question?
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ borderRadius: "10px", py: 1, my: 1 }}
+          >
+            Submit a request
+          </Button>
+        </Grid>
       </Container>
 
       <section id="contact">
@@ -272,7 +266,6 @@ const Faq = () => {
             <Box
               sx={{
                 width: { xs: "100%", md: "45%" },
-                // marginBottom: { xs: 2, md: 0 },
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
