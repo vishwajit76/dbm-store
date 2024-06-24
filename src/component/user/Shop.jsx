@@ -1,21 +1,4 @@
-import {
-  Box,
-  Container,
-  Tabs,
-  Tab,
-  Typography,
-  Rating,
-  Grid,
-  Card,
-  ListItem,
-  List,
-  Drawer,
-  ListItemText,
-  ListItemIcon,
-  Skeleton,
-  CardContent,
-  IconButton,
-} from "@mui/material";
+import { Box,Container,Tabs,Tab,Typography,Rating,Grid,Card,ListItem,List,Drawer,ListItemText,ListItemIcon,Skeleton,CardContent,IconButton,} from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
