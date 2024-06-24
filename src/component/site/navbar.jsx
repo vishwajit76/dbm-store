@@ -31,6 +31,7 @@ import Order from "../user/order";
 import logo from "../image/logo (1).png";
 import OrderDetails from "../user/orderDetails";
 import EditProfile from "./editProfile";
+import Wishlist from "../user/wishlist";
 import { Logout } from "@mui/icons-material";
 import { store } from "../../redux/store";
 import { useSelector } from "react-redux";
@@ -61,8 +62,9 @@ const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
- 
+  const [wishlist, setWishlist] = useState(false)
   const cartItemCount = useSelector(state => state.cart.items.length);
+  const wishlistItemCount = useSelector(state => state.wishlist.items.length);
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
@@ -89,6 +91,7 @@ const Navbar = () => {
     }
   };
   const toggleDetailsDrawer = (newOpen) => () => { setOpenDetails(newOpen); if (newOpen) setOpenCart(false) };
+  const toggleWishlistDrawer = (newOpen) => () => setWishlist(newOpen);
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
     setCheckoutDrawer(newOpen);
@@ -154,7 +157,7 @@ const Navbar = () => {
   );
   return (
     <div style={{ paddingTop: 56 }}>
-      <AppBar elevation={0} position="fixed" sx={{ background: "#f4f4f4" }}>
+      <AppBar /* elevation={0} */ position="fixed" sx={{ background: "#f4f4f4" }}>
         <Header />
         <Container>
           <Toolbar
@@ -184,7 +187,7 @@ const Navbar = () => {
                   key={`${page.id}-${index}`}
                   onClick={handleCloseUserMenu}
                   sx={{
-                    mx: { md: 2 , lg: 4 },
+                    mx: { md: 2, lg: 4 },
                     color: "#000",
                     display: "block",
                     fontSize: "15px",
@@ -201,7 +204,7 @@ const Navbar = () => {
 
             {/* let's talk , cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button variant="contained" href="#contact" sx={{display: { xs: "none", md: "flex" }}}>
+              <Button variant="contained" href="#contact" sx={{ display: { xs: "none", md: "flex" } }}>
                 Let's talk
               </Button>
               <Badge badgeContent={cartItemCount} color="primary" sx={{ mx: 3 }}>
@@ -322,6 +325,16 @@ const Navbar = () => {
                 }
               />
             </Drawer>
+
+            {/* wishlist drawer */}
+            <Drawer
+              anchor="right"
+              open={wishlist}
+              onClose={toggleWishlistDrawer(false)}
+            >
+              <Wishlist onClose={toggleWishlistDrawer(false)} />
+            </Drawer>
+
             {/* edit profile modal */}
             <Modal
               open={openModal}
@@ -392,8 +405,8 @@ const Navbar = () => {
               <MenuItem onClick={handleOpenModal} data-item="Profile">
                 Profile
               </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu} data-item="Wishlist">
-                Wishlist
+              <MenuItem onClick={toggleWishlistDrawer(true)} data-item="Wishlist">
+               wishlist {wishlistItemCount>0 && wishlistItemCount}
               </MenuItem>
               <MenuItem onClick={toggleOrderDrawer(true)} data-item="Orders">
                 Orders

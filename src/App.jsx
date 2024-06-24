@@ -3,7 +3,7 @@ import "./App.css";
 import { ThemeProvider, Box, createTheme } from "@mui/material";
 import Navbar from "./component/site/navbar";
 import Home from "./component/user/Home";
-// import Shop from "./component/user/Shop";
+import Shop from "./component/user/Shop";
 import About from "./component/user/About";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
@@ -25,6 +25,9 @@ const theme = createTheme({
         fontSize: "3.125rem", // 50px for medium screens and up
       },
     },
+    body2: {
+      fontSize: "18px"
+    }
   },
   palette: {
     white: {
@@ -59,7 +62,7 @@ function App() {
           <Home />
         </section>
         <section id="shop">
-          {/* <Shop /> */}
+          <Shop />
         </section>
         <section id="featured">
           <Featured />

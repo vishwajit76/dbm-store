@@ -10,28 +10,36 @@ export const cartSlice = createSlice({
     },
     reducers: {
         addItem: (state, action) => {
-            const { product , id, name, price, rating, image, quantity , variation } = action.payload;
-            const existingItemIndex = state.items.findIndex(item => item.id === id);
-            if (existingItemIndex !== -1) {
-                state.items[existingItemIndex].quantity += quantity;
+            const { product, id, name, price, rating, image, quantity, variation } = action.payload;
+            const existingItem = state.items.find(
+                (item) => item.id === id && item.variation?._id === variation?._id
+            );
+            if (existingItem) {
+                existingItem.quantity += action.payload.quantity;
             } else {
-                state.items.push({ product ,id, name, price, rating, image, quantity, variation });
+                state.items.push({ product, id, name, price, rating, image, quantity, variation });
             }
+
             state.count += quantity;
             state.subtotal += price * quantity;
         },
         removeFromCart: (state, action) => {
-            const indexToRemove = action.payload;
-            const itemToRemove = state.items[indexToRemove];
-            if (itemToRemove) {
+            const { id, variationId } = action.payload;
+            const existingItemIndex = state.items.findIndex(
+                item => item.id === id && item.variation?._id === variationId
+            );
+            if (existingItemIndex !== -1) {
+                const itemToRemove = state.items[existingItemIndex];
                 state.subtotal -= itemToRemove.price * itemToRemove.quantity;
                 state.count -= itemToRemove.quantity;
-                state.items.splice(indexToRemove, 1);
+                state.items.splice(existingItemIndex, 1);
             }
         },
         increaseQuantity: (state, action) => {
-            const { id } = action.payload;
-            const existingItemIndex = state.items.findIndex(item => item.id === id);
+            const { id, variationId } = action.payload;
+            const existingItemIndex = state.items.findIndex(
+                item => item.id === id && item.variation?._id === variationId
+            );
             if (existingItemIndex !== -1) {
                 state.items[existingItemIndex].quantity += 1;
                 state.count += 1;
@@ -39,13 +47,16 @@ export const cartSlice = createSlice({
             }
         },
         decreaseQuantity: (state, action) => {
-            const { id } = action.payload;
-            const existingItemIndex = state.items.findIndex(item => item.id === id);
+            const { id, variationId } = action.payload;
+            const existingItemIndex = state.items.findIndex(
+                item => item.id === id && item.variation._id === variationId
+            );
             if (existingItemIndex !== -1) {
-                state.items[existingItemIndex].quantity -= 1;
+                const item = state.items[existingItemIndex];
+                item.quantity -= 1;
                 state.count -= 1;
-                state.subtotal -= state.items[existingItemIndex].price;
-                if (state.items[existingItemIndex].quantity === 0) {
+                state.subtotal -= item.price;
+                if (item.quantity === 0) {
                     state.items.splice(existingItemIndex, 1);
                 }
             }
@@ -55,12 +66,12 @@ export const cartSlice = createSlice({
             state.count = 0;
             state.subtotal = 0;
         },
-        cartProduct: (state , action) => {
-            state.selectedProduct = action.payload
-        }
+        cartProduct: (state, action) => {
+            state.selectedProduct = action.payload;
+        },
     },
 });
 
-export const { addItem, removeFromCart, increaseQuantity, decreaseQuantity, clearCart , cartProduct } = cartSlice.actions;
+export const { addItem, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, cartProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;

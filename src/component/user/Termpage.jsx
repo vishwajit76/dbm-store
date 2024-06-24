@@ -95,129 +95,20 @@
 
 import * as React from 'react';
 import { Box, Button, Typography, Modal, FormControl, FormControlLabel, Grid, Radio, RadioGroup } from '@mui/material';
-import Paypal from '../image/paypal.png';
-import razorpay from '../image/razorpay.png';
-import Stripe from '../image/stripe.png';
 
 export default function BasicModal() {
   const [open, setOpen] = React.useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState('Razorpay');
+  
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handlePlaceOrder = () => {
-    console.log('Selected Payment Method:', selectedPaymentMethod);
-  };
 
-  const handlePaymentMethodChange = (event) => {
-    setSelectedPaymentMethod(event.target.value);
-  };
 
   return (
     <div>
       <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: { xs: '90%', sm: 400 },
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography id="modal-modal-title" display={'flex'} justifyContent={'center'} variant="h4" component="h2" gutterBottom>
-            View Payment Details
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ marginBottom: 2 }}>
-            Price Details
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Typography variant="body2" fontSize={'18px'}>Price</Typography>
-            </Grid>
-            <Grid item xs={6} textAlign="right">
-              <Typography variant="body2" fontSize={'18px'}>1200</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body2" fontSize={'18px'}>Quantity</Typography>
-            </Grid>
-            <Grid item xs={6} textAlign="right">
-              <Typography variant="body2" fontSize={'18px'}>1</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body2" fontSize={'18px'}>Total</Typography>
-            </Grid>
-            <Grid item xs={6} textAlign="right">
-              <Typography variant="body2" fontSize={'18px'}>1200</Typography>
-            </Grid>
-          </Grid>
-          <Box my={2}>
-            <Typography variant="h6" component="div">
-              Payment Method
-            </Typography>
-            <FormControl component="fieldset">
-              <RadioGroup
-                aria-label="payment-method"
-                value={selectedPaymentMethod}
-                onChange={handlePaymentMethodChange}
-              >
-                <FormControlLabel
-                  value="Razorpay"
-                  control={<Radio />}
-                  label={ 
-                    <Box display="flex" alignItems="center">
-                      <img src={razorpay} alt="Razorpay" width="100px" style={{ background: 'white', marginRight: '10px' }} />
-                      <Typography noWrap fontWeight={600}>Payment With RazorPay</Typography>
-                    </Box>
-                  }
-                />
-                <FormControlLabel
-                  value="Stripe"
-                  control={<Radio />}
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <img src={Stripe} alt="Stripe" width="100px" style={{ background: 'white', marginRight: '10px' }} />
-                      <Typography noWrap fontWeight={600}>Payment With Stripe</Typography>
-                    </Box>
-                  }
-                />
-                <FormControlLabel
-                  value="Paypal"
-                  control={<Radio />}
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <img src={Paypal} alt="Paypal" width="100px" style={{ background: 'white', marginRight: '10px' }} />
-                      <Typography noWrap fontWeight={600}>Payment With PayPal</Typography>
-                    </Box>
-                  }
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Grid container spacing={2} display={'flex'} justifyContent="space-between">
-            
-              <Button onClick={handleClose} color="primary" variant="contained" >
-                Back To Checkout Details
-              </Button>
-           
-              <Button variant="contained" color="primary"  onClick={handlePlaceOrder}>
-                Place Order
-              </Button>
-       
-          </Grid>
-        </Box>
-      </Modal>
+    
     </div>
   );
 }
