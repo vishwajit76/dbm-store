@@ -28,15 +28,14 @@ const theme = createTheme({
     subtitle: {
       fontFamily: "Montserrat, Arial, sans-serif",
       fontSize: "30px",
-      fontWeight:600
+      fontWeight: 600,
     },
     body: {
       fontFamily: "Montserrat, Arial, sans-serif",
       fontSize: "18px",
-      align:'justify',
-      fontWeight:'none',
-      lineHeight: 1.5
-      
+      align: "justify",
+      fontWeight: "none",
+      lineHeight: 1.5,
     },
   },
   palette: {
@@ -64,8 +63,6 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Header />
-
       <Box sx={{ bgcolor: "#F4F4F4" }}>
         <Navbar />
         <section id="home">
@@ -84,7 +81,7 @@ function App() {
           <Faq />
         </section>
         {/* <Termpage /> */}
-        <Footer />
+        {/* <Footer /> */}
       </Box>
     </ThemeProvider>
   );

@@ -58,11 +58,11 @@ const Navbar = () => {
   const [openOrder, setOpenOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  const [wishlist, setWishlist] = useState(false)
-  const cartItemCount = useSelector(state => state.cart.items.length);
-  const wishlistItemCount = useSelector(state => state.wishlist.items.length);
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const [wishlist, setWishlist] = useState(false);
+  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const wishlistItemCount = useSelector((state) => state.wishlist.items.length);
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
@@ -87,7 +87,10 @@ const Navbar = () => {
       setOpenDetails(false);
     }
   };
-  const toggleDetailsDrawer = (newOpen) => () => { setOpenDetails(newOpen); if (newOpen) setOpenCart(false) };
+  const toggleDetailsDrawer = (newOpen) => () => {
+    setOpenDetails(newOpen);
+    if (newOpen) setOpenCart(false);
+  };
   const toggleWishlistDrawer = (newOpen) => () => setWishlist(newOpen);
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
@@ -154,7 +157,10 @@ const Navbar = () => {
   );
   return (
     <div style={{ paddingTop: 56 }}>
-      <AppBar /* elevation={0} */ position="fixed" sx={{ background: "#f4f4f4" }}>
+      <AppBar
+        /* elevation={0} */ position="fixed"
+        sx={{ background: "#f4f4f4" }}
+      >
         <Header />
         <Container>
           <Toolbar
@@ -201,7 +207,11 @@ const Navbar = () => {
 
             {/* let's talk , cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button variant="contained" href="#contact" sx={{ display: { xs: "none", md: "flex" } }}>
+              <Button
+                variant="contained"
+                href="#contact"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
                 Let's talk
               </Button>
               <Badge
@@ -346,7 +356,7 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <EditProfile />
+              <EditProfile onClose={handleCloseModal} />
             </Modal>
 
             <Modal
@@ -409,8 +419,16 @@ const Navbar = () => {
               <MenuItem onClick={handleOpenModal} data-item="Profile">
                 Profile
               </MenuItem>
-              <MenuItem onClick={toggleWishlistDrawer(true)} data-item="Wishlist">
-                wishlist <Badge badgeContent={wishlistItemCount>0 && wishlistItemCount} color="primary" sx={{ ml: 2 }} />
+              <MenuItem
+                onClick={toggleWishlistDrawer(true)}
+                data-item="Wishlist"
+              >
+                wishlist{" "}
+                <Badge
+                  badgeContent={wishlistItemCount > 0 && wishlistItemCount}
+                  color="primary"
+                  sx={{ ml: 2 }}
+                />
               </MenuItem>
               <MenuItem onClick={toggleOrderDrawer(true)} data-item="Orders">
                 Orders

@@ -77,6 +77,8 @@ const Faq = () => {
   const [error, setError] = useState(null);
   const [products, setProducts] = useState(null);
   const [faqData, setFaqData] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const {
     handleSubmit,
     control,
@@ -86,6 +88,27 @@ const Faq = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/products");
+        const data = response.data;
+        setProducts(data);
+        if (data.products.length > 0) {
+          setSelectedProduct(data.products[0]);
+        }
+      } catch (error) {
+        setError(error.message);
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleProductChange = (index) => {
+    setSelectedProduct(products.products[index]);
   };
 
   useEffect(() => {
@@ -144,7 +167,7 @@ const Faq = () => {
         <Box pb={8} textAlign="center">
           <Typography
             fontWeight={600}
-            variant='title'
+            variant="title"
             sx={{
               background: "#f4f4f4",
             }}
@@ -194,9 +217,16 @@ const Faq = () => {
             ))}
           </Grid>
           <Grid item md={6} xs={12}>
-            <Typography mb={5} variant="h6" align="left">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry
+            <Typography
+              mb={5}
+              variant="subtitle"
+              fontWeight="600"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {selectedProduct && selectedProduct.name}
             </Typography>
 
             <Carousel
@@ -204,6 +234,9 @@ const Faq = () => {
               responsive={carouselResponsive}
               customLeftArrow={<CustomLeftArrow />}
               customRightArrow={<CustomRightArrow />}
+              afterChange={(previousSlide, { currentSlide }) =>
+                handleProductChange(currentSlide)
+              }
               dotListClass={classes.dotList}
             >
               {products.products.map((item) => (
