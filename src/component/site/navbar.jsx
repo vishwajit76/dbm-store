@@ -39,7 +39,7 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/auth/authSlice";
 import ProductDetails from "../user/productDetails";
-import Header from "../user/Header";
+// import Header from "../user/Header";
 const pages = [
   { id: "#home", name: "HOME" },
   { id: "#shop", name: "SHOP" },
@@ -60,6 +60,7 @@ const Navbar = () => {
   const [openDetails, setOpenDetails] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const [wishlist, setWishlist] = useState(false)
+  const [activePage, setActivePage] = useState("#home");
   const cartItemCount = useSelector(state => state.cart.items.length);
   const wishlistItemCount = useSelector(state => state.wishlist.items.length);
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
@@ -120,7 +121,13 @@ const Navbar = () => {
         {pages.map((text, index) => (
           <ListItem key={`${text.id}-${index}`}>
             <ListItemButton href={text.id}>
-              <ListItemText primary={text.name} />
+              <ListItemText primary={text.name} 
+              onClick={()=> setActivePage(text.id)}
+              sx={{
+                color: activePage === text.id? "#0084fe" : "#000",
+                
+              }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -155,7 +162,7 @@ const Navbar = () => {
   return (
     <div style={{ paddingTop: 56 }}>
       <AppBar /* elevation={0} */ position="fixed" sx={{ background: "#f4f4f4" }}>
-        <Header />
+        {/* <Header /> */}
         <Container>
           <Toolbar
             sx={{ display: "flex", justifyContent: "space-between" }}
@@ -175,18 +182,19 @@ const Navbar = () => {
                   md: "flex",
                 },
                 justifyContent: "center",
-                alignItems: "center", // Centering elements vertically
+                alignItems: "center", 
               }}
             >
               {pages.map((page, index) => (
                 <Typography
                   component="a"
                   key={`${page.id}-${index}`}
-                  onClick={handleCloseUserMenu}
+                  onClick={()=> setActivePage(page.id)}
                   sx={{
                     mx: { md: 2, lg: 4 },
-                    color: "#000",
-                    display: "block",
+                    color: activePage === page.id ? "#0084fe" : "#000",
+
+                    
                     fontSize: "15px",
                     textDecoration: "none",
                     behavior: "smooth",
@@ -410,7 +418,7 @@ const Navbar = () => {
                 Profile
               </MenuItem>
               <MenuItem onClick={toggleWishlistDrawer(true)} data-item="Wishlist">
-                wishlist <Badge badgeContent={wishlistItemCount>0 && wishlistItemCount} color="primary" sx={{ ml: 2 }} />
+                wishlist {wishlistItemCount>0 && <Badge badgeContent={wishlistItemCount>0 && wishlistItemCount} color="primary" sx={{ ml: 2 }} />}
               </MenuItem>
               <MenuItem onClick={toggleOrderDrawer(true)} data-item="Orders">
                 Orders
@@ -431,3 +439,11 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
+
+
+
+

@@ -14,12 +14,11 @@ import {
   ListItemIcon,
   Skeleton,
   CardContent,
-  Checkbox,
+  Button,
   IconButton,
+  Modal,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
@@ -38,7 +37,6 @@ import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
-import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
 
 const useStyles = makeStyles({
   carousel: {
@@ -121,7 +119,6 @@ const CustomButtonGroup = ({ next, previous }) => (
 
 const Shop = () => {
   const cartItemCount = useSelector((state) => state.cart.items.length);
-  const wishlistItems = useSelector((state) => state.wishlist.items);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
@@ -132,6 +129,7 @@ const Shop = () => {
   const [tabValue, setTabValue] = React.useState(0);
   const dispatch = useDispatch();
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
 
@@ -209,19 +207,6 @@ const Shop = () => {
     );
   }
 
-  const handleWishlist = (product, e) => {
-    e.stopPropagation()
-    console.log("shop product", product);
-    const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === product?.id)?.isInWishlist;
-    console.log(isProductInWishlist, "shop");
-    if (isProductInWishlist) {
-      const index = wishlistItems.findIndex(item => item.product.id === product.id);
-      dispatch(removeFromWishlist(index));
-    } else {
-      dispatch(addToWishlist({ product }));
-    }
-  };
-
   if (!products) {
     return (
       <Box sx={{ background: "#F4F4F4" }}>
@@ -257,6 +242,10 @@ const Shop = () => {
     );
   }
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  console.log(selectedProduct?.demoVideoUrl);
+
   return (
     <Box sx={{ background: "#F4F4F4" }}>
       <Container>
@@ -284,129 +273,131 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products && products.products.map((item, index) => (
-              <Card
-                key={item.id}
-                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
-                sx={{
-                  width: "85%",
-                  textAlign: "center",
-                  p: 2,
-                  cursor: "pointer",
-                  position: "relative",
-                  overflow: "hidden",
-                  "&::before, &::after": {
-                    content: '""',
-                    position: "absolute",
-                    width: "2px",
-                    height: "2px",
-                    backgroundColor: "#0084FE",
-                    transition: "all 0.3s ease",
-                  },
-                  "&::before": {
-                    top: 0,
-                    left: 0,
-                  },
-                  "&::after": {
-                    bottom: 0,
-                    right: 0,
-                  },
-                  "&:hover::before": {
-                    backgroundColor: "#0084FE",
-                    width: "1%",
-                    height: "100%",
-                  },
-                  "&:hover::after": {
-                    backgroundColor: "#0084FE",
-                    width: "1%",
-                    height: "100%",
-                  },
-                }}
-              >
-                <Box
+            {products &&
+              products.products.map((item, index) => (
+                <Card
+                  key={item.id}
+                  onClick={toggleDetailDrawer(
+                    true,
+                    item,
+                    colors[index % colors.length]
+                  )}
                   sx={{
+                    width: "85%",
+                    textAlign: "center",
+                    p: 2,
+                    cursor: "pointer",
+                    position: "relative",
                     overflow: "hidden",
                     "&::before, &::after": {
                       content: '""',
                       position: "absolute",
                       width: "2px",
                       height: "2px",
-                      backgroundColor: " #0084FE",
+                      backgroundColor: "#0084FE",
                       transition: "all 0.3s ease",
                     },
                     "&::before": {
-                      bottom: 0,
+                      top: 0,
                       left: 0,
-                      transitionDelay: "0.3s",
                     },
                     "&::after": {
-                      top: 0,
+                      bottom: 0,
                       right: 0,
-                      transitionDelay: "0.3s",
                     },
                     "&:hover::before": {
-                      width: "100%",
-                      height: "1%",
+                      backgroundColor: "#0084FE",
+                      width: "1%",
+                      height: "100%",
                     },
                     "&:hover::after": {
-                      width: "100%",
-                      height: "1%",
+                      backgroundColor: "#0084FE",
+                      width: "1%",
+                      height: "100%",
                     },
                   }}
                 >
-                  <Grid
-                    container
+                  <Box
                     sx={{
-                      borderRadius: "15px",
-                      backgroundColor: colors[index % colors.length],
-                      textAlign: "center",
+                      overflow: "hidden",
+                      "&::before, &::after": {
+                        content: '""',
+                        position: "absolute",
+                        width: "2px",
+                        height: "2px",
+                        backgroundColor: " #0084FE",
+                        transition: "all 0.3s ease",
+                      },
+                      "&::before": {
+                        bottom: 0,
+                        left: 0,
+                        transitionDelay: "0.3s",
+                      },
+                      "&::after": {
+                        top: 0,
+                        right: 0,
+                        transitionDelay: "0.3s",
+                      },
+                      "&:hover::before": {
+                        width: "100%",
+                        height: "1%",
+                      },
+                      "&:hover::after": {
+                        width: "100%",
+                        height: "1%",
+                      },
                     }}
                   >
                     <Grid
-                      item
-                      xs={12}
+                      container
                       sx={{
-                        textAlign: 'right',
-                        "& img": {
-                          transition: "transform 0.3s ease-in-out",
-                        },
-                        "&:hover img": {
-                          transform: "scale(1.1)",
-                        },
+                        borderRadius: "15px",
+                        backgroundColor: colors[index % colors.length],
+                        textAlign: "center",
                       }}
                     >
-                      <Checkbox onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} />
-                      <img
-                        width={220}
-                        height={220}
-                        src={item.image}
-                        alt={item.name}
-                      />
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          "& img": {
+                            transition: "transform 0.3s ease-in-out",
+                          },
+                          "&:hover img": {
+                            transform: "scale(1.1)",
+                          },
+                        }}
+                      >
+                        <img
+                          width={220}
+                          height={220}
+                          src={item.image}
+                          alt={item.name}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Typography noWrap my={1}>
-                    {item.name}
-                  </Typography>
-                  <Typography my={1}>
-                    ₹
-                    {item.variations.reduce(
-                      (min, variation) => Math.min(min, variation.price),
-                      Infinity
-                    )}
-                    - ₹
-                    {item.variations.reduce(
-                      (max, variation) => Math.max(max, variation.price),
-                      -Infinity
-                    )}
-                  </Typography>
-                  <Box display="flex" justifyContent="space-evenly">
-                    <Rating readOnly value={5} />
-                    <Typography>99+ Reviews</Typography>
+                    <Typography noWrap my={1}>
+                      {item.name}
+                    </Typography>
+                    <Typography my={1}>
+                      ₹
+                      {item.variations.reduce(
+                        (min, variation) => Math.min(min, variation.price),
+                        Infinity
+                      )}{" "}
+                      - ₹
+                      {item.variations.reduce(
+                        (max, variation) => Math.max(max, variation.price),
+                        -Infinity
+                      )}
+                    </Typography>
+                    <Box display="flex" justifyContent="space-evenly">
+                      <Rating readOnly value={5} />
+                      <Typography>99+ Reviews</Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Card>
-            ))}
-
+                </Card>
+              ))}
           </Carousel>
         </Box>
 
@@ -479,24 +470,22 @@ const Shop = () => {
             </Grid>
           </Grid>
           <Grid item md={6} xs={12}>
-            <Typography ml="16px" variant="subtitle" fontWeight={600}>
+            <Typography ml="16px" variant="h5" fontWeight={600}>
               {selectedProduct && selectedProduct.name}
             </Typography>
-            <List >
+            <List>
               {messages.map((message, index) => (
-                <ListItem key={index}  >
+                <ListItem key={index}>
                   <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <FiberManualRecordIcon fontSize="1rem"  color="primary" />
+                    <FiberManualRecordIcon fontSize="1rem" color="primary" />
                   </ListItemIcon>
-                 <Typography  variant="body">
-                  {message}
-                  {/* <ListItemText  primary={message} /> */}
-                  </Typography> 
+                  <ListItemText primary={message} />
                 </ListItem>
               ))}
             </List>
           </Grid>
         </Grid>
+
       </Container>
 
       <Grid>
@@ -525,7 +514,7 @@ const Shop = () => {
               flexDirection: "column",
               alignItems: "center",
               padding: { xs: "8px", md: "16px" },
-              width: { md: "96%", sm: "90%", xs: "90%" },
+              width: { md: "100%", sm: "90%", xs: "90%" },
               borderRadius: "10px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
               backgroundColor: "#FFFFFF",
@@ -543,12 +532,14 @@ const Shop = () => {
                 }}
               >
                 <Typography
-                  variant="subtitle"
+
+                  variant="h4"
                   gutterBottom
                   sx={{
                     width: "100%",
                     minWidth: "30%",
-                    
+                    fontWeight: "700",
+                    fontSize: { xs: "30px", md: "36px" },
                     margin: "0 50px",
                     margin: "0 50px",
                     textAlign: { xs: "center", md: "left" },
@@ -566,10 +557,10 @@ const Shop = () => {
                     gap: "16px",
                     borderRadius: "10px",
                     padding: "16px",
-                    width: { md: "90%", sm: "80%", xs: "80%" },
+                    width: { md: "100%", sm: "90%", xs: "90%" },
                     maxWidth: "747px",
                     margin: "0",
-                    textAlign: { xs: "center", sm: "center"  ,md:'center'},
+                    textAlign: { xs: "center", sm: "left" },
                   }}
                 >
                   <Box
@@ -581,39 +572,77 @@ const Shop = () => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      minWidth: { xs: "40px", sm: "50px" },
-                      minHeight: { xs: "40px", sm: "50px" },
+                      minWidth: { xs: "30px", sm: "40px" },
+                      minHeight: { xs: "30px", sm: "40px" },
+                      cursor: 'pointer' // Add pointer cursor for better UX
                     }}
+                    onClick={handleOpen}
                   >
                     <PlayArrowOutlinedIcon fontSize="large" />
                   </Box>
 
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                  >
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 700,
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                      }}
+                    >
+                    <iframe
+                        width="560"
+                        height="315"
+                        src={selectedProduct?.demoVideoUrl}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      ></iframe>
+                      <Button onClick={handleClose} sx={{ mt: 2 }}>Close</Button>
+
+
+
+                    </Box>
+                  </Modal>
+
                   <CardContent sx={{ flex: 1 }}>
-                    <Box display={'flex'} flexDirection={'column'}>
 
                     <Typography
-                      variant="subtitle"
-                      textAlign={'start'}
-                      // sx={{
-                      //   fontWeight: "600",
-                      //   fontSize: { xs: "18px", sm: "24px", md: "30px" },
-                      //   fontSize: { xs: "18px", sm: "24px", md: "30px" },
-                      //   marginBottom: "8px",
-                      // }}
-                      >
-                      HOW THE BULK WHATSAPP SOFTWARE WORKS?
+                      sx={{
+                        fontWeight: "600",
+                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
+                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
+                        marginBottom: "8px",
+                        textTransform: "uppercase"
+
+                      }}
+                    >
+                      HOW THE {selectedProduct && selectedProduct.name} SOFTWARE WORKS?
+
+
                     </Typography>
+
                     <Typography
-                      variant="body"
-                      textAlign={'start'}
-                      // sx={{
-                        //   fontSize: { xs: "14px", sm: "16px" },
-                        // }}
-                        >
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: "14px", sm: "16px" },
+                      }}
+                    >
                       Watch a video which shows a detailed step by step process
                       of how to get started with our Bulk WhatsApp Software.
                     </Typography>
-                      </Box>
                   </CardContent>
                 </Card>
               </Grid>

@@ -5,16 +5,16 @@ import {
   CardContent,
   Container,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
   MenuItem,
+  Modal,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import image1 from "../image/img1.png";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -44,17 +44,20 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import SpeakerIcon from "@mui/icons-material/Speaker";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import axiosInstance from "../../util/axiosInstance";
 
 const Home = () => {
-  const [value, setValue] = React.useState("1");
-  const [open, setOpen] = React.useState(false);
-  const [formValues, setFormValues] = React.useState({
+  const [value, setValue] = useState("1");
+  const [open, setOpen] = useState(false);
+  const [formValues, setFormValues] = useState({
     name: "",
     number: "",
     email: "",
     product: "",
   });
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -63,6 +66,10 @@ const Home = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handlePhoneChange = (value) => {
+    setFormValues({ ...formValues, number: value });
   };
 
   const handleOpen = () => {
@@ -82,7 +89,41 @@ const Home = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: isSmallScreen ? '90%' : 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    maxHeight: '90vh',
+    overflowY: 'auto',
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/products");
+        const data = response.data;
+        setProducts(data.products);
+        if (data.products.length > 0) {
+          setFormValues((prevFormValues) => ({
+            ...prevFormValues,
+            product: data.products[0].name,
+          }));
+        }
+      } catch (error) {
+        setError(error.message);
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
   return (
     <div>
       <Box sx={{ backgroundColor: "#f4f4f4" }}>
@@ -169,72 +210,90 @@ const Home = () => {
                 Try Now
               </Button>
 
-              <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Try Now</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
-            value={formValues.name}
-            onChange={handleInputChange}
-          />
-        <PhoneInput
-                                inputStyle={{
-                                    width: "100%",
-                                    height: "55px",
-                                    fontFamily: "Monospace",
-                                    border: "1px solid #AEB4BE",
-                                }}
-                                country={"in"}
-                                value={formValues.number}
-                                onChange={handleInputChange}
-                                inputProps={{
-                                    name: "phone",
-                                    required: true,
-                                }}
-                            />
-          <TextField
-            margin="dense"
-            name="email"
-            label="Email"
-            type="email"
-            fullWidth
-            value={formValues.email}
-            onChange={handleInputChange}
-          />
-          <TextField
-      
-            margin="dense"
-            name="product"
-            label="Select Product"
-            select
-            fullWidth
-            value={formValues.product}
-            onChange={handleInputChange}
+
+
+
+
+              <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="try-now-modal-title"
+        aria-describedby="try-now-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography id="try-now-modal-title" variant="h6" component="h2">
+            Try Now
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            sx={{ mt: 2 }}
           >
-            <MenuItem value="Product 1">
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <img src={star1} alt="star1" style={{ marginRight: '10px' }} />
-                Bulk WhatsApp Sender
-              </Box>
-            </MenuItem>
-            <MenuItem value="Product 2">Product 2</MenuItem>
-            <MenuItem value="Product 3">Product 3</MenuItem>
-          </TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
+            <TextField
+              autoFocus
+              margin="dense"
+              name="name"
+              label="Name"
+              type="text"
+              fullWidth
+              value={formValues.name}
+              onChange={handleInputChange}
+            />
+            <PhoneInput
+              inputStyle={{
+                width: "100%",
+                height: "55px",
+              }}
+              margin="dense"
+              name="number"
+              country={"in"}
+              value={formValues.number}
+              onChange={handlePhoneChange}
+            />
+            <TextField
+              margin="dense"
+              name="email"
+              label="Email"
+              type="email"
+              fullWidth
+              value={formValues.email}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              name="product"
+              label="Select Product"
+              select
+              fullWidth
+              value={formValues.product}
+              onChange={handleInputChange}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200, // Adjust max height to fit your design
+                  },
+                },
+              }}
+            >
+              {products.map((product) => (
+                <MenuItem key={product.id} value={product.name}  >
+                  <img src={product.image} alt={product.name} style={{ marginRight: 10, width: 30, height: 30, overflow:'auto' }} />
+                  {product.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit} color="primary" sx={{ ml: 2 }}>
+              Submit
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
             </Grid>
             <Grid
               item
@@ -349,7 +408,7 @@ const Home = () => {
                 sx={{
                   position: "relative",
                   fontSize: {
-                    xs: theme.typography.title.fontSize, // Use the font size from the theme
+                    xs: theme.typography.title.fontSize, 
                     sm: theme.typography.title["@media (min-width:600px)"]
                       .fontSize,
                     md: theme.typography.title["@media (min-width:600px)"]
@@ -1215,3 +1274,4 @@ const Home = () => {
 };
 
 export default Home;
+
