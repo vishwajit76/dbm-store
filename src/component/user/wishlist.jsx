@@ -36,16 +36,16 @@ const Wishlist = ({ onClose }) => {
                         justifyContent="space-between"
                     >
                         <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', textAlign: 'center' }}>
-                            <img width={85} height={85} src={item.product.product.image} alt="Product" />
+                            <img width={85} height={85} src={item.product?.image} alt="Product" />
                         </Grid>
                         <Grid item xs={12} md={7} container direction="column" justifyContent="space-between">
-                            <Typography>{item.product.product.name}</Typography>
+                            <Typography>{item.product?.name}</Typography>
                             <Grid container justifyContent='space-between' alignItems='center'>
                                 <Grid container item xs={6} justifyContent='space-between'>
                                     <Typography sx={{ color: '#818181de' }}>Price</Typography>
                                     <Typography>
-                                        ₹{item.product.product.rates.reduce((min, variation) => Math.min(min, variation.price), Infinity)} -
-                                        ₹{item.product.product.rates.reduce((max, variation) => Math.max(max, variation.price), -Infinity)}
+                                        ₹{item.product?.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity)} -
+                                        ₹{item.product?.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity)}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} textAlign='end'>

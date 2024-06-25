@@ -410,7 +410,7 @@ const Navbar = () => {
                 Profile
               </MenuItem>
               <MenuItem onClick={toggleWishlistDrawer(true)} data-item="Wishlist">
-               wishlist {wishlistItemCount>0 && wishlistItemCount}
+                wishlist <Badge badgeContent={wishlistItemCount>0 && wishlistItemCount} color="primary" sx={{ ml: 2 }} />
               </MenuItem>
               <MenuItem onClick={toggleOrderDrawer(true)} data-item="Orders">
                 Orders
