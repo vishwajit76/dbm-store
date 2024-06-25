@@ -3,12 +3,11 @@ import { Badge, Box, Button, Grid, Rating, Typography, CircularProgress, Checkbo
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
-import { addItem, increaseQuantity, decreaseQuantity, cartProduct } from '../../redux/cart/cartSlice';
+import { addItem, increaseQuantity, decreaseQuantity } from '../../redux/cart/cartSlice';
+import { addToWishlist , removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
 
 const buttonStyle = {
     p: 0.1,
@@ -17,20 +16,23 @@ const buttonStyle = {
 };
 
 const ProductDetails = ({ onClose, product, cartDrawer }) => {
-    const productData = product?.product
+    const productData = product?.product;
     const [expanded, setExpanded] = useState(false);
-    const [selectedVariation, setSelectedVariation] = useState(0);
-    const [variation, setVariation] = useState(productData?.variations[0])
-    const [loading, setLoading] = useState(false); productData
+    const [selectedVariation, setSelectedVariation] = useState(product?.variation ? product?.variation : product?.product?.variations[0]);
+    const [variation, setVariation] = useState(product?.product?.variations[0]);
+    const [loading, setLoading] = useState(false);
     const [basePrice, setBasePrice] = useState(productData?.variations[0]?.price);
     const [price, setPrice] = useState(basePrice);
     const [localQuantity, setLocalQuantity] = useState(1);
+    const wishlistItems = useSelector((state) => state.wishlist.items);
+    const isProductInWishlist = wishlistItems?.find(item => item?.product?.product?._id === productData?._id)?.isInWishlist;
+    console.log(wishlistItems , isProductInWishlist);
     const dispatch = useDispatch();
 
     const cartItems = useSelector(state => state.cart.items);
 
     useEffect(() => {
-        const productInCart = cartItems.find(item => item.id === productData?._id);
+        const productInCart = cartItems.find(item => item.id === productData?._id && item.variation?._id === variation?._id);
         if (productInCart) {
             setLocalQuantity(productInCart.quantity);
             setPrice(basePrice * productInCart.quantity);
@@ -38,10 +40,10 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
             setLocalQuantity(1);
             setPrice(basePrice);
         }
-    }, [cartItems, productData, basePrice]);
+    }, [cartItems, productData, basePrice, variation]);
 
     const isInCart = () => {
-        const productInCart = cartItems.find(item => item.id === productData._id);
+        const productInCart = cartItems.find(item => item.id === productData._id && item.variation?._id === variation?._id);
         return productInCart ? productInCart.quantity : 0;
     };
 
@@ -67,8 +69,8 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
                 quantity: localQuantity,
                 variation: variation
             }));
-            toast.success("Product Added To Cart", {
-                position: "bottom-left"
+            console.log({
+                variation: variation
             });
         }, 500);
     };
@@ -92,34 +94,40 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
         });
     };
 
-    const increaseCartItem = (id) => {
-        dispatch(increaseQuantity({ id }));
+    const increaseCartItem = () => {
+        dispatch(increaseQuantity({ id: productData._id, variationId: variation._id }));
         const newQuantity = isInCart() + 1;
         setPrice(basePrice * newQuantity);
     };
 
-    const decreaseCartItem = (id) => {
-        const productInCart = cartItems.find(item => item.id === productData._id);
+    const decreaseCartItem = () => {
+        const productInCart = cartItems.find(item => item.id === productData._id && item.variation._id === variation._id);
         if (productInCart && productInCart.quantity > 1) {
-            dispatch(decreaseQuantity({ id }));
+            dispatch(decreaseQuantity({ id: productData._id, variationId: variation._id }));
             const newQuantity = isInCart() - 1;
             setPrice(basePrice * newQuantity);
         } else {
-            dispatch(decreaseQuantity({ id }));
-            toast.success("Product Removed From Cart", {
-                position: "bottom-left"
-            });
+            dispatch(decreaseQuantity({ id: productData._id, variationId: variation._id }));
         }
     };
 
-    const handleVariationClick = (index, id) => {
-        const variation = productData.variations.find(item => id === item._id)
-        setSelectedVariation(index);
-        setVariation(variation)
-        const selectedProduct = productData.variations.find((item, idx) => idx === index);
-        setBasePrice(selectedProduct.price);
-        setPrice(selectedProduct.price * localQuantity);
-    }
+    const handleVariationClick = (index = 0, id) => {
+        const selectedVariation = productData.variations ? productData.variations.find(item => id === item._id) : productData.variations.find((item, idx) => index === idx);
+        console.log(selectedVariation);
+        setSelectedVariation(selectedVariation);
+        setVariation(selectedVariation);
+        setBasePrice(selectedVariation.price);
+        setPrice(selectedVariation.price * localQuantity);
+    };
+
+    const handleWishlist = () => {
+        if (isProductInWishlist) {
+          const index = wishlistItems.findIndex(item => item.product.id === product.id);
+          dispatch(removeFromWishlist(index));
+        } else {
+          dispatch(addToWishlist({ product }));
+        }
+      };
 
     return (
         <Box sx={{ width: { xs: 250, md: 350 }, p: 2 }}>
@@ -158,7 +166,7 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
             <Grid container my={5}>
                 <Grid item xs={12} sx={{ borderRadius: 2, backgroundColor: '#eee', textAlign: 'center' }}>
                     <img width="80%" src={productData.image} alt="Product" />
-                    <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                    <Checkbox onChange={handleWishlist} checked={isProductInWishlist} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
                 </Grid>
             </Grid>
 
@@ -182,7 +190,7 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
                             textAlign='center'
                             borderRadius={5}
                             p={1}
-                            border={`2px solid ${selectedVariation === index ? 'blue' : 'gray'}`}
+                            border={`2px solid ${selectedVariation?._id === item._id ? 'blue' : 'gray'}`}
                             onClick={() => handleVariationClick(index, item._id)}
                             sx={{ cursor: 'pointer' }}
                         >
@@ -197,9 +205,9 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
                     <Typography fontWeight={600}>₹{price}</Typography>
                 </Grid>
                 <Grid item xs={6} container alignItems="center" justifyContent="space-evenly">
-                    <RemoveOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? decreaseCartItem(productData._id) : decreaseLocalQuantity()} />
+                    <RemoveOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? decreaseCartItem() : decreaseLocalQuantity()} />
                     <Typography>{isInCart() > 0 ? isInCart() : localQuantity}</Typography>
-                    <AddOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? increaseCartItem(productData._id) : increaseLocalQuantity()} />
+                    <AddOutlinedIcon sx={buttonStyle} onClick={() => isInCart() > 0 ? increaseCartItem() : increaseLocalQuantity()} />
                 </Grid>
             </Grid>
 
@@ -213,8 +221,6 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
             >
                 {loading ? <CircularProgress size={24} color='inherit' /> : "Add to Cart"}
             </Button>
-
-            <ToastContainer />
         </Box>
     );
 };

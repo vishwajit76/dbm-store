@@ -131,7 +131,7 @@ const Shop = () => {
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
 
   const toggleDetailDrawer =
-    (newOpen, product = null) =>
+    (newOpen, product = null ) =>
     () => {
       setDetailDrawer(newOpen);
       if (newOpen) setCartDrawer(false);

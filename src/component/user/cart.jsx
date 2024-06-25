@@ -12,10 +12,8 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
 import DiscountRoundedIcon from "@mui/icons-material/DiscountRounded";
 import emptyCart from "../image/emptyCart.png";
-import "react-toastify/dist/ReactToastify.css";
 import {
   removeFromCart,
   increaseQuantity,
@@ -35,42 +33,33 @@ export default function Cart({ onClose, onClick, openProduct }) {
   const couponCode = "a5623d";
   const dispatch = useDispatch();
 
-  const handleRemoveFromCart = (indexToRemove, e) => {
+  const handleRemoveFromCart = (id, variationId, e) => {
     e.stopPropagation();
-    dispatch(removeFromCart(indexToRemove));
-    toast.info("Product removed from cart", {
-      position: "bottom-left",
-    });
+    dispatch(removeFromCart({ id: id, variationId: variationId }));
   };
 
-  const handleOpenProduct = (product, e) => {
+  const handleOpenProduct = (product, variation, e) => {
     e.stopPropagation();
     openProduct();
-    dispatch(cartProduct({ product }));
+    dispatch(cartProduct({ product: product , variation: variation  }));
   };
 
-  const increaseCartItem = (id, e) => {
+  const increaseCartItem = (id, variationId , e) => {
     e.stopPropagation();
-    dispatch(increaseQuantity({ id }));
+    dispatch(increaseQuantity({ id: id, variationId: variationId }));
   };
 
-  const decreaseCartItem = (id, quantity, e) => {
+  const decreaseCartItem = (id, variationId, quantity, e) => {
     e.stopPropagation();
-    if (quantity <= 1) {
-      toast.info("Product removed from cart", {
-        position: "bottom-left",
-      });
-    } else {
-      toast.warning("Product quantity decreased", {
-        position: "bottom-left",
-      });
-    }
-    dispatch(decreaseQuantity({ id }));
+    dispatch(decreaseQuantity({ id: id, variationId: variationId }));
+  };
+
+  const handleCheckout = () => {
+    // Handle checkout logic here
   };
 
   return (
     <div>
-      <ToastContainer />
       <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
         <Grid
           container
@@ -96,7 +85,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 my={1}
                 boxShadow="0 0 10px #eee"
                 justifyContent="space-between"
-                onClick={(e) => handleOpenProduct(item.product, e)}
+                onClick={(e) => handleOpenProduct(item.product, item.variation , e)}
               >
                 <Grid
                   item
@@ -138,24 +127,33 @@ export default function Cart({ onClose, onClick, openProduct }) {
                       <RemoveOutlinedIcon
                         sx={buttonStyle}
                         onClick={(e) =>
-                          decreaseCartItem(item.id, item.quantity, e)
+                          decreaseCartItem(
+                            item.id,
+                            item.variation._id,
+                            item.quantity,
+                            e
+                          )
                         }
                       />
                       <Typography>{item.quantity}</Typography>
                       <AddOutlinedIcon
                         fontSize="small"
                         sx={buttonStyle}
-                        onClick={(e) => increaseCartItem(item.id, e)}
+                        onClick={(e) =>
+                          increaseCartItem(item.id, item.variation?._id , e)
+                        }
                       />
                     </Grid>
                   </Grid>
-                  <Typography>{item.variation.title}</Typography>
+                  <Typography>{item.variation?.title}</Typography>
                 </Grid>
                 <Grid item xs={1} container justifyContent="end">
                   <CloseIcon
                     cursor="pointer"
                     fontSize="5px"
-                    onClick={(e) => handleRemoveFromCart(index, e)}
+                    onClick={(e) =>
+                      handleRemoveFromCart(item.id, item.variation?._id, e)
+                    }
                   />
                 </Grid>
               </Grid>

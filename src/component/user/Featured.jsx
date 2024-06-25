@@ -202,7 +202,7 @@ const Featured = () => {
           </Box>
           sellers
         </Typography>
-        <Grid container sx={{justifyContent: {md:"space-between" , sm:'center' ,  xs:'center'}}}  display={'flex'}>
+        <Grid container sx={{justifyContent: { md:"space-between" , sm:'center' ,  xs:'center'}, alignItems: 'center' }}  display={'flex'}>
       {products.map((product, index) => (
         <Grid item key={index} xs={12} sm={6} md={4}>
           <StyledBadge

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Modal, Typography } from '@mui/material';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import React, { useState } from "react";
 import {
@@ -12,14 +12,13 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { setPaymentDetails } from '../../redux/payment/paymentSlice'
+import Paypal from '../image/paypal.png';
+import razorpay from '../image/razorpay.png';
+import Stripe from '../image/stripe.png';
+import { setPaymentDetails } from '../../redux/payment/paymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axiosInstance from '../../util/axiosInstance';
-
-const style = {
-    p: 2,
-};
 
 const Checkout = ({ onClose }) => {
     const [name, setName] = useState("");
@@ -31,11 +30,24 @@ const Checkout = ({ onClose }) => {
     const [country, setCountry] = useState("");
     const [zip, setZip] = useState("");
     const [selectedOption, setSelectedOption] = useState('home');
-    const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch()
+    const [open, setOpen] = useState(false);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Razorpay');
+  
+    const handlePaymentMethodChange = (event) => {
+        setSelectedPaymentMethod(event.target.value);
+    };
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const paymentdata = {
+        currency: "INR",
+        payment_method: selectedPaymentMethod.toLowerCase(),
+        items: [{
+            product_id: "6644a5b13a3674779359ac39",
+            variation_id: "65926b53dbba6d34a8996e35",
+            quantity: 2
+        }]
+    };
+
+    const dispatch = useDispatch();
 
     const [errors, setErrors] = useState({
         name: '',
@@ -80,9 +92,6 @@ const Checkout = ({ onClose }) => {
         if (!phone.trim()) {
             newErrors.phone = 'Phone number is required';
             valid = false;
-        } else if (!/^\d{12}$/.test(phone)) {
-            newErrors.phone = 'Phone number must be 10 digits';
-            valid = false;
         }
 
         if (!address.trim()) {
@@ -114,24 +123,22 @@ const Checkout = ({ onClose }) => {
         return valid;
     };
 
-    const buyNow = async () => {
+    const PlaceOrder = async () => {
         try {
-          const response = await axiosInstance.post("/orders/buy" , {
-            "currency":"INR",
-            "payment_method":"razorpay",
-            "items": [{
-            "product_id": "6644a5b13a3674779359ac39",
-            "variation_id": "65926b53dbba6d34a8996e35",
-            "quantity":2
-          }]});
+            const response = await axiosInstance.post("/orders/place-order", paymentdata);
+            console.log(response);
         } catch (err) {
             console.log(err);
         }
-      };
+    };
+
+    const handlePlaceOrder = () => {
+        PlaceOrder()
+        setOpen(false)
+    };
 
     const handleSubmit = () => {
         const isValid = validateForm();
-
         if (isValid) {
             const userData = {
                 name,
@@ -144,8 +151,8 @@ const Checkout = ({ onClose }) => {
                 zip,
             };
             console.log('user-data', { name, email, phone });
-            dispatch(setPaymentDetails(userData))
-            buyNow()
+            dispatch(setPaymentDetails(userData));
+            setOpen(true)
         }
     };
 
@@ -162,7 +169,7 @@ const Checkout = ({ onClose }) => {
 
             </Grid>
 
-            <Box sx={style}>
+            <Box sx={{p:2}}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" >
                     <Typography variant="h6"> Address</Typography>
                 </Box>
@@ -299,7 +306,111 @@ const Checkout = ({ onClose }) => {
                     </Box>
                 </Box>
             </Box>
-        </Box >
+
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: { xs: '90%', sm: 400 },
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                    }}
+                >
+                    <Typography id="modal-modal-title" display={'flex'} justifyContent={'center'} variant="h4" component="h2" gutterBottom>
+                        View Payment Details
+                    </Typography>
+                    <Typography variant="h6" component="div" sx={{ marginBottom: 2 }}>
+                        Price Details
+                    </Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Typography variant="body2">Price</Typography>
+                        </Grid>
+                        <Grid item xs={6} textAlign="right">
+                            <Typography variant="body2">1200</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography variant="body2">Quantity</Typography>
+                        </Grid>
+                        <Grid item xs={6} textAlign="right">
+                            <Typography variant="body2">1</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography variant="body2">Total</Typography>
+                        </Grid>
+                        <Grid item xs={6} textAlign="right">
+                            <Typography variant="body2">1200</Typography>
+                        </Grid>
+                    </Grid>
+                    <Box my={2}>
+                        <Typography variant="h6" component="div">
+                            Payment Method
+                        </Typography>
+                        <FormControl component="fieldset">
+                            <RadioGroup
+                                aria-label="payment-method"
+                                value={selectedPaymentMethod}
+                                onChange={handlePaymentMethodChange}
+                            >
+                                <FormControlLabel
+                                    value="Razorpay"
+                                    control={<Radio />}
+                                    label={
+                                        <Box display="flex" alignItems="center">
+                                            <img src={razorpay} alt="Razorpay" width="100px" style={{ background: 'white', marginRight: '10px' }} />
+                                            <Typography noWrap fontWeight={600}>Payment With RazorPay</Typography>
+                                        </Box>
+                                    }
+                                />
+                                <FormControlLabel
+                                    value="Stripe"
+                                    control={<Radio />}
+                                    disabled
+                                    label={
+                                        <Box display="flex" alignItems="center">
+                                            <img src={Stripe} alt="Stripe" width="100px" style={{ background: 'white', marginRight: '10px' }} />
+                                            <Typography noWrap fontWeight={600}>Payment With Stripe</Typography>
+                                        </Box>
+                                    }
+                                />
+                                <FormControlLabel
+                                    value="Paypal"
+                                    control={<Radio />}
+                                    disabled
+                                    label={
+                                        <Box display="flex" alignItems="center">
+                                            <img src={Paypal} alt="Paypal" width="100px" style={{ background: 'white', marginRight: '10px' }} />
+                                            <Typography noWrap fontWeight={600}>Payment With PayPal</Typography>
+                                        </Box>
+                                    }
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    </Box>
+                    <Grid container spacing={2} display={'flex'} justifyContent="space-between">
+
+                        <Button onClick={() => setOpen(false)} color="primary" variant="contained" >
+                            Back To Checkout Details
+                        </Button>
+
+                        <Button variant="contained" color="primary" onClick={handlePlaceOrder}>
+                            Place Order
+                        </Button>
+
+                    </Grid>
+                </Box>
+            </Modal>
+        </Box>
     );
 }
 
