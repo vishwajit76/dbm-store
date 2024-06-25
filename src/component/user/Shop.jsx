@@ -463,16 +463,19 @@ const Shop = () => {
             </Grid>
           </Grid>
           <Grid item md={6} xs={12}>
-            <Typography ml="16px" variant="h5" fontWeight={600}>
+            <Typography ml="16px" variant="subtitle" fontWeight={600}>
               {selectedProduct && selectedProduct.name}
             </Typography>
-            <List>
+            <List >
               {messages.map((message, index) => (
-                <ListItem key={index}>
+                <ListItem key={index}  >
                   <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <FiberManualRecordIcon fontSize="1rem" color="primary" />
+                    <FiberManualRecordIcon fontSize="1rem"  color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary={message} />
+                 <Typography  variant="body">
+                  {message}
+                  {/* <ListItemText  primary={message} /> */}
+                  </Typography> 
                 </ListItem>
               ))}
             </List>
@@ -506,7 +509,7 @@ const Shop = () => {
               flexDirection: "column",
               alignItems: "center",
               padding: { xs: "8px", md: "16px" },
-              width: { md: "100%", sm: "90%", xs: "90%" },
+              width: { md: "96%", sm: "90%", xs: "90%" },
               borderRadius: "10px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
               backgroundColor: "#FFFFFF",
@@ -524,13 +527,12 @@ const Shop = () => {
                 }}
               >
                 <Typography
-                  variant="h4"
+                  variant="subtitle"
                   gutterBottom
                   sx={{
                     width: "100%",
                     minWidth: "30%",
-                    fontWeight: "700",
-                    fontSize: { xs: "30px", md: "36px" },
+                    
                     margin: "0 50px",
                     margin: "0 50px",
                     textAlign: { xs: "center", md: "left" },
@@ -548,10 +550,10 @@ const Shop = () => {
                     gap: "16px",
                     borderRadius: "10px",
                     padding: "16px",
-                    width: { md: "100%", sm: "90%", xs: "90%" },
+                    width: { md: "90%", sm: "80%", xs: "80%" },
                     maxWidth: "747px",
                     margin: "0",
-                    textAlign: { xs: "center", sm: "left" },
+                    textAlign: { xs: "center", sm: "center"  ,md:'center'},
                   }}
                 >
                   <Box
@@ -571,26 +573,31 @@ const Shop = () => {
                   </Box>
 
                   <CardContent sx={{ flex: 1 }}>
+                    <Box display={'flex'} flexDirection={'column'}>
+
                     <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: "600",
-                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
-                        fontSize: { xs: "18px", sm: "24px", md: "30px" },
-                        marginBottom: "8px",
-                      }}
-                    >
+                      variant="subtitle"
+                      textAlign={'start'}
+                      // sx={{
+                      //   fontWeight: "600",
+                      //   fontSize: { xs: "18px", sm: "24px", md: "30px" },
+                      //   fontSize: { xs: "18px", sm: "24px", md: "30px" },
+                      //   marginBottom: "8px",
+                      // }}
+                      >
                       HOW THE BULK WHATSAPP SOFTWARE WORKS?
                     </Typography>
                     <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: { xs: "14px", sm: "16px" },
-                      }}
-                    >
+                      variant="body"
+                      textAlign={'start'}
+                      // sx={{
+                        //   fontSize: { xs: "14px", sm: "16px" },
+                        // }}
+                        >
                       Watch a video which shows a detailed step by step process
                       of how to get started with our Bulk WhatsApp Software.
                     </Typography>
+                      </Box>
                   </CardContent>
                 </Card>
               </Grid>
