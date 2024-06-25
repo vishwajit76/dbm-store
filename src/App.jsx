@@ -3,19 +3,19 @@ import "./App.css";
 import { ThemeProvider, Box, createTheme } from "@mui/material";
 import Navbar from "./component/site/navbar";
 import Home from "./component/user/Home";
-// import Shop from "./component/user/Shop";
+import Shop from "./component/user/Shop";
 import About from "./component/user/About";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
 import Header from "./component/user/Header";
-import Termpage from "./component/user/Termpage";
+// import Termpage from "./component/user/Termpage";
 
 // Define the theme directly inside App.js
 const theme = createTheme({
   typography: {
-    fontFamily: "Montserrat, Arial, sans-serif",
-    h3: {
+    title: {
+      fontFamily: "Montserrat, Arial, sans-serif",
       fontWeight: 600,
       fontSize: "1.5rem", // 30px base size for h3
       "@media (min-width:600px)": {
@@ -24,6 +24,19 @@ const theme = createTheme({
       "@media (min-width:900px)": {
         fontSize: "3.125rem", // 50px for medium screens and up
       },
+    },
+    subtitle: {
+      fontFamily: "Montserrat, Arial, sans-serif",
+      fontSize: "30px",
+      fontWeight:600
+    },
+    body: {
+      fontFamily: "Montserrat, Arial, sans-serif",
+      fontSize: "18px",
+      align:'justify',
+      fontWeight:'none',
+      lineHeight: 1.5
+      
     },
   },
   palette: {
@@ -52,14 +65,14 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      
+
       <Box sx={{ bgcolor: "#F4F4F4" }}>
         <Navbar />
         <section id="home">
           <Home />
         </section>
         <section id="shop">
-          {/* <Shop /> */}
+          <Shop />
         </section>
         <section id="featured">
           <Featured />
@@ -70,7 +83,7 @@ function App() {
         <section id="faq">
           <Faq />
         </section>
-        <Termpage />
+        {/* <Termpage /> */}
         <Footer />
       </Box>
     </ThemeProvider>

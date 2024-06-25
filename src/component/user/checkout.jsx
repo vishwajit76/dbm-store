@@ -185,7 +185,7 @@ const Checkout = ({ onClose }) => {
                         <FormControlLabel value="home" control={<Radio />} label="Home" />
                         <FormControlLabel value="office" control={<Radio />} label="Office" />
                     </RadioGroup>
-                    <Grid container spacing={2}>
+                    <Grid container spacin  g={2}>
                         <Grid item xs={12} >
                             <TextField
                                 label="Name"

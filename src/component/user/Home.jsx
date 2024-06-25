@@ -4,7 +4,13 @@ import {
   Card,
   CardContent,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
+  MenuItem,
+  TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -37,16 +43,46 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import SpeakerIcon from "@mui/icons-material/Speaker";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import PhoneInput from "react-phone-input-2";
+import axiosInstance from "../../util/axiosInstance";
 
 const Home = () => {
   const [value, setValue] = React.useState("1");
+  const [open, setOpen] = React.useState(false);
+  const [formValues, setFormValues] = React.useState({
+    name: "",
+    number: "",
+    email: "",
+    product: "",
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission
+    console.log(formValues);
+    handleClose();
+  };
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  
   return (
     <div>
       <Box sx={{ backgroundColor: "#f4f4f4" }}>
@@ -67,67 +103,138 @@ const Home = () => {
               }}
             >
               <Typography
-                variant="h3"
+                variant="title"
                 component="div"
                 sx={{ fontWeight: "800", mb: 2 }}
               >
-               <Box
-  component="span"
-  sx={{
-    color: "#fff",
-    fontWeight: "bold",
-    display: "inline-block",
-    backgroundColor: "#0084FE",
-    p: 1,
-    fontSize: { xs: '28px', sm: '30px', md: '48px' }, // Define different font sizes for breakpoints
-    borderRadius: 2,
-    transform: "rotate(-8deg)",
-    position: { xs: "relative", md: "absolute" },
-    top: { xs: "30px", sm: '34px', md: "-24px" },
-    left: { xs: "-3px", sm: '-40px', md: "28px" },
-    mb: { xs: 2, md: 0 },
-  }}
->
-  #1 Bulk
-</Box>
+                <Box
+                  component="span"
+                  sx={{
+                    color: "#fff",
+                    fontWeight: "bold",
+                    display: "inline-block",
+                    backgroundColor: "#0084FE",
+                    p: 1,
+                    fontSize: { xs: "28px", sm: "30px", md: "48px" }, // Define different font sizes for breakpoints
+                    borderRadius: 2,
+                    transform: "rotate(-8deg)",
+                    position: { xs: "relative", md: "absolute" },
+                    top: { xs: "30px", sm: "34px", md: "-24px" },
+                    left: { xs: "-3px", sm: "-40px", md: "28px" },
+                    mb: { xs: 2, md: 0 },
+                  }}
+                >
+                  #1 Bulk
+                </Box>
               </Typography>
-              <Box sx={{ fontSize: "fontSize"  }}>
+              <Box sx={{ fontSize: "fontSize" }}>
                 <Typography
-                  variant="h3"
+                  variant="title"
                   component="div"
                   sx={{ fontWeight: "600", mb: 2 }}
                 >
                   WhatsApp
                 </Typography>
 
-
                 <Typography
-                  variant="h3"
+                  variant="title"
                   component="div"
                   sx={{ fontWeight: "600", mb: 2 }}
                 >
                   Marketing Tool &
                 </Typography>
                 <Typography
-                  variant="h3"
+                  variant="title"
                   component="div"
                   sx={{ fontWeight: "600", mb: 2 }}
                 >
                   More
                 </Typography>
               </Box>
-              <Typography variant="body1" sx={{ fontSize: "18px" }}>
-                Unlock the full potential of the world's most popular
+              <Typography variant="body" align="justify" display={'flex'} >
+                Unlock the full potential of the world's most popular 
+                messaging
+                platform with our premium features, including bulk messaging,
+                chatbot support, autoresponders, and much more!
               </Typography>
-              <Typography variant="body1" sx={{ fontSize: "18px" }}>
-                messaging platform with our premium features, including
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: "18px" }}>
-                bulk messaging, chatbot support, autoresponders, and
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: "18px" }}>
-                much more!
-              </Typography>
+              <Button
+                sx={{
+                  backgroundColor: "#0084FE",
+                  color: "white",
+                  marginTop: "20px",
+                }}
+                variant="contained"
+                onClick={handleOpen}
+              >
+                Try Now
+              </Button>
+
+              <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Try Now</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="name"
+            label="Name"
+            type="text"
+            fullWidth
+            value={formValues.name}
+            onChange={handleInputChange}
+          />
+        <PhoneInput
+                                inputStyle={{
+                                    width: "100%",
+                                    height: "55px",
+                                    fontFamily: "Monospace",
+                                    border: "1px solid #AEB4BE",
+                                }}
+                                country={"in"}
+                                value={formValues.number}
+                                onChange={handleInputChange}
+                                inputProps={{
+                                    name: "phone",
+                                    required: true,
+                                }}
+                            />
+          <TextField
+            margin="dense"
+            name="email"
+            label="Email"
+            type="email"
+            fullWidth
+            value={formValues.email}
+            onChange={handleInputChange}
+          />
+          <TextField
+      
+            margin="dense"
+            name="product"
+            label="Select Product"
+            select
+            fullWidth
+            value={formValues.product}
+            onChange={handleInputChange}
+          >
+            <MenuItem value="Product 1">
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <img src={star1} alt="star1" style={{ marginRight: '10px' }} />
+                Bulk WhatsApp Sender
+              </Box>
+            </MenuItem>
+            <MenuItem value="Product 2">Product 2</MenuItem>
+            <MenuItem value="Product 3">Product 3</MenuItem>
+          </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
             </Grid>
             <Grid
               item
@@ -163,7 +270,7 @@ const Home = () => {
 
                     position: "absolute",
                     // top: "50%",
-                    bottom: { xs: "50px", md: "130px" },
+                    bottom: { xs: "50px", md: "58px" },
                     left: { xs: "-40px", md: "40px" },
                     // left: "10%",
                     mt: { xs: -5, md: -4 },
@@ -183,18 +290,18 @@ const Home = () => {
                       marginBottom: "15px",
                       zIndex: 1,
                       display: "flex",
-                      alignItems:'center',
-                      justifyContent:"center",
+                      alignItems: "center",
+                      justifyContent: "center",
                       whiteSpace: "nowrap",
                       borderRadius: "8px",
-                      fontFamily:"",
-                      boxShadow:'0.5px 0.5px 0.5px',
+                      fontFamily: "",
+                      boxShadow: "0.5px 0.5px 5.5px",
                       transform: {
                         xs: "rotate(-5deg)",
                         md: "translateX(-50%) rotate(-5deg)",
                       },
                       width: { xs: "70px", md: "115px" },
-                      height:{ xs: "30px", md: "40px" },
+                      height: { xs: "30px", md: "40px" },
                       fontSize: { xs: "10px", md: "20px" },
                     }}
                   >
@@ -204,16 +311,16 @@ const Home = () => {
                   <Box
                     // variant="contained"
                     sx={{
-                     backgroundColor: "#0084FE",
+                      backgroundColor: "#0084FE",
                       color: "#fff",
                       marginBottom: "15px",
                       zIndex: 1,
                       display: "flex",
-                      alignItems:'center',
-                      justifyContent:"center",
+                      alignItems: "center",
+                      justifyContent: "center",
                       whiteSpace: "nowrap",
                       borderRadius: "8px",
-                      fontFamily:"",
+                      fontFamily: "",
 
                       // bottom: { xs: "20px", md: "80px" },
                       // right: { xs: "220px", md: "340px" },
@@ -222,7 +329,7 @@ const Home = () => {
                         md: "translateX(-50%) rotate(5deg)",
                       },
                       width: { xs: "70px", md: "115px" },
-                      height:{ xs: "30px", md: "40px" },
+                      height: { xs: "30px", md: "40px" },
                       fontSize: { xs: "10px", md: "20px" },
                     }}
                   >
@@ -235,33 +342,33 @@ const Home = () => {
 
           <Grid>
             <Grid item margin={"50px 0"}>
-            
-
-<Typography
-      textAlign={"center"}
-      margin={"10px"}
-      fontWeight={600}
-      sx={{
-        position: "relative",
-        fontSize: {
-          xs: theme.typography.h3.fontSize,  // Use the font size from the theme
-          sm: theme.typography.h3['@media (min-width:600px)'].fontSize,
-          md: theme.typography.h3['@media (min-width:600px)'].fontSize,
-        },
-      }}
-    >
-      Why
-      <Box
-        component="span"
-        sx={{
-          color: theme.palette.primary.main,  // Use the primary color from the theme
-          mx: 1,
-        }}
-      >
-        Bulk
-      </Box>
-      WhatsApp?
-    </Typography>
+              <Typography
+                textAlign={"center"}
+                margin={"10px"}
+                fontWeight={600}
+                sx={{
+                  position: "relative",
+                  fontSize: {
+                    xs: theme.typography.title.fontSize, // Use the font size from the theme
+                    sm: theme.typography.title["@media (min-width:600px)"]
+                      .fontSize,
+                    md: theme.typography.title["@media (min-width:600px)"]
+                      .fontSize,
+                  },
+                }}
+              >
+                Why
+                <Box
+                  component="span"
+                  sx={{
+                    color: theme.palette.primary.main, // Use the primary color from the theme
+                    mx: 1,
+                  }}
+                >
+                  Bulk
+                </Box>
+                WhatsApp?
+              </Typography>
 
               <Typography
                 sx={{
@@ -308,10 +415,10 @@ const Home = () => {
                           flex: 1,
                         },
                       }}
-                    > 
-                      <Tab label="IMAGE" value="1" sx={{fontSize:'18px'}}/>
-                      <Tab label="PDF" value="2" sx={{fontSize:'18px'}}/>
-                      <Tab label="AUDIO" value="3" sx={{fontSize:'18px'}}/>
+                    >
+                      <Tab label="IMAGE" value="1" sx={{ fontSize: "18px" }} />
+                      <Tab label="PDF" value="2" sx={{ fontSize: "18px" }} />
+                      <Tab label="AUDIO" value="3" sx={{ fontSize: "18px" }} />
                     </TabList>
                   </Box>
                   <Box sx={{ width: "100%", textAlign: "center", mt: 2 }}>
@@ -352,12 +459,11 @@ const Home = () => {
                             Image
                           </Typography>
                           <Typography
-                            variant="body2"
+                            variant="body"
                             color="#000"
-                            fontSize={"18px"}
-                            fontWeight={"500"}
-                            sx={{ textAlign: "left" }}
-                        
+                           
+                            align="justify"
+                            display={'flex'}
                           >
                             Software supports multiple images along with
                             captions for each image which can be sent to all the
@@ -390,7 +496,6 @@ const Home = () => {
                             "@media (max-width: 900px)": {
                               flexWrap: "wrap",
                               justifyContent: "center",
-                      
                             },
                           }}
                         >
@@ -402,7 +507,6 @@ const Home = () => {
                             minWidth="120px"
                             minHeight="100px"
                             color={""}
-                            
                           >
                             <Box
                               borderRadius={"50px"}
@@ -413,7 +517,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                        marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <MailIcon fontSize="large" />
@@ -440,8 +544,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
-                                
+                                marginBottom: "10px",
                               }}
                             >
                               <ImportContactsIcon fontSize="large" />
@@ -467,7 +570,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <PersonAddIcon fontSize="large" />
@@ -493,7 +596,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <AccountCircleIcon fontSize="large" />
@@ -519,7 +622,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <ChatIcon fontSize="large" />
@@ -545,7 +648,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <ReportIcon fontSize="large" />
@@ -569,7 +672,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <MailIcon fontSize="large" />
@@ -619,10 +722,10 @@ const Home = () => {
                             PDF
                           </Typography>
                           <Typography
-                            variant="body2"
+                            variant="body"
                             color="#000"
-                            fontSize={"18px"}
-                            sx={{ textAlign: "left" }}
+                            align="justify"
+                            display={'flex'}
                           >
                             Bulkwhatsapp is great tool for sharing PDF to
                             multiple user.It is the best way to express the
@@ -700,7 +803,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                    marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <PhoneAndroidOutlinedIcon fontSize="large" />
@@ -726,8 +829,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                 marginBottom:'10px'
-
+                                marginBottom: "10px",
                               }}
                             >
                               <CameraAltIcon fontSize="large" />
@@ -753,7 +855,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                 marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <LiveTvIcon fontSize="large" />
@@ -779,7 +881,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                 marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <CreditCardIcon fontSize="large" />
@@ -805,7 +907,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                 marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <SpeakerIcon fontSize="large" />
@@ -829,7 +931,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                 marginBottom:'10px'  
+                                marginBottom: "10px",
                               }}
                             >
                               <SportsEsportsIcon fontSize="large" />
@@ -879,10 +981,10 @@ const Home = () => {
                             AUDIO
                           </Typography>
                           <Typography
-                            variant="body2"
+                            variant="body"
                             color="#000"
-                            fontSize={"18px"}
-                            sx={{ textAlign: "left" }}
+                            align="justify"
+                            display={'flex'}
                           >
                             It not only supports the text but also various media
                             files.WhatsApp Marketing through Audios on mobile is
@@ -935,7 +1037,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                 marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <LaptopWindowsIcon fontSize="large" />
@@ -961,7 +1063,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <PhoneAndroidOutlinedIcon fontSize="large" />
@@ -987,7 +1089,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <CameraAltIcon fontSize="large" />
@@ -1013,7 +1115,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                marginBottom:'10px' 
+                                marginBottom: "10px",
                               }}
                             >
                               <LiveTvIcon fontSize="large" />
@@ -1039,7 +1141,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                marginBottom:'10px' 
+                                marginBottom: "10px",
                               }}
                             >
                               <CreditCardIcon fontSize="large" />
@@ -1065,7 +1167,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                marginBottom:'10px' 
+                                marginBottom: "10px",
                               }}
                             >
                               <SpeakerIcon fontSize="large" />
@@ -1089,7 +1191,7 @@ const Home = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                marginBottom:'10px'
+                                marginBottom: "10px",
                               }}
                             >
                               <SportsEsportsIcon fontSize="large" />

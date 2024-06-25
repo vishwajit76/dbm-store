@@ -138,7 +138,7 @@ const Featured = () => {
                 <img src={hiringImage} alt="" width={300} />
               </Grid>
               <Grid item xs={12} md={5} align='left'>
-                <Typography sx={{ my: "10px" }} variant='h3' fontWeight={600}>
+                <Typography sx={{ my: "10px" }} variant='title' fontWeight={600}>
                   20% OFF
                 </Typography>
                 <Typography sx={{ my: "10px" }} variant='h5'>
@@ -154,7 +154,7 @@ const Featured = () => {
                 <img src={hiringImage} alt="" width={300} />
               </Grid>
               <Grid item xs={12} md={5} align='left'>
-                <Typography sx={{ my: "10px" }} variant='h3' fontWeight={600}>
+                <Typography sx={{ my: "10px" }} variant='title' fontWeight={600}>
                   20% OFF
                 </Typography>
                 <Typography sx={{ my: "10px" }} variant='h5'>
@@ -170,7 +170,7 @@ const Featured = () => {
                 <img src={hiringImage} alt="" width={300} />
               </Grid>
               <Grid item xs={12} md={5} align='left'>
-                <Typography sx={{ my: "10px" }} variant='h3' fontWeight={600}>
+                <Typography sx={{ my: "10px" }} variant='title' fontWeight={600}>
                   20% OFF
                 </Typography>
                 <Typography sx={{ my: "10px" }} variant='h5'>

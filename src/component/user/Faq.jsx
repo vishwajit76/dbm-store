@@ -151,7 +151,7 @@ const Faq = () => {
         <Box pb={8} textAlign="center">
           <Typography
             fontWeight={600}
-            variant='h3'
+            variant='title'
             sx={{
               background: "#f4f4f4",
               
