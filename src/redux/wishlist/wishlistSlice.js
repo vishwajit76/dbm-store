@@ -8,7 +8,7 @@ export const wishlistSlice = createSlice({
     },
     reducers: {
         addToWishlist: (state, action) => {
-            const { isInWishlist , product } = action.payload;
+            const { product } = action.payload;
             state.items.push({ isInWishlist: true, product });
             state.count += 1
         },

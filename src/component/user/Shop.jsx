@@ -14,9 +14,12 @@ import {
   ListItemIcon,
   Skeleton,
   CardContent,
+  Checkbox,
   IconButton,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
@@ -35,6 +38,7 @@ import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
+import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
 
 const useStyles = makeStyles({
   carousel: {
@@ -117,6 +121,7 @@ const CustomButtonGroup = ({ next, previous }) => (
 
 const Shop = () => {
   const cartItemCount = useSelector((state) => state.cart.items.length);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
@@ -131,12 +136,12 @@ const Shop = () => {
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
 
   const toggleDetailDrawer =
-    (newOpen, product = null ) =>
-    () => {
-      setDetailDrawer(newOpen);
-      if (newOpen) setCartDrawer(false);
-      dispatch(cartProduct({ product }));
-    };
+    (newOpen, product = null) =>
+      () => {
+        setDetailDrawer(newOpen);
+        if (newOpen) setCartDrawer(false);
+        dispatch(cartProduct({ product }));
+      };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -204,6 +209,19 @@ const Shop = () => {
     );
   }
 
+  const handleWishlist = (product, e) => {
+    e.stopPropagation()
+    console.log("shop product", product);
+    const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === product?.id)?.isInWishlist;
+    console.log(isProductInWishlist, "shop");
+    if (isProductInWishlist) {
+      const index = wishlistItems.findIndex(item => item.product.id === product.id);
+      dispatch(removeFromWishlist(index));
+    } else {
+      dispatch(addToWishlist({ product }));
+    }
+  };
+
   if (!products) {
     return (
       <Box sx={{ background: "#F4F4F4" }}>
@@ -266,131 +284,129 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products &&
-              products.products.map((item, index) => (
-                <Card
-                  key={item.id}
-                  onClick={toggleDetailDrawer(
-                    true,
-                    item,
-                    colors[index % colors.length]
-                  )}
+            {products && products.products.map((item, index) => (
+              <Card
+                key={item.id}
+                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
+                sx={{
+                  width: "85%",
+                  textAlign: "center",
+                  p: 2,
+                  cursor: "pointer",
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before, &::after": {
+                    content: '""',
+                    position: "absolute",
+                    width: "2px",
+                    height: "2px",
+                    backgroundColor: "#0084FE",
+                    transition: "all 0.3s ease",
+                  },
+                  "&::before": {
+                    top: 0,
+                    left: 0,
+                  },
+                  "&::after": {
+                    bottom: 0,
+                    right: 0,
+                  },
+                  "&:hover::before": {
+                    backgroundColor: "#0084FE",
+                    width: "1%",
+                    height: "100%",
+                  },
+                  "&:hover::after": {
+                    backgroundColor: "#0084FE",
+                    width: "1%",
+                    height: "100%",
+                  },
+                }}
+              >
+                <Box
                   sx={{
-                    width: "85%",
-                    textAlign: "center",
-                    p: 2,
-                    cursor: "pointer",
-                    position: "relative",
                     overflow: "hidden",
                     "&::before, &::after": {
                       content: '""',
                       position: "absolute",
                       width: "2px",
                       height: "2px",
-                      backgroundColor: "#0084FE",
+                      backgroundColor: " #0084FE",
                       transition: "all 0.3s ease",
                     },
                     "&::before": {
-                      top: 0,
+                      bottom: 0,
                       left: 0,
+                      transitionDelay: "0.3s",
                     },
                     "&::after": {
-                      bottom: 0,
+                      top: 0,
                       right: 0,
+                      transitionDelay: "0.3s",
                     },
                     "&:hover::before": {
-                      backgroundColor: "#0084FE",
-                      width: "1%",
-                      height: "100%",
+                      width: "100%",
+                      height: "1%",
                     },
                     "&:hover::after": {
-                      backgroundColor: "#0084FE",
-                      width: "1%",
-                      height: "100%",
+                      width: "100%",
+                      height: "1%",
                     },
                   }}
                 >
-                  <Box
+                  <Grid
+                    container
                     sx={{
-                      overflow: "hidden",
-                      "&::before, &::after": {
-                        content: '""',
-                        position: "absolute",
-                        width: "2px",
-                        height: "2px",
-                        backgroundColor: " #0084FE",
-                        transition: "all 0.3s ease",
-                      },
-                      "&::before": {
-                        bottom: 0,
-                        left: 0,
-                        transitionDelay: "0.3s",
-                      },
-                      "&::after": {
-                        top: 0,
-                        right: 0,
-                        transitionDelay: "0.3s",
-                      },
-                      "&:hover::before": {
-                        width: "100%",
-                        height: "1%",
-                      },
-                      "&:hover::after": {
-                        width: "100%",
-                        height: "1%",
-                      },
+                      borderRadius: "15px",
+                      backgroundColor: colors[index % colors.length],
+                      textAlign: "center",
                     }}
                   >
                     <Grid
-                      container
+                      item
+                      xs={12}
                       sx={{
-                        borderRadius: "15px",
-                        backgroundColor: colors[index % colors.length],
-                        textAlign: "center",
+                        textAlign: 'right',
+                        "& img": {
+                          transition: "transform 0.3s ease-in-out",
+                        },
+                        "&:hover img": {
+                          transform: "scale(1.1)",
+                        },
                       }}
                     >
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{
-                          "& img": {
-                            transition: "transform 0.3s ease-in-out",
-                          },
-                          "&:hover img": {
-                            transform: "scale(1.1)",
-                          },
-                        }}
-                      >
-                        <img
-                          width={220}
-                          height={220}
-                          src={item.image}
-                          alt={item.name}
-                        />
-                      </Grid>
+                      <Checkbox onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} />
+                      <img
+                        width={220}
+                        height={220}
+                        src={item.image}
+                        alt={item.name}
+                      />
                     </Grid>
-                    <Typography noWrap my={1}>
-                      {item.name}
-                    </Typography>
-                    <Typography my={1}>
-                      ₹
-                      {item.variations.reduce(
-                        (min, variation) => Math.min(min, variation.price),
-                        Infinity
-                      )}{" "}
-                      - ₹
-                      {item.variations.reduce(
-                        (max, variation) => Math.max(max, variation.price),
-                        -Infinity
-                      )}
-                    </Typography>
-                    <Box display="flex" justifyContent="space-evenly">
-                      <Rating readOnly value={5} />
-                      <Typography>99+ Reviews</Typography>
-                    </Box>
+                  </Grid>
+                  <Typography noWrap my={1}>
+                    {item.name}
+                  </Typography>
+                  <Typography my={1}>
+                    ₹
+                    {item.variations.reduce(
+                      (min, variation) => Math.min(min, variation.price),
+                      Infinity
+                    )}
+                    - ₹
+                    {item.variations.reduce(
+                      (max, variation) => Math.max(max, variation.price),
+                      -Infinity
+                    )}
+                  </Typography>
+                  <Box display="flex" justifyContent="space-evenly">
+                    <Rating readOnly value={5} />
+                    <Typography>99+ Reviews</Typography>
                   </Box>
-                </Card>
-              ))}
+                </Box>
+              </Card>
+            ))}
+
           </Carousel>
         </Box>
 

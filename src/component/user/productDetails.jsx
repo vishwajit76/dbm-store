@@ -25,8 +25,7 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
     const [price, setPrice] = useState(basePrice);
     const [localQuantity, setLocalQuantity] = useState(1);
     const wishlistItems = useSelector((state) => state.wishlist.items);
-    const isProductInWishlist = wishlistItems?.find(item => item?.product?.product?._id === productData?._id)?.isInWishlist;
-    console.log(wishlistItems , isProductInWishlist);
+    const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === productData?.id)?.isInWishlist;
     const dispatch = useDispatch();
 
     const cartItems = useSelector(state => state.cart.items);
@@ -69,9 +68,6 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
                 quantity: localQuantity,
                 variation: variation
             }));
-            console.log({
-                variation: variation
-            });
         }, 500);
     };
 
@@ -113,7 +109,6 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
 
     const handleVariationClick = (index = 0, id) => {
         const selectedVariation = productData.variations ? productData.variations.find(item => id === item._id) : productData.variations.find((item, idx) => index === idx);
-        console.log(selectedVariation);
         setSelectedVariation(selectedVariation);
         setVariation(selectedVariation);
         setBasePrice(selectedVariation.price);
@@ -122,10 +117,10 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
 
     const handleWishlist = () => {
         if (isProductInWishlist) {
-          const index = wishlistItems.findIndex(item => item.product.id === product.id);
+          const index = wishlistItems.findIndex(item => item.product.id === productData.id);
           dispatch(removeFromWishlist(index));
         } else {
-          dispatch(addToWishlist({ product }));
+          dispatch(addToWishlist(product));
         }
       };
 
