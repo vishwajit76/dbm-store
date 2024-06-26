@@ -40,7 +40,10 @@ import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
 
-import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../redux/wishlist/wishlistSlice";
 
 const useStyles = makeStyles({
   carousel: {
@@ -133,9 +136,9 @@ const Shop = () => {
   const [tabValue, setTabValue] = React.useState(0);
   const dispatch = useDispatch();
   const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
-  console.log("change")
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
+  const [open, setOpen] = useState(false);
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
@@ -175,21 +178,20 @@ const Shop = () => {
     "#F3E5F5",
     "#EDE7F6",
   ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/products");
-        const data = response.data;
-        setProducts(data);
-        if (data.products.length > 0) {
-          setSelectedProduct(data.products[0]);
-        }
-      } catch (error) {
-        setError(error.message);
-        console.error("Error fetching data:", error);
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get("/products");
+      const data = response.data;
+      setProducts(data);
+      if (data.products.length > 0) {
+        setSelectedProduct(data.products[0]);
       }
-    };
+    } catch (error) {
+      setError(error.message);
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -262,7 +264,6 @@ const Shop = () => {
       </Box>
     );
   }
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   console.log(selectedProduct?.demoVideoUrl);
@@ -294,129 +295,133 @@ const Shop = () => {
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
           >
-            {products && products.products.map((item, index) => (
-              <Card
-                key={item.id}
-                onClick={toggleDetailDrawer(true, item, colors[index % colors.length])}
-                sx={{
-                  width: "85%",
-                  textAlign: "center",
-                  p: 2,
-                  cursor: "pointer",
-                  position: "relative",
-                  overflow: "hidden",
-                  "&::before, &::after": {
-                    content: '""',
-                    position: "absolute",
-                    width: "2px",
-                    height: "2px",
-                    backgroundColor: "#0084FE",
-                    transition: "all 0.3s ease",
-                  },
-                  "&::before": {
-                    top: 0,
-                    left: 0,
-                  },
-                  "&::after": {
-                    bottom: 0,
-                    right: 0,
-                  },
-                  "&:hover::before": {
-                    backgroundColor: "#0084FE",
-                    width: "1%",
-                    height: "100%",
-                  },
-                  "&:hover::after": {
-                    backgroundColor: "#0084FE",
-                    width: "1%",
-                    height: "100%",
-                  },
-                }}
-              >
-                <Box
+            {products &&
+              products.products.map((item, index) => (
+                <Card
+                  key={item.id}
+                  onClick={toggleDetailDrawer(
+                    true,
+                    item,
+                    colors[index % colors.length]
+                  )}
                   sx={{
+                    width: "85%",
+                    textAlign: "center",
+                    p: 2,
+                    cursor: "pointer",
+                    position: "relative",
                     overflow: "hidden",
                     "&::before, &::after": {
                       content: '""',
                       position: "absolute",
                       width: "2px",
                       height: "2px",
-                      backgroundColor: " #0084FE",
+                      backgroundColor: "#0084FE",
                       transition: "all 0.3s ease",
                     },
                     "&::before": {
-                      bottom: 0,
+                      top: 0,
                       left: 0,
-                      transitionDelay: "0.3s",
                     },
                     "&::after": {
-                      top: 0,
+                      bottom: 0,
                       right: 0,
-                      transitionDelay: "0.3s",
                     },
                     "&:hover::before": {
-                      width: "100%",
-                      height: "1%",
+                      backgroundColor: "#0084FE",
+                      width: "1%",
+                      height: "100%",
                     },
                     "&:hover::after": {
-                      width: "100%",
-                      height: "1%",
+                      backgroundColor: "#0084FE",
+                      width: "1%",
+                      height: "100%",
                     },
                   }}
                 >
-                  <Grid
-                    container
+                  <Box
                     sx={{
-                      borderRadius: "15px",
-                      backgroundColor: colors[index % colors.length],
-                      textAlign: "center",
+                      overflow: "hidden",
+                      "&::before, &::after": {
+                        content: '""',
+                        position: "absolute",
+                        width: "2px",
+                        height: "2px",
+                        backgroundColor: " #0084FE",
+                        transition: "all 0.3s ease",
+                      },
+                      "&::before": {
+                        bottom: 0,
+                        left: 0,
+                        transitionDelay: "0.3s",
+                      },
+                      "&::after": {
+                        top: 0,
+                        right: 0,
+                        transitionDelay: "0.3s",
+                      },
+                      "&:hover::before": {
+                        width: "100%",
+                        height: "1%",
+                      },
+                      "&:hover::after": {
+                        width: "100%",
+                        height: "1%",
+                      },
                     }}
                   >
                     <Grid
-                      item
-                      xs={12}
+                      container
                       sx={{
-                        textAlign: 'right',
-                        "& img": {
-                          transition: "transform 0.3s ease-in-out",
-                        },
-                        "&:hover img": {
-                          transform: "scale(1.1)",
-                        },
+                        borderRadius: "15px",
+                        backgroundColor: colors[index % colors.length],
+                        textAlign: "center",
                       }}
                     >
-                      <Checkbox onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} />
-                      <img
-                        width={220}
-                        height={220}
-                        src={item.image}
-                        alt={item.name}
-                      />
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          textAlign: "right",
+                          "& img": {
+                            transition: "transform 0.3s ease-in-out",
+                          },
+                          "&:hover img": {
+                            transform: "scale(1.1)",
+                          },
+                        }}
+                      >
+                        {/* <Checkbox onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} /> */}
+                        <img
+                          width={220}
+                          height={220}
+                          src={item.image}
+                          alt={item.name}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Typography noWrap my={1}>
-                    {item.name}
-                  </Typography>
-                  <Typography my={1}>
-                    ₹
-                    {item.rates.reduce(
-                      (min, rate) => Math.min(min, rate.price),
-                      Infinity
-                    )}
-                    - ₹
-                    {item.rates.reduce(
-                      (max, rate) => Math.max(max, rate.price),
-                      -Infinity
-                    )}
-                  </Typography>
-                  <Box display="flex" justifyContent="space-evenly">
-                    <Rating readOnly value={5} />
-                    <Typography>99+ Reviews</Typography>
+                    <Typography noWrap my={1}>
+                      {item.name}
+                    </Typography>
+                    <Typography my={1}>
+                      ₹
+                      {item.rates.reduce(
+                        (min, rate) => Math.min(min, rate.price),
+                        Infinity
+                      )}
+                      - ₹
+                      {item.rates.reduce(
+                        (max, rate) => Math.max(max, rate.price),
+                        -Infinity
+                      )}
+                    </Typography>
+                    <Box display="flex" justifyContent="space-evenly">
+                      <Rating readOnly value={5} />
+                      <Typography>99+ Reviews</Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Card>
-            ))}
-
+                </Card>
+              ))}
           </Carousel>
         </Box>
 
@@ -510,7 +515,6 @@ const Shop = () => {
             </List>
           </Grid>
         </Grid>
-
       </Container>
 
       <Grid>
@@ -557,7 +561,6 @@ const Shop = () => {
                 }}
               >
                 <Typography
-
                   variant="h4"
                   gutterBottom
                   sx={{
@@ -599,7 +602,7 @@ const Shop = () => {
                       alignItems: "center",
                       minWidth: { xs: "30px", sm: "40px" },
                       minHeight: { xs: "30px", sm: "40px" },
-                      cursor: 'pointer' // Add pointer cursor for better UX
+                      cursor: "pointer", // Add pointer cursor for better UX
                     }}
                     onClick={handleOpen}
                   >
@@ -614,18 +617,18 @@ const Shop = () => {
                   >
                     <Box
                       sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
                         width: 700,
-                        bgcolor: 'background.paper',
-                        border: '2px solid #000',
+                        bgcolor: "background.paper",
+                        border: "2px solid #000",
                         boxShadow: 24,
                         p: 4,
                       }}
                     >
-                    <iframe
+                      <iframe
                         width="560"
                         height="315"
                         src={selectedProduct?.demoVideoUrl}
@@ -635,28 +638,24 @@ const Shop = () => {
                         referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
                       ></iframe>
-                      <Button onClick={handleClose} sx={{ mt: 2 }}>Close</Button>
-
-
-
+                      <Button onClick={handleClose} sx={{ mt: 2 }}>
+                        Close
+                      </Button>
                     </Box>
                   </Modal>
 
                   <CardContent sx={{ flex: 1 }}>
-
                     <Typography
                       sx={{
                         fontWeight: "600",
                         fontSize: { xs: "18px", sm: "24px", md: "30px" },
                         fontSize: { xs: "18px", sm: "24px", md: "30px" },
                         marginBottom: "8px",
-                        textTransform: "uppercase"
-
+                        textTransform: "uppercase",
                       }}
                     >
-                      HOW THE {selectedProduct && selectedProduct.name} SOFTWARE WORKS?
-
-
+                      HOW THE {selectedProduct && selectedProduct.name} SOFTWARE
+                      WORKS?
                     </Typography>
 
                     <Typography

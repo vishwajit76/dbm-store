@@ -52,7 +52,7 @@ function Footer() {
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   const scrollToTop = () => {
