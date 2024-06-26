@@ -108,7 +108,7 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
     };
 
     const handleVariationClick = (index = 0, id) => {
-        const selectedVariation = productData.variations ? productData.variations.find(item => id === item._id) : productData.variations.find((item, idx) => index === idx);
+        const selectedVariation = productData.rates ? productData.rates.find(item => id === item._id) : productData.rates.find((item, idx) => index === idx);
         setSelectedVariation(selectedVariation);
         setVariation(selectedVariation);
         setBasePrice(selectedVariation.price);
@@ -151,8 +151,8 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
                     <Grid container item xs={4} justifyContent="end">
                         <Typography color='khaki' my={1}>price</Typography>
                         <Typography fontWeight='bold'>
-                            ₹{productData.variations.reduce((min, variation) => Math.min(min, variation.price), Infinity)} -
-                            ₹{productData.variations.reduce((max, variation) => Math.max(max, variation.price), -Infinity)}
+                            ₹{productData.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity)} -
+                            ₹{productData.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -179,7 +179,7 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
             </Box>
 
             <Grid container spacing={2}>
-                {productData.variations.map((item, index) => (
+                {productData.rates.map((item, index) => (
                     <Grid item xs={6} md={4} key={index}>
                         <Box
                             textAlign='center'

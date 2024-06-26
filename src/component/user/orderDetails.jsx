@@ -75,10 +75,6 @@ const orderDetails = ({ onClose }) => {
                         <Typography sx={{ color: '#818181de' }}>discount</Typography>
                         <Typography>10%</Typography>
                     </Grid>
-                    <Grid item xs={12} container justifyContent='space-between'>
-                        <Typography sx={{ color: '#818181de' }}>Shipping Cost</Typography>
-                        <Typography color='green' sx={{ color: '#21E500' }}>FREE</Typography>
-                    </Grid>
                     <Grid item xs={12}><Divider /></Grid>
                     <Grid item xs={12} container justifyContent='space-between'>
                         <Typography fontWeight={600}>Final Price</Typography>

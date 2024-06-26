@@ -20,6 +20,7 @@ import {
   decreaseQuantity,
   cartProduct,
 } from "../../redux/cart/cartSlice";
+import { setProductDetails } from '../../redux/payment/paymentSlice'
 
 const buttonStyle = {
   p: 0.1,
@@ -30,6 +31,8 @@ const buttonStyle = {
 export default function Cart({ onClose, onClick, openProduct }) {
   const cartData = useSelector((state) => state.cart.items);
   const subtotal = useSelector((state) => state.cart.subtotal);
+  const productDetails = useSelector((state) => state.payment.productDetails);
+  console.log("productDetails" , productDetails);
   const couponCode = "a5623d";
   const dispatch = useDispatch();
 
@@ -41,10 +44,10 @@ export default function Cart({ onClose, onClick, openProduct }) {
   const handleOpenProduct = (product, variation, e) => {
     e.stopPropagation();
     openProduct();
-    dispatch(cartProduct({ product: product , variation: variation  }));
+    dispatch(cartProduct({ product: product, variation: variation }));
   };
 
-  const increaseCartItem = (id, variationId , e) => {
+  const increaseCartItem = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(increaseQuantity({ id: id, variationId: variationId }));
   };
@@ -55,8 +58,16 @@ export default function Cart({ onClose, onClick, openProduct }) {
   };
 
   const handleCheckout = () => {
-    // Handle checkout logic here
+    dispatch(setProductDetails(cartData.map(i => ({
+      product_id: i.product.id,
+      variation_id: i.variation._id,
+      quantity: i.quantity
+    }))))
+    onClick()
   };
+
+  console.log();
+
 
   return (
     <div>
@@ -85,7 +96,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 my={1}
                 boxShadow="0 0 10px #eee"
                 justifyContent="space-between"
-                onClick={(e) => handleOpenProduct(item.product, item.variation , e)}
+                onClick={(e) => handleOpenProduct(item.product, item.variation, e)}
               >
                 <Grid
                   item
@@ -140,7 +151,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
                         fontSize="small"
                         sx={buttonStyle}
                         onClick={(e) =>
-                          increaseCartItem(item.id, item.variation?._id , e)
+                          increaseCartItem(item.id, item.variation?._id, e)
                         }
                       />
                     </Grid>
@@ -201,8 +212,8 @@ export default function Cart({ onClose, onClick, openProduct }) {
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography
                   sx={{ color: "#818181de" }}
-                >{`Discount(10%)`}</Typography>
-                <Typography>-₹{(subtotal * 0.1).toFixed(2)}</Typography>
+                >Discount</Typography>
+                <Typography></Typography>
               </Grid>
               <Grid item xs={12}>
                 <Divider />
@@ -210,7 +221,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography fontWeight={600}>Final Price</Typography>
                 <Typography fontWeight={600}>
-                  ₹{(subtotal * 0.9).toFixed(2)}
+                  ₹{subtotal}
                 </Typography>
               </Grid>
             </Grid>
@@ -219,7 +230,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
               color="black"
               sx={{ color: "#fff", borderRadius: 2, p: 2, my: 2 }}
               fullWidth
-              onClick={onClick}
+              onClick={handleCheckout}
             >
               Checkout Now
             </Button>
