@@ -1,11 +1,27 @@
 import { Box, Divider, Drawer, Grid, Typography } from '@mui/material'
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import zomatoImg from '../image/google-map-extractor-7 1.png';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axiosInstance from '../../util/axiosInstance';
 import OrderDetails from './orderDetails';
 
 const order = ({ onClose, orderDetails }) => {
     const [details, setDetails] = useState(false)
+    const [orders, setOrders] = useState(null)
+
+    useEffect(() => {
+        const fetchOrder = async () => {
+          try {
+            const response = await axiosInstance.post("/orders/orders");
+            console.log(response);
+            const data = response.data;
+            setOrders(data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+        fetchOrder();
+      }, []);
 
     const toggleOrderDetailsDrawer = (newOpen) => () => { setDetails(newOpen); onClose }
 

@@ -3,22 +3,36 @@ import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded
 import React, { useState } from "react";
 import {
     TextField,
-    Select,
-    InputLabel,
-    FormControl,
-    MenuItem
+    FormControlLabel,
+    RadioGroup,
+    Radio,
 } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import Paypal from '../image/paypal.png';
 import razorpay from '../image/razorpay.png';
 import Stripe from '../image/stripe.png';
-import { setPaymentDetails } from '../../redux/payment/paymentSlice';
+import { setUserDetail } from '../../redux/payment/paymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import axiosInstance from '../../util/axiosInstance';
+
+const paymentGateway = [
+    {
+        name: "RazorPay",
+        value: "razorpay",
+        logo: razorpay,
+    },
+    {
+        name: "Stripe",
+        value: "stripe",
+        logo: Stripe,
+    },
+    {
+        name: "PayPal",
+        value: "paypal",
+        logo: Paypal,
+    }
+];
 
 const Checkout = ({ onClose }) => {
     const [name, setName] = useState("");
@@ -31,21 +45,9 @@ const Checkout = ({ onClose }) => {
     const [zip, setZip] = useState("");
     const [selectedOption, setSelectedOption] = useState('home');
     const [open, setOpen] = useState(false);
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Razorpay');
-  
-    const handlePaymentMethodChange = (event) => {
-        setSelectedPaymentMethod(event.target.value);
-    };
-
-    const paymentdata = {
-        currency: "INR",
-        payment_method: selectedPaymentMethod.toLowerCase(),
-        items: [{
-            product_id: "6644a5b13a3674779359ac39",
-            variation_id: "65926b53dbba6d34a8996e35",
-            quantity: 2
-        }]
-    };
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('razorpay');
+    const userDetails = useSelector(state => state.payment.userDetails);
+    const products = useSelector(state => state.payment.productDetails);
 
     const dispatch = useDispatch();
 
@@ -123,19 +125,108 @@ const Checkout = ({ onClose }) => {
         return valid;
     };
 
+    const loadScript = (src) => {
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    };
+
     const PlaceOrder = async () => {
         try {
+            const paymentdata = {
+                currency: "INR",
+                payment_method: selectedPaymentMethod,
+                items: products
+            };
+
             const response = await axiosInstance.post("/orders/place-order", paymentdata);
-            console.log(response);
+            console.log(response.data)
+
+            if (response.data.status) {
+                if (selectedPaymentMethod === "razorpay") {
+                    displayRazorpay(response.data.result, response.data.razorpay_key);
+                } else if (selectedPaymentMethod === 'stripe') {
+                    makeStripePayment(response?.result?.url);
+                } else if (selectedPaymentMethod === 'paypal') {
+                    makePaypalPayment(response.approval_url);
+                } else {
+                    console.log("Please choose a payment method!");
+                }
+            } else {
+                console.log("Please choose a payment method!");
+            }
         } catch (err) {
             console.log(err);
         }
     };
 
-    const handlePlaceOrder = () => {
-        PlaceOrder()
-        setOpen(false)
+    const razorpayVerification = async (razorpay_payment_id, razorpay_order_id, razorpay_signature) => {
+        const data = await axiosInstance.post("/orders/verify-payment", { razorpay_payment_id, razorpay_order_id, razorpay_signature });
+        console.log(data);
     };
+
+    const makePaypalPayment = (link) => {
+        if (link) {
+            window.location.href = link;
+        }
+    };
+
+    const makeStripePayment = (link) => {
+        if (link) {
+            window.location.href = link;
+        }
+    };
+
+    async function displayRazorpay(order, razoypayKey) {
+        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+        if (!res) {
+            console.log("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+        const options = {
+            key: razoypayKey,
+            amount: order.amount,
+            currency: "INR",
+            name: "Digi Bulk Marketing",
+            description: "Order #" + order.receipt,
+            image: "https://api.digibulkmarketing.com/media/reseller/dbm/logo.png",
+            order_id: order.id,
+            prefill: {
+                name: userDetails.name ?? "",
+                email: userDetails.email ?? "",
+                contact: userDetails.phone ?? "",
+            },
+            handler: function (response) {
+                razorpayVerification(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
+
+        const razorpay = new window.Razorpay(options);
+        razorpay.on("payment.failed", function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+
+        razorpay.open();
+    }
 
     const handleSubmit = () => {
         const isValid = validateForm();
@@ -150,9 +241,8 @@ const Checkout = ({ onClose }) => {
                 country,
                 zip,
             };
-            console.log('user-data', { name, email, phone });
-            dispatch(setPaymentDetails(userData));
-            setOpen(true)
+            dispatch(setUserDetail(userData));
+            setOpen(true);
         }
     };
 
@@ -164,12 +254,10 @@ const Checkout = ({ onClose }) => {
                     cursor="pointer"
                     onClick={onClose}
                 />
-
                 <Typography fontWeight={600} align="center">Checkout</Typography>
-
             </Grid>
 
-            <Box sx={{p:2}}>
+            <Box sx={{ p: 2 }}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" >
                     <Typography variant="h6"> Address</Typography>
                 </Box>
@@ -356,57 +444,52 @@ const Checkout = ({ onClose }) => {
                         <Typography variant="h6" component="div">
                             Payment Method
                         </Typography>
-                        <FormControl component="fieldset">
-                            <RadioGroup
-                                aria-label="payment-method"
-                                value={selectedPaymentMethod}
-                                onChange={handlePaymentMethodChange}
-                            >
-                                <FormControlLabel
-                                    value="Razorpay"
-                                    control={<Radio />}
-                                    label={
-                                        <Box display="flex" alignItems="center">
-                                            <img src={razorpay} alt="Razorpay" width="100px" style={{ background: 'white', marginRight: '10px' }} />
-                                            <Typography noWrap fontWeight={600}>Payment With RazorPay</Typography>
-                                        </Box>
-                                    }
-                                />
-                                <FormControlLabel
-                                    value="Stripe"
-                                    control={<Radio />}
-                                    disabled
-                                    label={
-                                        <Box display="flex" alignItems="center">
-                                            <img src={Stripe} alt="Stripe" width="100px" style={{ background: 'white', marginRight: '10px' }} />
-                                            <Typography noWrap fontWeight={600}>Payment With Stripe</Typography>
-                                        </Box>
-                                    }
-                                />
-                                <FormControlLabel
-                                    value="Paypal"
-                                    control={<Radio />}
-                                    disabled
-                                    label={
-                                        <Box display="flex" alignItems="center">
-                                            <img src={Paypal} alt="Paypal" width="100px" style={{ background: 'white', marginRight: '10px' }} />
-                                            <Typography noWrap fontWeight={600}>Payment With PayPal</Typography>
-                                        </Box>
-                                    }
-                                />
-                            </RadioGroup>
-                        </FormControl>
+                        <RadioGroup
+                            aria-label="payment-method"
+                            value={selectedPaymentMethod}
+                            // onChange={handlePaymentMethodChange}
+                        >
+                            <FormControlLabel
+                                value="razorpay"
+                                control={<Radio />}
+                                label={
+                                    <Box display="flex" alignItems="center">
+                                        <img src={razorpay} alt="Razorpay" width="100px" style={{ background: 'white', marginRight: '10px' }} />
+                                        <Typography noWrap fontWeight={600}>Payment With RazorPay</Typography>
+                                    </Box>
+                                }
+                            />
+                            <FormControlLabel
+                                value="stripe"
+                                control={<Radio />}
+                                disabled
+                                label={
+                                    <Box display="flex" alignItems="center">
+                                        <img src={Stripe} alt="Stripe" width="100px" style={{ background: 'white', marginRight: '10px' }} />
+                                        <Typography noWrap fontWeight={600}>Payment With Stripe</Typography>
+                                    </Box>
+                                }
+                            />
+                            <FormControlLabel
+                                value="paypal"
+                                control={<Radio />}
+                                disabled
+                                label={
+                                    <Box display="flex" alignItems="center">
+                                        <img src={Paypal} alt="Paypal" width="100px" style={{ background: 'white', marginRight: '10px' }} />
+                                        <Typography noWrap fontWeight={600}>Payment With PayPal</Typography>
+                                    </Box>
+                                }
+                            />
+                        </RadioGroup>
                     </Box>
                     <Grid container spacing={2} display={'flex'} justifyContent="space-between">
-
-                        <Button onClick={() => setOpen(false)} color="primary" variant="contained" >
+                        <Button onClick={() => setOpen(false)} color="primary" variant="contained">
                             Back To Checkout Details
                         </Button>
-
-                        <Button variant="contained" color="primary" onClick={handlePlaceOrder}>
+                        <Button variant="contained" color="primary" onClick={PlaceOrder}>
                             Place Order
                         </Button>
-
                     </Grid>
                 </Box>
             </Modal>

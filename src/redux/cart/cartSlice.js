@@ -17,7 +17,7 @@ export const cartSlice = createSlice({
             if (existingItem) {
                 existingItem.quantity += action.payload.quantity;
             } else {
-                state.items.push({ product, id, name, price, rating, image, quantity, variation });
+                state.items.push({ product, id, name, price, rating, image, quantity, variation })
             }
 
             state.count += quantity;

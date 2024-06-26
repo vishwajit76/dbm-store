@@ -389,13 +389,13 @@ const Shop = () => {
                   </Typography>
                   <Typography my={1}>
                     ₹
-                    {item.variations.reduce(
-                      (min, variation) => Math.min(min, variation.price),
+                    {item.rates.reduce(
+                      (min, rate) => Math.min(min, rate.price),
                       Infinity
                     )}
                     - ₹
-                    {item.variations.reduce(
-                      (max, variation) => Math.max(max, variation.price),
+                    {item.rates.reduce(
+                      (max, rate) => Math.max(max, rate.price),
                       -Infinity
                     )}
                   </Typography>
