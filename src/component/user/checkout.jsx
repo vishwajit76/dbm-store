@@ -154,7 +154,7 @@ const Checkout = ({ onClose }) => {
                 if (selectedPaymentMethod === "razorpay") {
                     displayRazorpay(response.data.result, response.data.razorpay_key);
                 } else if (selectedPaymentMethod === 'stripe') {
-                    makeStripePayment(response?.result?.url);
+                    makeStripePayment(response?.data?.result, "pk_test_51L1E9YSFDFHp5bEhFLrxuBRiZ0ifZQE5Nle0k1szQOzv3H3fOG0UXU2QsxbBzvGJYBDqsFN73f0P58hWVpFJYddC00qtpMYQRs");
                 } else if (selectedPaymentMethod === 'paypal') {
                     makePaypalPayment(response.approval_url);
                 } else {
@@ -186,6 +186,8 @@ const Checkout = ({ onClose }) => {
     };
 
     async function displayRazorpay(order, razoypayKey) {
+        console.log("datacheck",order,)
+        console.log("checkurl",razoypayKey)
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
         if (!res) {
@@ -213,7 +215,7 @@ const Checkout = ({ onClose }) => {
                 color: "#3399cc",
             },
         };
-
+        console.log("options",options)
         const razorpay = new window.Razorpay(options);
         razorpay.on("payment.failed", function (response) {
             alert(response.error.code);
@@ -447,11 +449,12 @@ const Checkout = ({ onClose }) => {
                         <RadioGroup
                             aria-label="payment-method"
                             value={selectedPaymentMethod}
-                            // onChange={handlePaymentMethodChange}
+                            // onChange={setSelectedPaymentMethod}
                         >
                             <FormControlLabel
                                 value="razorpay"
                                 control={<Radio />}
+                                onChange={() => setSelectedPaymentMethod("razorpay")}
                                 label={
                                     <Box display="flex" alignItems="center">
                                         <img src={razorpay} alt="Razorpay" width="100px" style={{ background: 'white', marginRight: '10px' }} />
@@ -462,7 +465,7 @@ const Checkout = ({ onClose }) => {
                             <FormControlLabel
                                 value="stripe"
                                 control={<Radio />}
-                                disabled
+                                onChange={() => setSelectedPaymentMethod("stripe")}
                                 label={
                                     <Box display="flex" alignItems="center">
                                         <img src={Stripe} alt="Stripe" width="100px" style={{ background: 'white', marginRight: '10px' }} />
@@ -473,7 +476,7 @@ const Checkout = ({ onClose }) => {
                             <FormControlLabel
                                 value="paypal"
                                 control={<Radio />}
-                                disabled
+                                onChange={() => setSelectedPaymentMethod("paypal")}
                                 label={
                                     <Box display="flex" alignItems="center">
                                         <img src={Paypal} alt="Paypal" width="100px" style={{ background: 'white', marginRight: '10px' }} />
