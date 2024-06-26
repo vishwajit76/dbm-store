@@ -33,24 +33,24 @@ function Footer() {
   const [refundContent, setRefundContent] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [privacyResponse, termsResponse, refundResponse] =
-          await Promise.all([
-            axiosInstance.get("user/page/privacy-policy"),
-            axiosInstance.get("user/page/terms-conditions"),
-            axiosInstance.get("user/page/refund-policy"),
-          ]);
-        setPrivacyContent(privacyResponse.data.page.content);
-        setTermsContent(termsResponse.data.page.content);
-        setRefundContent(refundResponse.data.page.content);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const [privacyResponse, termsResponse, refundResponse] =
+        await Promise.all([
+          axiosInstance.get("user/page/privacy-policy"),
+          axiosInstance.get("user/page/terms-conditions"),
+          axiosInstance.get("user/page/refund-policy"),
+        ]);
+      setPrivacyContent(privacyResponse.data.page.content);
+      setTermsContent(termsResponse.data.page.content);
+      setRefundContent(refundResponse.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 

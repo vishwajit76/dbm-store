@@ -81,7 +81,7 @@ function App() {
           <Faq />
         </section>
         {/* <Termpage /> */}
-        {/* <Footer /> */}
+        <Footer />
       </Box>
     </ThemeProvider>
   );

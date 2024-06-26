@@ -39,6 +39,7 @@ const CustomLeftArrow = ({ onClick }) => (
       position: "absolute",
       left: "30px",
       zIndex: 1,
+      cursor: "pointer",
     }}
   >
     <KeyboardArrowLeftRoundedIcon sx={{ color: "#fff" }} fontSize="large" />
@@ -59,6 +60,7 @@ const CustomRightArrow = ({ onClick }) => (
       position: "absolute",
       right: "30px",
       zIndex: 1,
+      cursor: "pointer",
     }}
   >
     <KeyboardArrowRightRoundedIcon sx={{ color: "#fff" }} fontSize="large" />
@@ -220,10 +222,13 @@ const Faq = () => {
             <Typography
               mb={5}
               variant="subtitle"
-              fontWeight="600"
               sx={{
                 display: "flex",
                 justifyContent: "center",
+                fontSize: {
+                  xs: "20px",
+                  sm: "25px",
+                },
               }}
             >
               {selectedProduct && selectedProduct.name}
