@@ -19,6 +19,8 @@ import {
   Modal,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
@@ -37,6 +39,8 @@ import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
+
+import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
 
 const useStyles = makeStyles({
   carousel: {
@@ -129,17 +133,16 @@ const Shop = () => {
   const [tabValue, setTabValue] = React.useState(0);
   const dispatch = useDispatch();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
-      () => {
-        setDetailDrawer(newOpen);
-        if (newOpen) setCartDrawer(false);
-        dispatch(cartProduct({ product }));
-      };
+    () => {
+      setDetailDrawer(newOpen);
+      if (newOpen) setCartDrawer(false);
+      dispatch(cartProduct({ product }));
+    };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -206,6 +209,23 @@ const Shop = () => {
       </Container>
     );
   }
+
+  const handleWishlist = (product, e) => {
+    e.stopPropagation();
+    console.log("shop product", product);
+    const isProductInWishlist = wishlistItems?.find(
+      (item) => item?.product?.id === product?.id
+    )?.isInWishlist;
+    console.log(isProductInWishlist, "shop");
+    if (isProductInWishlist) {
+      const index = wishlistItems.findIndex(
+        (item) => item.product.id === product.id
+      );
+      dispatch(removeFromWishlist(index));
+    } else {
+      dispatch(addToWishlist({ product }));
+    }
+  };
 
   if (!products) {
     return (
@@ -360,6 +380,7 @@ const Shop = () => {
                         item
                         xs={12}
                         sx={{
+                          textAlign: "right",
                           "& img": {
                             transition: "transform 0.3s ease-in-out",
                           },
@@ -368,6 +389,15 @@ const Shop = () => {
                           },
                         }}
                       >
+                        <Checkbox
+                          onClick={(e) => handleWishlist(item, e)}
+                          icon={<FavoriteBorder />}
+                          checkedIcon={<Favorite />}
+                          checked={wishlistItems.some(
+                            (wishlistItem) =>
+                              wishlistItem.product.id === item.id
+                          )}
+                        />
                         <img
                           width={220}
                           height={220}
@@ -384,7 +414,7 @@ const Shop = () => {
                       {item.variations.reduce(
                         (min, variation) => Math.min(min, variation.price),
                         Infinity
-                      )}{" "}
+                      )}
                       - ₹
                       {item.variations.reduce(
                         (max, variation) => Math.max(max, variation.price),
@@ -434,7 +464,10 @@ const Shop = () => {
                 }}
               >
                 {products.products.map((item, index) => (
-                  <Tab key={index} label={<img src={item.image} alt={item.name} width={50} />} />
+                  <Tab
+                    key={index}
+                    label={<img src={item.image} alt={item.name} width={50} />}
+                  />
                 ))}
               </Tabs>
             </Grid>
@@ -479,7 +512,10 @@ const Shop = () => {
                   <ListItemIcon sx={{ minWidth: "30px" }}>
                     <FiberManualRecordIcon fontSize="1rem" color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary={message} />
+                  <Typography variant="body">
+                    {message}
+                    {/* <ListItemText  primary={message} /> */}
+                  </Typography>
                 </ListItem>
               ))}
             </List>

@@ -88,7 +88,10 @@ const Navbar = () => {
       setOpenDetails(false);
     }
   };
-  const toggleDetailsDrawer = (newOpen) => () => { setOpenDetails(newOpen); if (newOpen) setOpenCart(false) };
+  const toggleDetailsDrawer = (newOpen) => () => {
+    setOpenDetails(newOpen);
+    if (newOpen) setOpenCart(false);
+  };
   const toggleWishlistDrawer = (newOpen) => () => setWishlist(newOpen);
   const toggleOrderDrawer = (newOpen) => () => setOpenOrder(newOpen);
   const toggleCheckoutDrawer = (newOpen) => () => {
@@ -209,7 +212,11 @@ const Navbar = () => {
 
             {/* let's talk , cart and avatar*/}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button variant="contained" href="#contact" sx={{ display: { xs: "none", md: "flex" } }}>
+              <Button
+                variant="contained"
+                href="#contact"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
                 Let's talk
               </Button>
               <Badge
@@ -354,7 +361,7 @@ const Navbar = () => {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <EditProfile />
+              <EditProfile onClose={handleCloseModal} />
             </Modal>
 
             <Modal

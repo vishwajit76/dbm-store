@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -24,7 +22,7 @@ import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import GoogleIcon from "@mui/icons-material/Google";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import axiosInstance from '../../util/axiosInstance';
+import axiosInstance from "../../util/axiosInstance";
 
 function Footer() {
   const [showScroll, setShowScroll] = useState(false);
@@ -36,23 +34,24 @@ function Footer() {
   const [refundContent, setRefundContent] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [privacyResponse, termsResponse, refundResponse] = await Promise.all([
-          axiosInstance.get('user/page/privacy-policy' , ),
-          axiosInstance.get('user/page/terms-conditions'),
-          axiosInstance.get('user/page/refund-policy'),
+  const fetchData = async () => {
+    try {
+      const [privacyResponse, termsResponse, refundResponse] =
+        await Promise.all([
+          axiosInstance.get("user/page/privacy-policy"),
+          axiosInstance.get("user/page/terms-conditions"),
+          axiosInstance.get("user/page/refund-policy"),
         ]);
-        setPrivacyContent(privacyResponse.data.page.content);
-        setTermsContent(termsResponse.data.page.content);
-        setRefundContent(refundResponse.data.page.content);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
+      setPrivacyContent(privacyResponse.data.page.content);
+      setTermsContent(termsResponse.data.page.content);
+      setRefundContent(refundResponse.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -89,15 +88,15 @@ function Footer() {
   };
 
   const handleDialogOpen = (type) => {
-    if (type === 'terms') setTermsDialogOpen(true);
-    if (type === 'privacy') setPrivacyDialogOpen(true);
-    if (type === 'refund') setRefundDialogOpen(true);
+    if (type === "terms") setTermsDialogOpen(true);
+    if (type === "privacy") setPrivacyDialogOpen(true);
+    if (type === "refund") setRefundDialogOpen(true);
   };
 
   const handleDialogClose = (type) => {
-    if (type === 'terms') setTermsDialogOpen(false);
-    if (type === 'privacy') setPrivacyDialogOpen(false);
-    if (type === 'refund') setRefundDialogOpen(false);
+    if (type === "terms") setTermsDialogOpen(false);
+    if (type === "privacy") setPrivacyDialogOpen(false);
+    if (type === "refund") setRefundDialogOpen(false);
   };
 
   return (
@@ -416,7 +415,10 @@ function Footer() {
         </Container>
       </Box>
 
-      <Dialog open={privacyDialogOpen} onClose={() => handleDialogClose('privacy')}>
+      <Dialog
+        open={privacyDialogOpen}
+        onClose={() => handleDialogClose("privacy")}
+      >
         <DialogTitle>{"Privacy Policy"}</DialogTitle>
         <DialogContent>
           {privacyContent ? (
@@ -426,13 +428,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('privacy')} color="primary">
+          <Button onClick={() => handleDialogClose("privacy")} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={termsDialogOpen} onClose={() => handleDialogClose('terms')}>
+      <Dialog open={termsDialogOpen} onClose={() => handleDialogClose("terms")}>
         <DialogTitle>{"Terms and Conditions"}</DialogTitle>
         <DialogContent>
           {termsContent ? (
@@ -442,13 +444,16 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('terms')} color="primary">
+          <Button onClick={() => handleDialogClose("terms")} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={refundDialogOpen} onClose={() => handleDialogClose('refund')}>
+      <Dialog
+        open={refundDialogOpen}
+        onClose={() => handleDialogClose("refund")}
+      >
         <DialogTitle>{"Refund and Return Policy"}</DialogTitle>
         <DialogContent>
           {refundContent ? (
@@ -458,7 +463,7 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('refund')} color="primary">
+          <Button onClick={() => handleDialogClose("refund")} color="primary">
             Close
           </Button>
         </DialogActions>
