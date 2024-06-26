@@ -134,6 +134,7 @@ const Shop = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  console.log("change")
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>

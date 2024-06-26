@@ -13,8 +13,8 @@ const order = ({ onClose, orderDetails }) => {
         const fetchOrder = async () => {
           try {
             const response = await axiosInstance.post("/orders/orders");
-            console.log(response);
-            const data = response.data;
+            console.log(response.data.orders);
+            const data = response.data.orders;
             setOrders(data);
           } catch (error) {
             console.error("Error fetching data:", error);
@@ -36,7 +36,7 @@ const order = ({ onClose, orderDetails }) => {
                 <Typography fontWeight={600}>Orders</Typography>
             </Grid>
 
-            {['', '', '', ''].map((_, index) => (
+            {orders?.map((item , index) => (
                 <Grid
                     key={index}
                     container
@@ -64,7 +64,7 @@ const order = ({ onClose, orderDetails }) => {
                             <Grid item xs={12}><Divider /></Grid>
                             <Grid item xs={12} container justifyContent='space-between'>
                                 <Typography sx={{ color: '#818181de' }}>Total</Typography>
-                                <Typography>$999</Typography>
+                                <Typography>₹{item.paymentId.amount}</Typography>
                             </Grid>
                         </Grid>
                     </Grid>
