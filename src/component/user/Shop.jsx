@@ -139,6 +139,8 @@ const Shop = () => {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [open, setOpen] = useState(false);
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
@@ -198,6 +200,7 @@ const Shop = () => {
   const handleProductChange = (index) => {
     setTabValue(index);
     setSelectedProduct(products.products[index]);
+    console.log("setSelectedProduct",selectedProduct)
   };
 
   const handleTabChange = (event, newValue) => {
@@ -636,6 +639,15 @@ const Shop = () => {
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      ></iframe> */}
+                      <iframe
+                        width="100%"
+                        height="400"
+                        // src={`https://www.youtube.com/embed/${selectedProduct?.demoVideoUrl}`}
+                        src="https://youtu.be/QtNNAh_IgYs"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       ></iframe>
                       <Button onClick={handleClose} sx={{ mt: 2 }}>

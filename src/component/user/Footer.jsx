@@ -13,7 +13,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Divider,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import img from "../image/logo (1).png";
@@ -107,8 +106,13 @@ function Footer() {
             container
             spacing={4}
             marginTop={10}
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: { xs: "column", md: "row" },
+            }}
           >
+            {/* Address and Contact Information */}
             <Grid item xs={12} md={4}>
               <Box
                 display="flex"
@@ -124,8 +128,7 @@ function Footer() {
                 />
                 <Box textAlign={{ xs: "center", sm: "left" }}>
                   <Typography sx={{ color: "black" }}>
-                    <strong>Address:</strong>
-                    B204, Sumel Business Park – 7,
+                    <strong>Address:</strong> B204, Sumel Business Park – 7,
                   </Typography>
                   <Typography>Odhav, Ahmedabad – 382415</Typography>
                   <Box
@@ -208,9 +211,10 @@ function Footer() {
                 </Box>
               </Box>
             </Grid>
-
-            <Grid item xs={12} md={5} lg={4}>
+            {/* About Us and Useful Links */}
+            <Grid item xs={12} md={4}>
               <Grid container spacing={2} justifyContent="space-around">
+                {/* Useful Links */}
                 <Grid
                   item
                   xs={12}
@@ -270,13 +274,8 @@ function Footer() {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Grid
-              item
-              xs={12}
-              md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
+            {/* Newsletter Subscription */}
+            <Grid item xs={12} md={4}>
               <Box
                 display="flex"
                 flexDirection="column"
@@ -294,27 +293,31 @@ function Footer() {
                   <TextField
                     variant="standard"
                     color="black"
-                    label="Enter your name"
-                    sx={{ width:'250px'}}
+                    label="Enter your Name"
+                    // fullWidth
+                    sx={{
+                      width:{md:'100%', sm:'250px',  xs:'250px '  },
+                    }}
                   />
                   <TextField
                     variant="standard"
                     color="black"
                     label="Enter your email"
-                    sx={{ width:'250px'}}
-                    
+                    // fullWidth
+                    sx={{ width:{md:'100%', sm:'250px',  xs:'250px '  },}}
                   />
                   <Box
                     display="flex"
                     justifyContent="center"
-                    width="100%"
+                  
                     sx={{
                       justifyContent: {
                         xs: "center",
                         sm: "center",
-                        md: "center",
+                        md: "flex-start",
                         lg: "flex-start",
                       },
+                     
                       mt: { xs: 3, sm: 0 },
                     }}
                   >
@@ -323,12 +326,9 @@ function Footer() {
                         backgroundColor: "#0084FE",
                         color: "white",
                         marginTop: "12px",
-                
-
                       }}
                       type="submit"
                       variant="contained"
-               
                     >
                       SUBSCRIBE
                     </Button>
@@ -339,7 +339,7 @@ function Footer() {
           </Grid>
         </Container>
       </Box>
-
+      {/* Scroll to Top Button */}
       {showScroll && (
         <Box
           sx={{
@@ -363,14 +363,14 @@ function Footer() {
           </IconButton>
         </Box>
       )}
-<Divider/>
-      <Box sx={{ backgroundColor: "#fff" }} padding="20px 0">
+
+      <Box sx={{ backgroundColor: "#8C8C8C" }} padding="20px 0">
         <Container>
           <Grid container display="flex">
             <Grid item xs={12} md={5}>
               <Typography
                 fontSize="14px"
-                sx={{ color: "#000", alignItems: "center" }}
+                sx={{ color: "#fff", alignItems: "center" }}
               >
                 Copyright © Designed & Developed by BITBEAST Pvt. Ltd. 2024
               </Typography>
@@ -386,27 +386,27 @@ function Footer() {
                 }}
               >
                 <Typography
-                  sx={{ color: "#000", cursor: "pointer" }}
-                  onClick={() => handleDialogOpen('privacy')}
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handlePrivacyDialogOpen}
                 >
                   Privacy Policy
                 </Typography>
                 <Typography
-                  sx={{ color: "#000", cursor: "pointer" }}
-                  onClick={() => handleDialogOpen('terms')}
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handleTermsDialogOpen}
                 >
                   Terms and Conditions
                 </Typography>
                 <Typography
-                  sx={{ color: "#000", cursor: "pointer" }}
-                  onClick={() => handleDialogOpen('refund')}
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handleRefundDialogOpen}
                 >
                   Refund and Return Policy
                 </Typography>
-                <Typography sx={{ color: "#000", cursor: "pointer" }}>
+                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
                   Contact
                 </Typography>
-                <Typography sx={{ color: "#000", cursor: "pointer" }}>
+                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
                   About
                 </Typography>
               </Box>

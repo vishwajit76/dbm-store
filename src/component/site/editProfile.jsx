@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Grid,
@@ -79,46 +79,25 @@ const EditProfile = ({ onClose }) => {
 
   const validateFields = () => {
     const errors = {};
-    if (!validator.isAlpha(profile.name.replace(/\s/g, ""))) {
-      errors.name = "Name must contain only letters";
+    if (!validator.isAlpha(name.replace(/\s/g, ''))) {
+      errors.name = 'Name must contain only letters';
     }
-    if (!validator.isEmail(profile.email)) {
-      errors.email = "Invalid email address";
+    if (!validator.isEmail(email)) {
+      errors.email = 'Invalid email address';
     }
-    if (!validator.isNumeric(profile.zip)) {
-      errors.zip = "Zip code must contain only numbers";
+    if (!/^\d{6}$/.test(zip)) {
+      errors.zip = 'Zip code must be exactly 6 digits';
     }
-    if (!validator.isAlpha(profile.state.replace(/\s/g, ""))) {
-      errors.state = "State must contain only letters";
+    if (!validator.isAlpha(state.replace(/\s/g, ''))) {
+      errors.state = 'State must contain only letters';
     }
-    if (!validator.isAlpha(profile.country.replace(/\s/g, ""))) {
-      errors.country = "Country must contain only letters";
+    if (!validator.isAlpha(country.replace(/\s/g, ''))) {
+      errors.country = 'Country must contain only letters';
     }
-    if (!validator.isAlpha(profile.city.replace(/\s/g, ""))) {
-      errors.city = "City must contain only letters";
+    if (!validator.isAlpha(city.replace(/\s/g, ''))) {
+      errors.city = 'City must contain only letters';
     }
     return errors;
-  };
-
-  const updateProfile = async () => {
-    const formData = {
-      name: profile.name,
-      email: profile.email,
-      address: {
-        country: profile.country,
-        type: "office",
-        addressLine1: profile.address,
-        addressLine2: "",
-        city: profile.city,
-        state: profile.state,
-        landmark: "",
-        zip: profile.zip,
-      },
-      profile: profilePicture,
-    };
-
-    const { data } = await axiosInstance.post("auth/set-profile", formData);
-    console.log("data", data);
   };
 
   const handleSave = () => {
