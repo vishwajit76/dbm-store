@@ -130,16 +130,16 @@ const Shop = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
-      () => {
-        setDetailDrawer(newOpen);
-        if (newOpen) setCartDrawer(false);
-        dispatch(cartProduct({ product }));
-      };
+    () => {
+      setDetailDrawer(newOpen);
+      if (newOpen) setCartDrawer(false);
+      dispatch(cartProduct({ product }));
+    };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -192,6 +192,7 @@ const Shop = () => {
   const handleProductChange = (index) => {
     setTabValue(index);
     setSelectedProduct(products.products[index]);
+    console.log("setSelectedProduct",selectedProduct)
   };
 
   const handleTabChange = (event, newValue) => {
@@ -434,7 +435,10 @@ const Shop = () => {
                 }}
               >
                 {products.products.map((item, index) => (
-                  <Tab key={index} label={<img src={item.image} alt={item.name} width={50} />} />
+                  <Tab
+                    key={index}
+                    label={<img src={item.image} alt={item.name} width={50} />}
+                  />
                 ))}
               </Tabs>
             </Grid>
@@ -485,7 +489,6 @@ const Shop = () => {
             </List>
           </Grid>
         </Grid>
-
       </Container>
 
       <Grid>
@@ -532,7 +535,6 @@ const Shop = () => {
                 }}
               >
                 <Typography
-
                   variant="h4"
                   gutterBottom
                   sx={{
@@ -574,7 +576,7 @@ const Shop = () => {
                       alignItems: "center",
                       minWidth: { xs: "30px", sm: "40px" },
                       minHeight: { xs: "30px", sm: "40px" },
-                      cursor: 'pointer' // Add pointer cursor for better UX
+                      cursor: "pointer", // Add pointer cursor for better UX
                     }}
                     onClick={handleOpen}
                   >
@@ -589,18 +591,19 @@ const Shop = () => {
                   >
                     <Box
                       sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
                         width: 700,
-                        bgcolor: 'background.paper',
-                        border: '2px solid #000',
+                        bgcolor: "background.paper",
+                        border: "2px solid #000",
                         boxShadow: 24,
                         p: 4,
                       }}
                     >
-                    <iframe
+                      {console.log("selectedProduct?.demoVideoUrl",selectedProduct?.demoVideoUrl)}
+                      {/* <iframe
                         width="560"
                         height="315"
                         src={selectedProduct?.demoVideoUrl}
@@ -609,29 +612,35 @@ const Shop = () => {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
+                      ></iframe> */}
+                      <iframe
+                        width="100%"
+                        height="400"
+                        // src={`https://www.youtube.com/embed/${selectedProduct?.demoVideoUrl}`}
+                        src="https://youtu.be/QtNNAh_IgYs"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
                       ></iframe>
-                      <Button onClick={handleClose} sx={{ mt: 2 }}>Close</Button>
-
-
-
+  
+                      <Button onClick={handleClose} sx={{ mt: 2 }}>
+                        Close
+                      </Button>
                     </Box>
                   </Modal>
 
                   <CardContent sx={{ flex: 1 }}>
-
                     <Typography
                       sx={{
                         fontWeight: "600",
                         fontSize: { xs: "18px", sm: "24px", md: "30px" },
                         fontSize: { xs: "18px", sm: "24px", md: "30px" },
                         marginBottom: "8px",
-                        textTransform: "uppercase"
-
+                        textTransform: "uppercase",
                       }}
                     >
-                      HOW THE {selectedProduct && selectedProduct.name} SOFTWARE WORKS?
-
-
+                      HOW THE {selectedProduct && selectedProduct.name} SOFTWARE
+                      WORKS?
                     </Typography>
 
                     <Typography

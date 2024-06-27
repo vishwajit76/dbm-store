@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,8 @@ import {
   Grid,
   Typography,
   Divider,
+  Snackbar,
+  SnackbarContent,
 } from "@mui/material";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -32,30 +34,49 @@ export default function Cart({ onClose, onClick, openProduct }) {
   const subtotal = useSelector((state) => state.cart.subtotal);
   const couponCode = "a5623d";
   const dispatch = useDispatch();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const handleRemoveFromCart = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(removeFromCart({ id: id, variationId: variationId }));
+    setSnackbarMessage("Item removed from cart");
+    setSnackbarSeverity("success");
+    setSnackbarOpen(true);
   };
 
   const handleOpenProduct = (product, variation, e) => {
     e.stopPropagation();
     openProduct();
-    dispatch(cartProduct({ product: product , variation: variation  }));
+    dispatch(cartProduct({ product: product, variation: variation }));
   };
 
-  const increaseCartItem = (id, variationId , e) => {
+  const increaseCartItem = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(increaseQuantity({ id: id, variationId: variationId }));
+    setSnackbarMessage("Quantity increased");
+    setSnackbarSeverity("success"); 
+    setSnackbarOpen(true);
   };
 
   const decreaseCartItem = (id, variationId, quantity, e) => {
     e.stopPropagation();
     dispatch(decreaseQuantity({ id: id, variationId: variationId }));
+    setSnackbarMessage("Quantity decreased");
+    setSnackbarSeverity("success"); 
+    setSnackbarOpen(true);
   };
 
   const handleCheckout = () => {
-    // Handle checkout logic here
+    
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   return (
@@ -85,7 +106,9 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 my={1}
                 boxShadow="0 0 10px #eee"
                 justifyContent="space-between"
-                onClick={(e) => handleOpenProduct(item.product, item.variation , e)}
+                onClick={(e) =>
+                  handleOpenProduct(item.product, item.variation, e)
+                }
               >
                 <Grid
                   item
@@ -140,7 +163,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
                         fontSize="small"
                         sx={buttonStyle}
                         onClick={(e) =>
-                          increaseCartItem(item.id, item.variation?._id , e)
+                          increaseCartItem(item.id, item.variation?._id, e)
                         }
                       />
                     </Grid>
@@ -226,6 +249,25 @@ export default function Cart({ onClose, onClick, openProduct }) {
           </Box>
         )}
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <SnackbarContent
+          message={snackbarMessage}
+          sx={{
+            backgroundColor:
+              snackbarSeverity === "success"
+                ? "#4caf50"
+                : snackbarSeverity === "error"
+                ? "#f44336"
+                : "#ff9800",
+            color: "#fff",
+          }}
+        />
+      </Snackbar>
     </div>
   );
 }

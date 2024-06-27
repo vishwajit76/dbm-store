@@ -117,7 +117,11 @@ const Checkout = ({ onClose }) => {
         if (!zip.trim()) {
             newErrors.zip = 'Zip code is required';
             valid = false;
+        } else if (!/^\d{6}$/.test(zip)) {
+            newErrors.zip = 'Zip code must be exactly 6 digits';
+            valid = false;
         }
+
 
         setErrors(newErrors);
         return valid;
@@ -282,7 +286,7 @@ const Checkout = ({ onClose }) => {
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <TextField
+                        <TextField
                                 label="Zip code"
                                 variant="outlined"
                                 fullWidth
@@ -290,6 +294,7 @@ const Checkout = ({ onClose }) => {
                                 onChange={(e) => setZip(e.target.value)}
                                 error={!!errors.zip}
                                 helperText={errors.zip}
+                                inputProps={{ maxLength: 6 }}
                             />
                         </Grid>
                     </Grid>

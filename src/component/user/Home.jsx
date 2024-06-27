@@ -7,9 +7,12 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControl,
   Grid,
+  InputLabel,
   MenuItem,
   Modal,
+  Select,
   TextField,
   Typography,
   useMediaQuery,
@@ -90,17 +93,17 @@ const Home = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: isSmallScreen ? '90%' : 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: isSmallScreen ? "90%" : 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-    maxHeight: '90vh',
-    overflowY: 'auto',
+    maxHeight: "90vh",
+    overflowY: "auto",
   };
 
   useEffect(() => {
@@ -122,7 +125,6 @@ const Home = () => {
     };
     fetchData();
   }, []);
-
 
   return (
     <div>
@@ -192,9 +194,8 @@ const Home = () => {
                   More
                 </Typography>
               </Box>
-              <Typography variant="body" align="justify" display={'flex'} >
-                Unlock the full potential of the world's most popular 
-                messaging
+              <Typography variant="body" align="justify" display={"flex"}>
+                Unlock the full potential of the world's most popular messaging
                 platform with our premium features, including bulk messaging,
                 chatbot support, autoresponders, and much more!
               </Typography>
@@ -210,90 +211,104 @@ const Home = () => {
                 Try Now
               </Button>
 
-
-
-
-
               <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="try-now-modal-title"
-        aria-describedby="try-now-modal-description"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="try-now-modal-title" variant="h6" component="h2">
-            Try Now
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            sx={{ mt: 2 }}
-          >
-            <TextField
-              autoFocus
-              margin="dense"
-              name="name"
-              label="Name"
-              type="text"
-              fullWidth
-              value={formValues.name}
-              onChange={handleInputChange}
-            />
-            <PhoneInput
-              inputStyle={{
-                width: "100%",
-                height: "55px",
-              }}
-              margin="dense"
-              name="number"
-              country={"in"}
-              value={formValues.number}
-              onChange={handlePhoneChange}
-            />
-            <TextField
-              margin="dense"
-              name="email"
-              label="Email"
-              type="email"
-              fullWidth
-              value={formValues.email}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
-              name="product"
-              label="Select Product"
-              select
-              fullWidth
-              value={formValues.product}
-              onChange={handleInputChange}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    maxHeight: 200, // Adjust max height to fit your design
-                  },
-                },
-              }}
-            >
-              {products.map((product) => (
-                <MenuItem key={product.id} value={product.name}  >
-                  <img src={product.image} alt={product.name} style={{ marginRight: 10, width: 30, height: 30, overflow:'auto' }} />
-                  {product.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="primary" sx={{ ml: 2 }}>
-              Submit
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="try-now-modal-title"
+                aria-describedby="try-now-modal-description"
+              >
+                <Box sx={modalStyle}>
+                  <Typography
+                    id="try-now-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Try Now
+                  </Typography>
+                  <Box
+                    component="form"
+                    noValidate
+                    autoComplete="off"
+                    sx={{ mt: 2 }}
+                  >
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      name="name"
+                      label="Name"
+                      type="text"
+                      fullWidth
+                      value={formValues.name}
+                      onChange={handleInputChange}
+                    />
+                    <TextField
+  margin="dense"
+  name="product"
+  label="Select Product"
+  select
+  size="small"
+  fullWidth
+  value={formValues.product}
+  onChange={handleInputChange}
+  SelectProps={{
+    MenuProps: {
+      PaperProps: {
+        style: {
+          maxHeight: 300,
+          overflow: 'auto'
+        },
+      },
+    },
+  }}
+>
+  {products.map((product) => (
+    <MenuItem key={product.id} value={product.name} style={{ display: 'flex', alignItems: 'center' }}>
+      <img
+        src={product.image}
+        alt={product.name}
+        style={{ width: '30px', height: '30px', marginRight: '10px', objectFit: 'cover' }}
+      />
+      <span>{product.name}</span>
+    </MenuItem>
+  ))}
+</TextField>
+                    <PhoneInput
+                      inputStyle={{
+                        width: "100%",
+                        height: "55px",
+                      }}
+                      margin="dense"
+                      name="number"
+                      country={"in"}
+                      value={formValues.number}
+                      onChange={handlePhoneChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      name="email"
+                      label="Email"
+                      type="email"
+                      fullWidth
+                      value={formValues.email}
+                      onChange={handleInputChange}
+                    />
+                  </Box>
+                  <Box
+                    sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <Button onClick={handleClose} color="primary">
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleSubmit}
+                      color="primary"
+                      sx={{ ml: 2 }}
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
             </Grid>
             <Grid
               item
@@ -408,7 +423,7 @@ const Home = () => {
                 sx={{
                   position: "relative",
                   fontSize: {
-                    xs: theme.typography.title.fontSize, 
+                    xs: theme.typography.title.fontSize,
                     sm: theme.typography.title["@media (min-width:600px)"]
                       .fontSize,
                     md: theme.typography.title["@media (min-width:600px)"]
@@ -520,9 +535,8 @@ const Home = () => {
                           <Typography
                             variant="body"
                             color="#000"
-                           
                             align="justify"
-                            display={'flex'}
+                            display={"flex"}
                           >
                             Software supports multiple images along with
                             captions for each image which can be sent to all the
@@ -784,7 +798,7 @@ const Home = () => {
                             variant="body"
                             color="#000"
                             align="justify"
-                            display={'flex'}
+                            display={"flex"}
                           >
                             Bulkwhatsapp is great tool for sharing PDF to
                             multiple user.It is the best way to express the
@@ -1043,7 +1057,7 @@ const Home = () => {
                             variant="body"
                             color="#000"
                             align="justify"
-                            display={'flex'}
+                            display={"flex"}
                           >
                             It not only supports the text but also various media
                             files.WhatsApp Marketing through Audios on mobile is
@@ -1274,4 +1288,3 @@ const Home = () => {
 };
 
 export default Home;
-

@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -15,7 +13,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Divider,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import img from "../image/logo (1).png";
@@ -35,26 +32,6 @@ function Footer() {
   const [termsContent, setTermsContent] = useState(null);
   const [refundContent, setRefundContent] = useState(null);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [privacyResponse, termsResponse, refundResponse] = await Promise.all([
-          axiosInstance.get('user/page/privacy-policy' , ),
-          axiosInstance.get('user/page/terms-conditions'),
-          axiosInstance.get('user/page/refund-policy'),
-        ]);
-        setPrivacyContent(privacyResponse.data.page.content);
-        setTermsContent(termsResponse.data.page.content);
-        setRefundContent(refundResponse.data.page.content);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -88,16 +65,52 @@ function Footer() {
     window.location.href = "tel:18008898358";
   };
 
-  const handleDialogOpen = (type) => {
-    if (type === 'terms') setTermsDialogOpen(true);
-    if (type === 'privacy') setPrivacyDialogOpen(true);
-    if (type === 'refund') setRefundDialogOpen(true);
+  const handleTermsDialogOpen = async () => {
+    try {
+      const response = await axiosInstance.get('user/page/terms-conditions');
+      setTermsContent(response.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setTermsContent(null);
+    }
+    setTermsDialogOpen(true);
   };
 
-  const handleDialogClose = (type) => {
-    if (type === 'terms') setTermsDialogOpen(false);
-    if (type === 'privacy') setPrivacyDialogOpen(false);
-    if (type === 'refund') setRefundDialogOpen(false);
+  const handleTermsDialogClose = () => {
+    setTermsDialogOpen(false);
+  };
+
+  const handlePrivacyDialogOpen = async () => {
+    try {
+      const response = await axiosInstance.get('user/page/privacy-policy');
+      setPrivacyContent(response.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setPrivacyContent(null);
+    }
+    setPrivacyDialogOpen(true);
+  };
+
+  const handlePrivacyDialogClose = () => {
+    setPrivacyDialogOpen(false);
+  };
+
+  const handleRefundDialogOpen = async () => {
+    try {
+      const response = await axiosInstance.get('user/page/refund-policy');
+      setRefundContent(response.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setRefundContent(null);
+    }
+    setRefundDialogOpen(true);
+  };
+
+  const handleRefundDialogClose = () => {
+    setRefundDialogOpen(false);
   };
 
   return (
@@ -108,8 +121,13 @@ function Footer() {
             container
             spacing={4}
             marginTop={10}
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: { xs: "column", md: "row" },
+            }}
           >
+            {/* Address and Contact Information */}
             <Grid item xs={12} md={4}>
               <Box
                 display="flex"
@@ -125,8 +143,7 @@ function Footer() {
                 />
                 <Box textAlign={{ xs: "center", sm: "left" }}>
                   <Typography sx={{ color: "black" }}>
-                    <strong>Address:</strong>
-                    B204, Sumel Business Park – 7,
+                    <strong>Address:</strong> B204, Sumel Business Park – 7,
                   </Typography>
                   <Typography>Odhav, Ahmedabad – 382415</Typography>
                   <Box
@@ -209,9 +226,10 @@ function Footer() {
                 </Box>
               </Box>
             </Grid>
-
-            <Grid item xs={12} md={5} lg={4}>
+            {/* About Us and Useful Links */}
+            <Grid item xs={12} md={4}>
               <Grid container spacing={2} justifyContent="space-around">
+                {/* Useful Links */}
                 <Grid
                   item
                   xs={12}
@@ -271,13 +289,8 @@ function Footer() {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Grid
-              item
-              xs={12}
-              md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
+            {/* Newsletter Subscription */}
+            <Grid item xs={12} md={4}>
               <Box
                 display="flex"
                 flexDirection="column"
@@ -295,27 +308,31 @@ function Footer() {
                   <TextField
                     variant="standard"
                     color="black"
-                    label="Enter your name"
-                    sx={{ width:'250px'}}
+                    label="Enter your Name"
+                    // fullWidth
+                    sx={{
+                      width:{md:'100%', sm:'250px',  xs:'250px '  },
+                    }}
                   />
                   <TextField
                     variant="standard"
                     color="black"
                     label="Enter your email"
-                    sx={{ width:'250px'}}
-                    
+                    // fullWidth
+                    sx={{ width:{md:'100%', sm:'250px',  xs:'250px '  },}}
                   />
                   <Box
                     display="flex"
                     justifyContent="center"
-                    width="100%"
+                  
                     sx={{
                       justifyContent: {
                         xs: "center",
                         sm: "center",
-                        md: "center",
+                        md: "flex-start",
                         lg: "flex-start",
                       },
+                     
                       mt: { xs: 3, sm: 0 },
                     }}
                   >
@@ -324,12 +341,9 @@ function Footer() {
                         backgroundColor: "#0084FE",
                         color: "white",
                         marginTop: "12px",
-                
-
                       }}
                       type="submit"
                       variant="contained"
-               
                     >
                       SUBSCRIBE
                     </Button>
@@ -340,7 +354,7 @@ function Footer() {
           </Grid>
         </Container>
       </Box>
-
+      {/* Scroll to Top Button */}
       {showScroll && (
         <Box
           sx={{
@@ -364,14 +378,14 @@ function Footer() {
           </IconButton>
         </Box>
       )}
-<Divider/>
-      <Box sx={{ backgroundColor: "#fff" }} padding="20px 0">
+
+      <Box sx={{ backgroundColor: "#8C8C8C" }} padding="20px 0">
         <Container>
           <Grid container display="flex">
             <Grid item xs={12} md={5}>
               <Typography
                 fontSize="14px"
-                sx={{ color: "#000", alignItems: "center" }}
+                sx={{ color: "#fff", alignItems: "center" }}
               >
                 Copyright © Designed & Developed by BITBEAST Pvt. Ltd. 2024
               </Typography>
@@ -387,27 +401,27 @@ function Footer() {
                 }}
               >
                 <Typography
-                  sx={{ color: "#000", cursor: "pointer" }}
-                  onClick={() => handleDialogOpen('privacy')}
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handlePrivacyDialogOpen}
                 >
                   Privacy Policy
                 </Typography>
                 <Typography
-                  sx={{ color: "#000", cursor: "pointer" }}
-                  onClick={() => handleDialogOpen('terms')}
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handleTermsDialogOpen}
                 >
                   Terms and Conditions
                 </Typography>
                 <Typography
-                  sx={{ color: "#000", cursor: "pointer" }}
-                  onClick={() => handleDialogOpen('refund')}
+                  sx={{ color: "#fff", cursor: "pointer" }}
+                  onClick={handleRefundDialogOpen}
                 >
                   Refund and Return Policy
                 </Typography>
-                <Typography sx={{ color: "#000", cursor: "pointer" }}>
+                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
                   Contact
                 </Typography>
-                <Typography sx={{ color: "#000", cursor: "pointer" }}>
+                <Typography sx={{ color: "#fff", cursor: "pointer" }}>
                   About
                 </Typography>
               </Box>
@@ -416,7 +430,7 @@ function Footer() {
         </Container>
       </Box>
 
-      <Dialog open={privacyDialogOpen} onClose={() => handleDialogClose('privacy')}>
+      <Dialog open={privacyDialogOpen} onClose={handlePrivacyDialogClose}>
         <DialogTitle>{"Privacy Policy"}</DialogTitle>
         <DialogContent>
           {privacyContent ? (
@@ -426,13 +440,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('privacy')} color="primary">
+          <Button onClick={handlePrivacyDialogClose} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={termsDialogOpen} onClose={() => handleDialogClose('terms')}>
+      <Dialog open={termsDialogOpen} onClose={handleTermsDialogClose}>
         <DialogTitle>{"Terms and Conditions"}</DialogTitle>
         <DialogContent>
           {termsContent ? (
@@ -442,13 +456,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('terms')} color="primary">
+          <Button onClick={handleTermsDialogClose} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={refundDialogOpen} onClose={() => handleDialogClose('refund')}>
+      <Dialog open={refundDialogOpen} onClose={handleRefundDialogClose}>
         <DialogTitle>{"Refund and Return Policy"}</DialogTitle>
         <DialogContent>
           {refundContent ? (
@@ -458,7 +472,7 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('refund')} color="primary">
+          <Button onClick={handleRefundDialogClose} color="primary">
             Close
           </Button>
         </DialogActions>
