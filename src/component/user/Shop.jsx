@@ -19,8 +19,6 @@ import {
   Modal,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
@@ -139,8 +137,7 @@ const Shop = () => {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [open, setOpen] = useState(false);
-  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
-  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
+  
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
@@ -631,7 +628,7 @@ const Shop = () => {
                         p: 4,
                       }}
                     >
-                      <iframe
+                     {/*   <iframe
                         width="560"
                         height="315"
                         src={selectedProduct?.demoVideoUrl}
@@ -650,9 +647,10 @@ const Shop = () => {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       ></iframe>
-                      <Button onClick={handleClose} sx={{ mt: 2 }}>
-                        Close
-                      </Button>
+                      <Button onClick={handleClose} sx={{ mt: 2 }}>Close</Button>
+
+
+
                     </Box>
                   </Modal>
 

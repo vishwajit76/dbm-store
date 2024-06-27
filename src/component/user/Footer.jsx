@@ -32,37 +32,13 @@ function Footer() {
   const [termsContent, setTermsContent] = useState(null);
   const [refundContent, setRefundContent] = useState(null);
   const [error, setError] = useState(null);
-
-  const fetchData = async () => {
-    try {
-      const [privacyResponse, termsResponse, refundResponse] =
-        await Promise.all([
-          axiosInstance.get("user/page/privacy-policy"),
-          axiosInstance.get("user/page/terms-conditions"),
-          axiosInstance.get("user/page/refund-policy"),
-        ]);
-      setPrivacyContent(privacyResponse.data.page.content);
-      setTermsContent(termsResponse.data.page.content);
-      setRefundContent(refundResponse.data.page.content);
-      setError(null);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  useEffect(() => {
-    // fetchData();
-  }, []);
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
-
   const isLargeDevice = useMediaQuery((theme) => theme.breakpoints.up("md"));
-
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 400) {
       setShowScroll(true);
@@ -70,34 +46,60 @@ function Footer() {
       setShowScroll(false);
     }
   };
-
   useEffect(() => {
     window.addEventListener("scroll", checkScrollTop);
     return () => {
       window.removeEventListener("scroll", checkScrollTop);
     };
   }, [showScroll]);
-
   const handleEmailClick = () => {
     window.location.href = "mailto:info@digibulkmarketing.com";
   };
-
   const handlePhoneClick = () => {
     window.location.href = "tel:18008898358";
   };
-
-  const handleDialogOpen = (type) => {
-    if (type === "terms") setTermsDialogOpen(true);
-    if (type === "privacy") setPrivacyDialogOpen(true);
-    if (type === "refund") setRefundDialogOpen(true);
+  const handleTermsDialogOpen = async () => {
+    try {
+      const response = await axiosInstance.get('user/page/terms-conditions');
+      setTermsContent(response.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setTermsContent(null);
+    }
+    setTermsDialogOpen(true);
   };
-
-  const handleDialogClose = (type) => {
-    if (type === "terms") setTermsDialogOpen(false);
-    if (type === "privacy") setPrivacyDialogOpen(false);
-    if (type === "refund") setRefundDialogOpen(false);
+  const handleTermsDialogClose = () => {
+    setTermsDialogOpen(false);
   };
-
+  const handlePrivacyDialogOpen = async () => {
+    try {
+      const response = await axiosInstance.get('user/page/privacy-policy');
+      setPrivacyContent(response.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setPrivacyContent(null);
+    }
+    setPrivacyDialogOpen(true);
+  };
+  const handlePrivacyDialogClose = () => {
+    setPrivacyDialogOpen(false);
+  };
+  const handleRefundDialogOpen = async () => {
+    try {
+      const response = await axiosInstance.get('user/page/refund-policy');
+      setRefundContent(response.data.page.content);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setRefundContent(null);
+    }
+    setRefundDialogOpen(true);
+  };
+  const handleRefundDialogClose = () => {
+    setRefundDialogOpen(false);
+  };
   return (
     <>
       <Box sx={{ backgroundColor: "#fff" }}>
