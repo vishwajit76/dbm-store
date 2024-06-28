@@ -38,6 +38,7 @@ import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
+import { setProduct } from "../../redux/productSlice";
 import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
 
 const useStyles = makeStyles({
@@ -120,7 +121,7 @@ const CustomButtonGroup = ({ next, previous }) => (
 );
 
 const Shop = () => {
-  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const cartItemCount = useSelector((state) => state.cart?.items.length);
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
@@ -133,8 +134,7 @@ const Shop = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
-  console.log("change")
+  const drawerProduct = useSelector(state => state.cart?.selectedProduct)
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
@@ -181,6 +181,7 @@ const Shop = () => {
         const response = await axiosInstance.get("/products");
         const data = response.data;
         setProducts(data);
+        dispatch(setProduct(data.products))
         if (data.products.length > 0) {
           setSelectedProduct(data.products[0]);
         }
@@ -212,7 +213,6 @@ const Shop = () => {
 
   const handleWishlist = (product, e) => {
     e.stopPropagation()
-    console.log("shop product", product);
     const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === product?.id)?.isInWishlist;
     console.log(isProductInWishlist, "shop");
     if (isProductInWishlist) {
@@ -280,7 +280,7 @@ const Shop = () => {
           <Carousel
             customButtonGroup={<CustomButtonGroup />}
             arrows={false}
-            swipeable={false}
+            swipeable
             infinite={true}
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}
@@ -389,16 +389,7 @@ const Shop = () => {
                     {item.name}
                   </Typography>
                   <Typography my={1}>
-                    ₹
-                    {item.rates.reduce(
-                      (min, rate) => Math.min(min, rate.price),
-                      Infinity
-                    )}
-                    - ₹
-                    {item.rates.reduce(
-                      (max, rate) => Math.max(max, rate.price),
-                      -Infinity
-                    )}
+                    ₹{Math.min(...item.rates.map(rate => rate.price))} - {Math.max(...item.rates.map(rate => rate.price))}
                   </Typography>
                   <Box display="flex" justifyContent="space-evenly">
                     <Rating readOnly value={5} />

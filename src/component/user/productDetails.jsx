@@ -16,22 +16,23 @@ const buttonStyle = {
 };
 
 const ProductDetails = ({ onClose, product, cartDrawer }) => {
+    console.log(product);
     const productData = product?.product;
     const [expanded, setExpanded] = useState(false);
-    const [selectedVariation, setSelectedVariation] = useState(product?.variation ? product?.variation : product?.product?.variations[0]);
-    const [variation, setVariation] = useState(product?.product?.variations[0]);
+    const [selectedVariation, setSelectedVariation] = useState( product?.variation ?? productData?.rates[0] );
+    const [variation, setVariation] = useState(productData?.rates[0]);
     const [loading, setLoading] = useState(false);
-    const [basePrice, setBasePrice] = useState(productData?.variations[0]?.price);
+    const [basePrice, setBasePrice] = useState(product?.variation?.price ?? productData?.rates[0].price);
     const [price, setPrice] = useState(basePrice);
     const [localQuantity, setLocalQuantity] = useState(1);
     const wishlistItems = useSelector((state) => state.wishlist.items);
     const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === productData?.id)?.isInWishlist;
     const dispatch = useDispatch();
 
-    const cartItems = useSelector(state => state.cart.items);
+    const cartItems = useSelector(state => state.cart?.items);
 
     useEffect(() => {
-        const productInCart = cartItems.find(item => item.id === productData?._id && item.variation?._id === variation?._id);
+        const productInCart = cartItems?.find(item => item.id === productData?._id && item.variation?._id === variation?._id);
         if (productInCart) {
             setLocalQuantity(productInCart.quantity);
             setPrice(basePrice * productInCart.quantity);
@@ -42,7 +43,8 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
     }, [cartItems, productData, basePrice, variation]);
 
     const isInCart = () => {
-        const productInCart = cartItems.find(item => item.id === productData._id && item.variation?._id === variation?._id);
+        const productInCart = cartItems.find(item => item.id === productData.id && item.variation?._id === selectedVariation?._id);
+        console.log(productInCart);
         return productInCart ? productInCart.quantity : 0;
     };
 

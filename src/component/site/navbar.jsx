@@ -63,9 +63,9 @@ const Navbar = () => {
   const [openDetails, setOpenDetails] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const [wishlist, setWishlist] = useState(false)
-  const cartItemCount = useSelector(state => state.cart.items.length);
+  const cartItemCount = useSelector(state => state.cart?.items.length);
   const wishlistItemCount = useSelector(state => state.wishlist.items.length);
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const drawerProduct = useSelector(state => state.cart?.selectedProduct)
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
@@ -288,15 +288,16 @@ const Navbar = () => {
             </Drawer>
 
             {/* order details drawer */}
-            <Drawer
+            {/* <Drawer
               anchor="right"
               open={details}
               onClose={toggleOrderDrawer(false)}
             >
               <OrderDetails onClose={toggleOrderDetailsDrawer(false)} />
-            </Drawer>
+            </Drawer> */}
 
             {/* product details drawer */}
+            
             <Drawer
               anchor="right"
               open={openDetails}

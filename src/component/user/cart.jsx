@@ -32,7 +32,6 @@ export default function Cart({ onClose, onClick, openProduct }) {
   const cartData = useSelector((state) => state.cart.items);
   const subtotal = useSelector((state) => state.cart.subtotal);
   const productDetails = useSelector((state) => state.payment.productDetails);
-  console.log("productDetails" , productDetails);
   const couponCode = "a5623d";
   const dispatch = useDispatch();
 
@@ -65,9 +64,6 @@ export default function Cart({ onClose, onClick, openProduct }) {
     }))))
     onClick()
   };
-
-  console.log();
-
 
   return (
     <div>
@@ -207,7 +203,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
             <Grid container alignItems="center">
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography sx={{ color: "#818181de" }}>Subtotal</Typography>
-                <Typography>₹{subtotal.toFixed(2)}</Typography>
+                <Typography>₹{subtotal?.toFixed(2)}</Typography>
               </Grid>
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography
