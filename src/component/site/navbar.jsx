@@ -39,6 +39,7 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/auth/authSlice";
 import ProductDetails from "../user/productDetails";
+import Header from "../user/Header";
 // import Header from "../user/Header";
 const pages = [
   { id: "#home", name: "HOME" },
@@ -58,12 +59,12 @@ const Navbar = () => {
   const [openOrder, setOpenOrder] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  const [wishlist, setWishlist] = useState(false)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const [wishlist, setWishlist] = useState(false);
   const [activePage, setActivePage] = useState("#home");
-  const cartItemCount = useSelector(state => state.cart.items.length);
-  const wishlistItemCount = useSelector(state => state.wishlist.items.length);
-  const drawerProduct = useSelector(state => state.cart.selectedProduct)
+  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const wishlistItemCount = useSelector((state) => state.wishlist.items.length);
+  const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [profilePicture, setProfilePicture] = useState(
     "/static/images/avatar/2.jpg"
   );
@@ -124,12 +125,12 @@ const Navbar = () => {
         {pages.map((text, index) => (
           <ListItem key={`${text.id}-${index}`}>
             <ListItemButton href={text.id}>
-              <ListItemText primary={text.name} 
-              onClick={()=> setActivePage(text.id)}
-              sx={{
-                color: activePage === text.id? "#0084fe" : "#000",
-                
-              }}
+              <ListItemText
+                primary={text.name}
+                onClick={() => setActivePage(text.id)}
+                sx={{
+                  color: activePage === text.id ? "#0084fe" : "#000",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -164,8 +165,11 @@ const Navbar = () => {
   );
   return (
     <div style={{ paddingTop: 56 }}>
-      <AppBar /* elevation={0} */ position="fixed" sx={{ background: "#f4f4f4" }}>
-        {/* <Header /> */}
+      <AppBar
+        /* elevation={0} */ position="fixed"
+        sx={{ background: "#f4f4f4" }}
+      >
+        <Header />
         <Container>
           <Toolbar
             sx={{ display: "flex", justifyContent: "space-between" }}
@@ -185,19 +189,18 @@ const Navbar = () => {
                   md: "flex",
                 },
                 justifyContent: "center",
-                alignItems: "center", 
+                alignItems: "center",
               }}
             >
               {pages.map((page, index) => (
                 <Typography
                   component="a"
                   key={`${page.id}-${index}`}
-                  onClick={()=> setActivePage(page.id)}
+                  onClick={() => setActivePage(page.id)}
                   sx={{
                     mx: { md: 2, lg: 4 },
                     color: activePage === page.id ? "#0084fe" : "#000",
 
-                    
                     fontSize: "15px",
                     textDecoration: "none",
                     behavior: "smooth",
@@ -424,8 +427,18 @@ const Navbar = () => {
               <MenuItem onClick={handleOpenModal} data-item="Profile">
                 Profile
               </MenuItem>
-              <MenuItem onClick={toggleWishlistDrawer(true)} data-item="Wishlist">
-                wishlist {wishlistItemCount>0 && <Badge badgeContent={wishlistItemCount>0 && wishlistItemCount} color="primary" sx={{ ml: 2 }} />}
+              <MenuItem
+                onClick={toggleWishlistDrawer(true)}
+                data-item="Wishlist"
+              >
+                wishlist{" "}
+                {wishlistItemCount > 0 && (
+                  <Badge
+                    badgeContent={wishlistItemCount > 0 && wishlistItemCount}
+                    color="primary"
+                    sx={{ ml: 2 }}
+                  />
+                )}
               </MenuItem>
               <MenuItem onClick={toggleOrderDrawer(true)} data-item="Orders">
                 Orders
@@ -446,11 +459,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-
-
-
-
-
