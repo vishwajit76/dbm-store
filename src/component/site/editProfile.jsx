@@ -11,6 +11,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import validator from "validator";
 import axiosInstance from "../../util/axiosInstance";
+import { Image } from "../../../lib";
 
 const style = {
   position: "absolute",
@@ -61,7 +62,7 @@ const EditProfile = ({ onClose }) => {
           phone: userProfile.phone || "",
         });
         setProfilePicture(
-          `https://api.digibulkmarketing.com/${userProfile.profile}` || null
+          userProfile.profile ? Image(userProfile.profile) : null
         ); // Assuming profile picture URL is returned
       }
     } catch (error) {
@@ -69,9 +70,17 @@ const EditProfile = ({ onClose }) => {
     }
   };
 
+  const MAX_FILE_SIZE = 800 * 1024;
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(
+          "File size exceeds the 800 KB limit. Please upload a smaller file."
+        );
+        return;
+      }
       const fileUrl = URL.createObjectURL(file);
       setProfilePictureFile(file);
       console.log("fileUrl :", fileUrl);
