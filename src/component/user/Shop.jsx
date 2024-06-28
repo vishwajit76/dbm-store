@@ -37,11 +37,8 @@ import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
-
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../../redux/wishlist/wishlistSlice";
+import { setProduct } from "../../redux/productSlice";
+import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
 
 const useStyles = makeStyles({
   carousel: {
@@ -123,7 +120,8 @@ const CustomButtonGroup = ({ next, previous }) => (
 );
 
 const Shop = () => {
-  const cartItemCount = useSelector((state) => state.cart.items.length);
+  const cartItemCount = useSelector((state) => state.cart?.items.length);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
@@ -177,20 +175,22 @@ const Shop = () => {
     "#F3E5F5",
     "#EDE7F6",
   ];
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.get("/products");
-      const data = response.data;
-      setProducts(data);
-      if (data.products.length > 0) {
-        setSelectedProduct(data.products[0]);
-      }
-    } catch (error) {
-      setError(error.message);
-      console.error("Error fetching data:", error);
-    }
-  };
+
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/products");
+        const data = response.data;
+        setProducts(data);
+        dispatch(setProduct(data.products))
+        if (data.products.length > 0) {
+          setSelectedProduct(data.products[0]);
+        }
+      } catch (error) {
+        setError(error.message);
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchData();
   }, []);
 
@@ -290,7 +290,7 @@ const Shop = () => {
           <Carousel
             customButtonGroup={<CustomButtonGroup />}
             arrows={false}
-            swipeable={false}
+            swipeable
             infinite={true}
             responsive={multiCarouselResponsive}
             containerClass={classes.carousel}

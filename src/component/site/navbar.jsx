@@ -757,7 +757,7 @@ const Navbar = () => {
               onClose={toggleOrderDrawer(false)}
             >
               <OrderDetails onClose={toggleOrderDetailsDrawer(false)} />
-            </Drawer>
+            </Drawer> */}
 
             <Drawer
               anchor="right"
