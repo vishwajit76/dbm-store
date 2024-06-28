@@ -11,6 +11,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import validator from "validator";
 import axiosInstance from "../../util/axiosInstance";
+import { Image } from "../../../lib";
 
 const style = {
   position: "absolute",
@@ -35,6 +36,8 @@ const EditProfile = ({ onClose }) => {
     phone: "",
   });
   const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePictureFile, setProfilePictureFile] = useState(null);
+  console.log("profilePictureFile", profilePictureFile);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -44,28 +47,44 @@ const EditProfile = ({ onClose }) => {
   const getProfile = async () => {
     try {
       const { data } = await axiosInstance.get("user/profile");
-      if (data.status) {
+      if (data.status && data.profile) {
+        const { profile: userProfile } = data;
         setProfile({
-          name: data.profile.name,
-          email: data.profile.email,
-          address: data.profile.address.addressLine1,
-          city: data.profile.address.city,
-          state: data.profile.address.state,
-          country: data.profile.address.country,
-          zip: data.profile.address.zip,
-          phone: data.profile.phone || "",
+          name: userProfile.name || "",
+          email: userProfile.email || "",
+          address: userProfile.address
+            ? userProfile.address.addressLine1 || ""
+            : "",
+          city: userProfile.address ? userProfile.address.city || "" : "",
+          state: userProfile.address ? userProfile.address.state || "" : "",
+          country: userProfile.address ? userProfile.address.country || "" : "",
+          zip: userProfile.address ? userProfile.address.zip || "" : "",
+          phone: userProfile.phone || "",
         });
-        setProfilePicture(data.profile.profile);
+        setProfilePicture(
+          userProfile.profile ? Image(userProfile.profile) : null
+        ); // Assuming profile picture URL is returned
       }
     } catch (error) {
       console.error("Error fetching profile data", error);
     }
   };
 
+  const MAX_FILE_SIZE = 800 * 1024;
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfilePicture(URL.createObjectURL(file));
+      if (file.size > MAX_FILE_SIZE) {
+        alert(
+          "File size exceeds the 800 KB limit. Please upload a smaller file."
+        );
+        return;
+      }
+      const fileUrl = URL.createObjectURL(file);
+      setProfilePictureFile(file);
+      console.log("fileUrl :", fileUrl);
+      setProfilePicture(fileUrl);
     }
   };
 
@@ -100,13 +119,58 @@ const EditProfile = ({ onClose }) => {
     return errors;
   };
 
-  const handleSave = () => {
+  const uploadProfilePicture = async () => {
+    if (!profilePictureFile) return null;
+
+    try {
+      const formData = new FormData();
+      formData.append("type", "profile");
+      formData.append("file", profilePictureFile);
+
+      const { data } = await axiosInstance.post("app/upload-image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("data.downloadUrl", data.downloadUrl);
+      return data.downloadUrl; // Assuming the API returns the file URL
+    } catch (error) {
+      console.error("Error uploading profile picture", error);
+      return null;
+    }
+  };
+
+  const updateProfile = async (profilePictureUrl) => {
+    const formData = {
+      name: profile.name,
+      email: profile.email,
+      address: {
+        country: profile.country,
+        type: "office",
+        addressLine1: profile.address,
+        city: profile.city,
+        state: profile.state,
+        zip: profile.zip,
+      },
+      profile: profilePictureUrl || profilePicture || "", // Use the updated profile picture URL
+    };
+
+    try {
+      const { data } = await axiosInstance.post("auth/set-profile", formData);
+      console.log("Profile updated successfully", data);
+      onClose(); // Close the modal after successful update
+    } catch (error) {
+      console.error("Error updating profile", error);
+    }
+  };
+
+  const handleSave = async () => {
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      updateProfile();
-      onClose();
+      const profilePictureUrl = await uploadProfilePicture();
+      await updateProfile(profilePictureUrl);
     }
   };
 
