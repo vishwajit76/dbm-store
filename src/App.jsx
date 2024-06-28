@@ -8,7 +8,7 @@ import About from "./component/user/About";
 import Faq from "./component/user/Faq";
 import Featured from "./component/user/Featured";
 import Footer from "./component/user/Footer";
-// import Header from "./component/user/Header"; 
+// import Header from "./component/user/Header";
 // import Termpage from "./component/user/Termpage";
 
 // Define the theme directly inside App.js
