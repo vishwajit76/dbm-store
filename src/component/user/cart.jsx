@@ -115,8 +115,9 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 }
               >
                 <Grid
+                md={12}
                   item
-                  xs={2}
+                  xs={4}
                   container
                   sx={{
                     borderRadius: "15px",
