@@ -309,9 +309,8 @@ const Navbar = () => {
               />
             </Drawer>
 
-            {/* order details drawer */}
-            {/*  
-            {/* product details drawer */}
+        
+
             <Drawer
               anchor="right"
               open={openDetails}

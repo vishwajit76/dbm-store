@@ -15,7 +15,6 @@ import Stripe from '../image/stripe.png';
 import { setUserDetail } from '../../redux/payment/paymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../../util/axiosInstance';
-
 const paymentGateway = [
     {
         name: "RazorPay",
@@ -33,7 +32,6 @@ const paymentGateway = [
         logo: Paypal,
     }
 ];
-
 const Checkout = ({ onClose }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -49,9 +47,7 @@ const Checkout = ({ onClose }) => {
     const userDetails = useSelector(state => state.payment.userDetails);
     const products = useSelector(state => state.payment.productDetails);
     const subtotal = useSelector(state => state.cart.subtotal);
-
     const dispatch = useDispatch();
-
     const [errors, setErrors] = useState({
         name: '',
         email: '',
@@ -62,7 +58,6 @@ const Checkout = ({ onClose }) => {
         country: '',
         zip: ''
     });
-
     const validateForm = () => {
         let valid = true;
         const newErrors = {
@@ -75,7 +70,6 @@ const Checkout = ({ onClose }) => {
             country: '',
             zip: ''
         };
-
         if (!name.trim()) {
             newErrors.name = 'Name is required';
             valid = false;
@@ -83,7 +77,6 @@ const Checkout = ({ onClose }) => {
             newErrors.name = 'Name should only contain letters and spaces';
             valid = false;
         }
-
         if (!email.trim()) {
             newErrors.email = 'Email is required';
             valid = false;
@@ -91,45 +84,33 @@ const Checkout = ({ onClose }) => {
             newErrors.email = 'Email is invalid';
             valid = false;
         }
-
         if (!phone.trim()) {
             newErrors.phone = 'Phone number is required';
             valid = false;
         }
-
         if (!address.trim()) {
             newErrors.address = 'Address is required';
             valid = false;
         }
-
         if (!city.trim()) {
             newErrors.city = 'City is required';
             valid = false;
         }
-
         if (!state.trim()) {
             newErrors.state = 'State is required';
             valid = false;
         }
-
         if (!country.trim()) {
             newErrors.country = 'Country is required';
             valid = false;
         }
-
         if (!zip.trim()) {
             newErrors.zip = 'Zip code is required';
             valid = false;
-        } else if (!/^\d{6}$/.test(zip)) {
-            newErrors.zip = 'Zip code must be exactly 6 digits';
-            valid = false;
         }
-
-
         setErrors(newErrors);
         return valid;
     };
-
     const loadScript = (src) => {
         return new Promise((resolve) => {
             const script = document.createElement('script');
@@ -143,7 +124,6 @@ const Checkout = ({ onClose }) => {
             document.body.appendChild(script);
         });
     };
-
     const PlaceOrder = async () => {
         try {
             const paymentdata = {
@@ -152,10 +132,8 @@ const Checkout = ({ onClose }) => {
                 items: products
             };
             console.log(paymentdata);
-
             const response = await axiosInstance.post("/orders/place-order", paymentdata);
             console.log(response.data)
-
             if (response.data.status) {
                 if (selectedPaymentMethod === "razorpay") {
                     displayRazorpay(response.data.result, response.data.razorpay_key);
@@ -173,32 +151,26 @@ const Checkout = ({ onClose }) => {
             console.log(err);
         }
     };
-
     const razorpayVerification = async (razorpay_payment_id, razorpay_order_id, razorpay_signature) => {
         const data = await axiosInstance.post("/orders/verify-payment", { razorpay_payment_id, razorpay_order_id, razorpay_signature });
         console.log(data);
     };
-
     const makePaypalPayment = (link) => {
         if (link) {
             window.location.href = link;
         }
     };
-
     const makeStripePayment = (link) => {
         if (link) {
             window.location.href = link;
         }
     };
-
     async function displayRazorpay(order, razoypayKey) {
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-
         if (!res) {
             console.log("Razorpay SDK failed to load. Are you online?");
             return;
         }
-
         const options = {
             key: razoypayKey,
             amount: order.amount,
@@ -216,7 +188,7 @@ const Checkout = ({ onClose }) => {
                 razorpayVerification(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
             },
             theme: {
-                color: "#3399cc",
+                color: "#3399CC",
             },
         };
         const razorpay = new window.Razorpay(options);
@@ -229,10 +201,8 @@ const Checkout = ({ onClose }) => {
             alert(response.error.metadata.order_id);
             alert(response.error.metadata.payment_id);
         });
-
         razorpay.open();
     }
-
     const handleSubmit = () => {
         const isValid = validateForm();
         if (isValid) {
@@ -261,7 +231,6 @@ const Checkout = ({ onClose }) => {
                 />
                 <Typography fontWeight={600} align="center">Checkout</Typography>
             </Grid>
-
             <Box sx={{ p: 2 }}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" >
                     <Typography variant="h6"> Address</Typography>
@@ -285,7 +254,7 @@ const Checkout = ({ onClose }) => {
                         <FormControlLabel value="home" control={<Radio />} label="Home" />
                         <FormControlLabel value="office" control={<Radio />} label="Office" />
                     </RadioGroup>
-                    <Grid container spacin  g={2}>
+                    <Grid container spacing={2}>
                         <Grid item xs={12} >
                             <TextField
                                 label="Name"
@@ -375,7 +344,7 @@ const Checkout = ({ onClose }) => {
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                        <TextField
+                            <TextField
                                 label="Zip code"
                                 variant="outlined"
                                 fullWidth
@@ -383,7 +352,6 @@ const Checkout = ({ onClose }) => {
                                 onChange={(e) => setZip(e.target.value)}
                                 error={!!errors.zip}
                                 helperText={errors.zip}
-                                inputProps={{ maxLength: 6 }}
                             />
                         </Grid>
                     </Grid>
@@ -400,7 +368,6 @@ const Checkout = ({ onClose }) => {
                     </Box>
                 </Box>
             </Box>
-
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}
@@ -426,7 +393,6 @@ const Checkout = ({ onClose }) => {
                     <Typography variant="h5" component="div">
                         Total Price : ₹{subtotal}
                     </Typography>
-
                     <Box my={3}>
                         <Typography variant="h6" component="div">
                             Payment Method
@@ -484,5 +450,4 @@ const Checkout = ({ onClose }) => {
         </Box >
     );
 }
-
 export default Checkout;

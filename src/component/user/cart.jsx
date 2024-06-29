@@ -55,6 +55,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
     dispatch(increaseQuantity({ id: id, variationId: variationId }));
     setSnackbarMessage("Quantity increased");
     setSnackbarSeverity("success");
+    setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
   const decreaseCartItem = (id, variationId, quantity, e) => {

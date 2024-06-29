@@ -41,8 +41,10 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
     const [variation, setVariation] = useState(productData?.rates[0]);
     const [loading, setLoading] = useState(false);
     const [basePrice, setBasePrice] = useState(product?.variation?.price ?? productData?.rates[0].price);
-    const [price, setPrice] = useState(basePrice);
+    const [price, setPrice] = useState(basePrice); 
     const [localQuantity, setLocalQuantity] = useState(1);
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState("");
     const wishlistItems = useSelector((state) => state.wishlist.items);
     const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === productData?.id)?.isInWishlist;
     const dispatch = useDispatch();
