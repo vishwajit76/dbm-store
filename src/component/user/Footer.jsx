@@ -15,12 +15,12 @@ import {
   DialogActions,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import img from "../image/logo (1).png";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import GoogleIcon from "@mui/icons-material/Google";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import axios from "axios";
 import axiosInstance from "../../util/axiosInstance";
 
 function Footer() {
@@ -32,13 +32,16 @@ function Footer() {
   const [termsContent, setTermsContent] = useState(null);
   const [refundContent, setRefundContent] = useState(null);
   const [error, setError] = useState(null);
+  const [storeData, setStoreData] = useState(null); 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+
   const isLargeDevice = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 400) {
       setShowScroll(true);
@@ -46,21 +49,39 @@ function Footer() {
       setShowScroll(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", checkScrollTop);
     return () => {
       window.removeEventListener("scroll", checkScrollTop);
     };
   }, [showScroll]);
+
+  // Fetch store data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("app/store/626f85e0544a264104223e37");
+        setStoreData(response.data.storeSettings); 
+        setError(null);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleEmailClick = () => {
-    window.location.href = "mailto:info@digibulkmarketing.com";
+    window.location.href = `mailto:${storeData?.email}`;
   };
+
   const handlePhoneClick = () => {
-    window.location.href = "tel:18008898358";
+    window.location.href = `tel:${storeData?.phone}`;
   };
+
   const handleTermsDialogOpen = async () => {
     try {
-      const response = await axiosInstance.get('user/page/terms-conditions');
+      const response = await axiosInstance.get("user/page/terms-conditions");
       setTermsContent(response.data.page.content);
       setError(null);
     } catch (error) {
@@ -69,12 +90,14 @@ function Footer() {
     }
     setTermsDialogOpen(true);
   };
+
   const handleTermsDialogClose = () => {
     setTermsDialogOpen(false);
   };
+
   const handlePrivacyDialogOpen = async () => {
     try {
-      const response = await axiosInstance.get('user/page/privacy-policy');
+      const response = await axiosInstance.get("user/page/privacy-policy");
       setPrivacyContent(response.data.page.content);
       setError(null);
     } catch (error) {
@@ -83,12 +106,14 @@ function Footer() {
     }
     setPrivacyDialogOpen(true);
   };
+
   const handlePrivacyDialogClose = () => {
     setPrivacyDialogOpen(false);
   };
+
   const handleRefundDialogOpen = async () => {
     try {
-      const response = await axiosInstance.get('user/page/refund-policy');
+      const response = await axiosInstance.get("user/page/refund-policy");
       setRefundContent(response.data.page.content);
       setError(null);
     } catch (error) {
@@ -97,9 +122,11 @@ function Footer() {
     }
     setRefundDialogOpen(true);
   };
+
   const handleRefundDialogClose = () => {
     setRefundDialogOpen(false);
   };
+
   return (
     <>
       <Box sx={{ backgroundColor: "#fff" }}>
@@ -124,15 +151,14 @@ function Footer() {
                 textAlign="center"
               >
                 <img
-                  src={img}
+                  src={`https://api.digibulkmarketing.com${storeData?.logo || "/media/logo/logo.png"}`}
                   alt="Logo"
                   style={{ height: "70px", marginBottom: "20px" }}
                 />
                 <Box textAlign={{ xs: "center", sm: "left" }}>
                   <Typography sx={{ color: "black" }}>
-                    <strong>Address:</strong> B204, Sumel Business Park – 7,
+                    <strong>Address:</strong> {storeData?.address}
                   </Typography>
-                  <Typography>Odhav, Ahmedabad – 382415</Typography>
                   <Box
                     display="flex"
                     flexDirection="column"
@@ -143,13 +169,13 @@ function Footer() {
                       onClick={handleEmailClick}
                       sx={{ cursor: "pointer", color: "black" }}
                     >
-                      <strong>Email:</strong> info@digibulkmarketing.com
+                      <strong>Email:</strong> {storeData?.email}
                     </Typography>
                     <Typography
                       onClick={handlePhoneClick}
                       sx={{ cursor: "pointer", color: "black" }}
                     >
-                      <strong>Phone:</strong> 1800-889-8358
+                      <strong>Phone:</strong> {storeData?.phone}
                     </Typography>
                   </Box>
                 </Box>
@@ -169,46 +195,76 @@ function Footer() {
                       gap: "10px",
                     }}
                   >
-                    <FacebookIcon
-                      sx={{
-                        backgroundColor: "lightblue",
-                        borderRadius: "50%",
-                        padding: "8px",
-                        cursor: "pointer",
-                      }}
-                    />
-                    <XIcon
-                      sx={{
-                        backgroundColor: "lightblue",
-                        borderRadius: "50%",
-                        padding: "8px",
-                        cursor: "pointer",
-                      }}
-                    />
-                    <YouTubeIcon
-                      sx={{
-                        backgroundColor: "lightblue",
-                        borderRadius: "50%",
-                        padding: "8px",
-                        cursor: "pointer",
-                      }}
-                    />
-                    <GoogleIcon
-                      sx={{
-                        backgroundColor: "lightblue",
-                        borderRadius: "50%",
-                        padding: "8px",
-                        cursor: "pointer",
-                      }}
-                    />
-                    <InstagramIcon
-                      sx={{
-                        backgroundColor: "lightblue",
-                        borderRadius: "50%",
-                        padding: "8px",
-                        cursor: "pointer",
-                      }}
-                    />
+                    {storeData?.socialMedia.facebook && (
+                      <a href={storeData.socialMedia.facebook} target="_blank" rel="noopener noreferrer"  color="#000" >
+                        <FacebookIcon
+                          sx={{
+                            backgroundColor: "lightblue",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            cursor: "pointer",
+                            color:'#000'
+
+                          }}
+                        />
+                      </a>
+                    )}
+                    {storeData?.socialMedia.twitter && (
+                      <a href={storeData.socialMedia.twitter} target="_blank" rel="noopener noreferrer">
+                        <XIcon
+                          sx={{
+                            backgroundColor: "lightblue",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            cursor: "pointer",
+                            color:'#000'
+
+                          }}
+                        />
+                      </a>
+                    )}
+                    {storeData?.socialMedia.youtube && (
+                      <a href={storeData.socialMedia.youtube} target="_blank" rel="noopener noreferrer">
+                        <YouTubeIcon
+                          sx={{
+                            backgroundColor: "lightblue",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            cursor: "pointer",
+                            color:'#000'
+
+                          }}
+                        />
+                      </a>
+                    )}
+                    {storeData?.socialMedia.google && (
+                      <a href={storeData.socialMedia.google} target="_blank" rel="noopener noreferrer">
+                        <GoogleIcon
+                          sx={{
+                            backgroundColor: "lightblue",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            cursor: "pointer",
+                            color:'#000'
+
+                          }} chodu
+                        />
+                      </a>
+                    )}
+                    {storeData?.socialMedia.instagram && (
+                      <a href={storeData.socialMedia.instagram} target="_blank" rel="noopener noreferrer">
+                        <InstagramIcon
+                          sx={{
+                            backgroundColor: "lightblue",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            cursor: "pointer",
+                            color:'#000'
+
+                          }}
+                        />
+                      </a>
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -296,22 +352,19 @@ function Footer() {
                     variant="standard"
                     color="black"
                     label="Enter your Name"
-                    // fullWidth
                     sx={{
-                      width:{md:'100%', sm:'250px',  xs:'250px '  },
+                      width: { md: "100%", sm: "250px", xs: "250px" },
                     }}
                   />
                   <TextField
                     variant="standard"
                     color="black"
                     label="Enter your email"
-                    // fullWidth
-                    sx={{ width:{md:'100%', sm:'250px',  xs:'250px '  },}}
+                    sx={{ width: { md: "100%", sm: "250px", xs: "250px" } }}
                   />
                   <Box
                     display="flex"
                     justifyContent="center"
-                  
                     sx={{
                       justifyContent: {
                         xs: "center",
@@ -319,7 +372,6 @@ function Footer() {
                         md: "flex-start",
                         lg: "flex-start",
                       },
-                     
                       mt: { xs: 3, sm: 0 },
                     }}
                   >
@@ -417,10 +469,7 @@ function Footer() {
         </Container>
       </Box>
 
-      <Dialog
-        open={privacyDialogOpen}
-        onClose={() => handleDialogClose("privacy")}
-      >
+      <Dialog open={privacyDialogOpen} onClose={handlePrivacyDialogClose}>
         <DialogTitle>{"Privacy Policy"}</DialogTitle>
         <DialogContent>
           {privacyContent ? (
@@ -430,13 +479,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose("privacy")} color="primary">
+          <Button onClick={handlePrivacyDialogClose} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={termsDialogOpen} onClose={() => handleDialogClose("terms")}>
+      <Dialog open={termsDialogOpen} onClose={handleTermsDialogClose}>
         <DialogTitle>{"Terms and Conditions"}</DialogTitle>
         <DialogContent>
           {termsContent ? (
@@ -446,16 +495,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose("terms")} color="primary">
+          <Button onClick={handleTermsDialogClose} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog
-        open={refundDialogOpen}
-        onClose={() => handleDialogClose("refund")}
-      >
+      <Dialog open={refundDialogOpen} onClose={handleRefundDialogClose}>
         <DialogTitle>{"Refund and Return Policy"}</DialogTitle>
         <DialogContent>
           {refundContent ? (
@@ -465,7 +511,7 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose("refund")} color="primary">
+          <Button onClick={handleRefundDialogClose} color="primary">
             Close
           </Button>
         </DialogActions>

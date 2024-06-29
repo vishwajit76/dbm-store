@@ -53,7 +53,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
     e.stopPropagation();
     openProduct();
     dispatch(cartProduct({ product: product, variation: variation }));
-    dispatch(cartProduct({ product: product, variation: variation }));
+  
   };
 
   const increaseCartItem = (id, variationId, e) => {
@@ -82,6 +82,13 @@ export default function Cart({ onClose, onClick, openProduct }) {
   };
 
   console.log();
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
 
   return (
@@ -114,8 +121,9 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 onClick={(e) => handleOpenProduct(item.product, item.variation, e)}
               >
                 <Grid
+                md={12}
                   item
-                  xs={2}
+                  xs={4}
                   container
                   sx={{
                     borderRadius: "15px",

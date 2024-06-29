@@ -6,6 +6,8 @@ import {
   Button,
   Typography,
   TextField,
+  Snackbar,
+  SnackbarContent,
 } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -36,6 +38,8 @@ const EditProfile = ({ onClose }) => {
   });
   const [profilePicture, setProfilePicture] = useState(null);
   const [errors, setErrors] = useState({});
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     getProfile();
@@ -99,16 +103,34 @@ const EditProfile = ({ onClose }) => {
     }
     return errors;
   };
-
   const handleSave = () => {
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      updateProfile();
-      onClose();
+      const profileData = {
+        name,
+        email,
+        address,
+        city,
+        state,
+        country,
+        zip,
+        phone,
+      };
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+      setSnackbarMessage('Profile updated successfully');
+      setSnackbarOpen(true);
     }
   };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
 
   return (
     <Box
@@ -278,6 +300,17 @@ const EditProfile = ({ onClose }) => {
           </Grid>
         </Grid>
       </Grid>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <SnackbarContent
+          message={snackbarMessage}
+          sx={{ backgroundColor: '#0084fe', color: '#fff' }}
+        />
+      </Snackbar>
     </Box>
   );
 };
