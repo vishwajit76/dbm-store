@@ -178,7 +178,12 @@ const EditProfile = ({ onClose }) => {
     }
     setSnackbarOpen(false);
   };
-
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   return (
     <Box

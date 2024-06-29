@@ -310,14 +310,7 @@ const Navbar = () => {
             </Drawer>
 
             {/* order details drawer */}
-            <Drawer
-              anchor="right"
-              open={details}
-              onClose={toggleOrderDrawer(false)}
-            >
-              <OrderDetails onClose={toggleOrderDetailsDrawer(false)} />
-            </Drawer> */}
-
+            {/*  
             {/* product details drawer */}
             <Drawer
               anchor="right"
@@ -326,7 +319,7 @@ const Navbar = () => {
             >
               <ProductDetails
                 onClose={toggleDetailsDrawer(false)}
-                product={drawerProduct}
+                product={drawerProduct} 
                 cartDrawer={
                   <Badge badgeContent={cartItemCount} color="primary">
                     <Box
