@@ -22,24 +22,22 @@ import {
   decreaseQuantity,
   cartProduct,
 } from "../../redux/cart/cartSlice";
-import { setProductDetails } from '../../redux/payment/paymentSlice'
-
+import { setProductDetails } from "../../redux/payment/paymentSlice";
 const buttonStyle = {
   p: 0.1,
   boxShadow: "0 0 10px #eee",
   cursor: "pointer",
 };
-
 export default function Cart({ onClose, onClick, openProduct }) {
   const cartData = useSelector((state) => state.cart.items);
   const subtotal = useSelector((state) => state.cart.subtotal);
   const productDetails = useSelector((state) => state.payment.productDetails);
+  console.log("productDetails", productDetails);
   const couponCode = "a5623d";
   const dispatch = useDispatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
   const handleRemoveFromCart = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(removeFromCart({ id: id, variationId: variationId }));
@@ -47,39 +45,44 @@ export default function Cart({ onClose, onClick, openProduct }) {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
-
   const handleOpenProduct = (product, variation, e) => {
     e.stopPropagation();
     openProduct();
     dispatch(cartProduct({ product: product, variation: variation }));
-    dispatch(cartProduct({ product: product, variation: variation }));
   };
-
   const increaseCartItem = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(increaseQuantity({ id: id, variationId: variationId }));
     setSnackbarMessage("Quantity increased");
-    setSnackbarSeverity("success"); 
+    setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
-
   const decreaseCartItem = (id, variationId, quantity, e) => {
     e.stopPropagation();
     dispatch(decreaseQuantity({ id: id, variationId: variationId }));
     setSnackbarMessage("Quantity decreased");
-    setSnackbarSeverity("success"); 
+    setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
-
   const handleCheckout = () => {
-    dispatch(setProductDetails(cartData.map(i => ({
-      product_id: i.product.id,
-      variation_id: i.variation._id,
-      quantity: i.quantity
-    }))))
-    onClick()
+    dispatch(
+      setProductDetails(
+        cartData.map((i) => ({
+          product_id: i.product.id,
+          variation_id: i.variation._id,
+          quantity: i.quantity,
+        }))
+      )
+    );
+    onClick();
   };
-
+  console.log();
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
   return (
     <div>
       <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
@@ -107,7 +110,9 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 my={1}
                 boxShadow="0 0 10px #eee"
                 justifyContent="space-between"
-                onClick={(e) => handleOpenProduct(item.product, item.variation, e)}
+                onClick={(e) =>
+                  handleOpenProduct(item.product, item.variation, e)
+                }
               >
                 <Grid
                   item
@@ -221,9 +226,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
                 <Typography>₹{subtotal?.toFixed(2)}</Typography>
               </Grid>
               <Grid item xs={12} container justifyContent="space-between">
-                <Typography
-                  sx={{ color: "#818181de" }}
-                >Discount</Typography>
+                <Typography sx={{ color: "#818181de" }}>Discount</Typography>
                 <Typography></Typography>
               </Grid>
               <Grid item xs={12}>
@@ -231,9 +234,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
               </Grid>
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography fontWeight={600}>Final Price</Typography>
-                <Typography fontWeight={600}>
-                  ₹{subtotal}
-                </Typography>
+                <Typography fontWeight={600}>₹{subtotal}</Typography>
               </Grid>
             </Grid>
             <Button
@@ -259,10 +260,10 @@ export default function Cart({ onClose, onClick, openProduct }) {
           sx={{
             backgroundColor:
               snackbarSeverity === "success"
-                ? "#4caf50"
+                ? "#4CAF50"
                 : snackbarSeverity === "error"
-                ? "#f44336"
-                : "#ff9800",
+                ? "#F44336"
+                : "#FF9800",
             color: "#fff",
           }}
         />
