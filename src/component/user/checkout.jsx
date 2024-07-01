@@ -114,7 +114,7 @@ const Checkout = ({ onClose }) => {
     const PlaceOrder = async () => {
         try {
             const paymentdata = {
-                currency: "INR",
+                currency: currency,
                 payment_method: selectedPaymentMethod,
                 items: products
             };
@@ -160,7 +160,7 @@ const Checkout = ({ onClose }) => {
         const options = {
             key: razoypayKey,
             amount: order.amount,
-            currency: "INR",
+            currency: currency,
             name: "Digi Bulk Marketing",
             description: "Order #" + order.receipt,
             image: "https://api.digibulkmarketing.com/media/reseller/dbm/logo.png",
