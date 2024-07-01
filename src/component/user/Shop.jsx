@@ -17,6 +17,9 @@ import {
   Button,
   IconButton,
   Modal,
+  Checkbox,
+  Snackbar,
+  SnackbarContent,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -39,6 +42,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
 import { setProduct } from "../../redux/productSlice";
 import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   carousel: {
@@ -135,7 +139,8 @@ const Shop = () => {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [open, setOpen] = useState(false);
-  
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
@@ -157,9 +162,10 @@ const Shop = () => {
 
   const multiCarouselResponsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
-    desktop: { breakpoint: { max: 3000, min: 1024 }, items: 4 },
-    tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
-    mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
+    desktop: { breakpoint: { max: 3000, min: 1000 }, items: 4 },
+    tablet: { breakpoint: { max: 1000, min: 800 }, items: 3 },
+    sm: { breakpoint: { max: 800, min: 500 }, items: 2 },
+    mobile: { breakpoint: { max: 500, min: 0 }, items: 1 },
   };
 
   const carouselResponsive = {
@@ -225,9 +231,20 @@ const Shop = () => {
         (item) => item.product.id === product.id
       );
       dispatch(removeFromWishlist(index));
+      setSnackbarMessage(`${product.name} removed from wishlist`);
     } else {
       dispatch(addToWishlist({ product }));
+      setSnackbarMessage(`${product.name} added to wishlist`);
     }
+    setOpenSnackbar(true);
+  };
+
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   if (!products) {
@@ -370,6 +387,7 @@ const Shop = () => {
                       },
                     }}
                   >
+
                     <Grid
                       container
                       sx={{
@@ -382,7 +400,7 @@ const Shop = () => {
                         item
                         xs={12}
                         sx={{
-                          textAlign: "right",
+                          position: 'relative',
                           "& img": {
                             transition: "transform 0.3s ease-in-out",
                           },
@@ -391,7 +409,7 @@ const Shop = () => {
                           },
                         }}
                       >
-                        {/* <Checkbox onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} /> */}
+                        <Checkbox sx={{ position: 'absolute' , top: 0, right: 0}} onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} />
                         <img
                           width={220}
                           height={220}
@@ -585,7 +603,7 @@ const Shop = () => {
                     gap: "16px",
                     borderRadius: "10px",
                     padding: "16px",
-                    width: { md: "100%", sm: "90%", xs: "90%" },
+                    width: { md: "90%", sm: "90%", xs: "90%" },
                     maxWidth: "747px",
                     margin: "0",
                     textAlign: { xs: "center", sm: "left" },
@@ -602,7 +620,7 @@ const Shop = () => {
                       alignItems: "center",
                       minWidth: { xs: "30px", sm: "40px" },
                       minHeight: { xs: "30px", sm: "40px" },
-                      cursor: "pointer", // Add pointer cursor for better UX
+                      cursor: "pointer",
                     }}
                     onClick={handleOpen}
                   >
@@ -628,19 +646,11 @@ const Shop = () => {
                         p: 4,
                       }}
                     >
-                     {/*   <iframe
-                        width="560"
-                        height="315"
-                        src={selectedProduct?.demoVideoUrl}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                      ></iframe> */}
+                    
                       <iframe
                         width="100%"
                         height="400"
+                       // src={selectedProduct?.demoVideoUrl}
                         // src={`https://www.youtube.com/embed/${selectedProduct?.demoVideoUrl}`}
                         src="https://youtu.be/QtNNAh_IgYs"
                         title="YouTube video player"
@@ -648,10 +658,7 @@ const Shop = () => {
                         allowFullScreen
                       ></iframe>
                       <Button onClick={handleClose} sx={{ mt: 2 }}>Close</Button>
-
-
-
-                    </Box>
+                  </Box>
                   </Modal>
 
                   <CardContent sx={{ flex: 1 }}>
@@ -736,6 +743,18 @@ const Shop = () => {
       >
         <Checkout onClose={toggleCheckoutDrawer(false)} />
       </Drawer>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+      >
+       <SnackbarContent
+          message={snackbarMessage}
+          sx={{ backgroundColor: "#4caf50", color: "#fff" }}
+        />
+      </Snackbar>
+      
     </Box>
   );
 };

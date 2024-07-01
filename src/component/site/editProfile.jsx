@@ -122,6 +122,7 @@ const EditProfile = ({ onClose }) => {
     }
     return errors;
   };
+  
 
   const uploadProfilePicture = async () => {
     if (!profilePictureFile) return null;

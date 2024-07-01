@@ -12,6 +12,7 @@ import "react-phone-input-2/lib/style.css";
 import Paypal from '../image/paypal.png';
 import razorpay from '../image/razorpay.png';
 import Stripe from '../image/stripe.png';
+import country from '../../countryList.json';
 import { setUserDetail } from '../../redux/payment/paymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../../util/axiosInstance';

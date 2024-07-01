@@ -34,14 +34,15 @@ const buttonStyle = {
 };
 
 const ProductDetails = ({ onClose, product, cartDrawer }) => {
-    console.log(product);
     const productData = product?.product;
+    console.log("productData" , product);
     const [expanded, setExpanded] = useState(false);
     const [selectedVariation, setSelectedVariation] = useState( product?.variation ?? productData?.rates[0] );
+    console.log("selectedVariation" , selectedVariation);
     const [variation, setVariation] = useState(productData?.rates[0]);
     const [loading, setLoading] = useState(false);
-    const [basePrice, setBasePrice] = useState(product?.variation?.price ?? productData?.rates[0].price);
-    const [price, setPrice] = useState(basePrice); 
+    const [basePrice, setBasePrice] = useState(selectedVariation.price);
+    const [price, setPrice] = useState(selectedVariation.price); 
     const [localQuantity, setLocalQuantity] = useState(1);
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -64,7 +65,6 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
 
     const isInCart = () => {
         const productInCart = cartItems.find(item => item.id === productData.id && item.variation?._id === selectedVariation?._id);
-        console.log(productInCart);
         return productInCart ? productInCart.quantity : 0;
     };
 

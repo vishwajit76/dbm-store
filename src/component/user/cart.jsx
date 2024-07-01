@@ -23,11 +23,13 @@ import {
   cartProduct,
 } from "../../redux/cart/cartSlice";
 import { setProductDetails } from "../../redux/payment/paymentSlice";
+
 const buttonStyle = {
   p: 0.1,
   boxShadow: "0 0 10px #eee",
   cursor: "pointer",
 };
+
 export default function Cart({ onClose, onClick, openProduct }) {
   const cartData = useSelector((state) => state.cart.items);
   const subtotal = useSelector((state) => state.cart.subtotal);
@@ -38,6 +40,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
   const handleRemoveFromCart = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(removeFromCart({ id: id, variationId: variationId }));
@@ -45,11 +48,13 @@ export default function Cart({ onClose, onClick, openProduct }) {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
+
   const handleOpenProduct = (product, variation, e) => {
     e.stopPropagation();
     openProduct();
     dispatch(cartProduct({ product: product, variation: variation }));
   };
+
   const increaseCartItem = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(increaseQuantity({ id: id, variationId: variationId }));
@@ -58,6 +63,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
+
   const decreaseCartItem = (id, variationId, quantity, e) => {
     e.stopPropagation();
     dispatch(decreaseQuantity({ id: id, variationId: variationId }));
@@ -65,6 +71,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
   };
+
   const handleCheckout = () => {
     dispatch(
       setProductDetails(
@@ -77,13 +84,14 @@ export default function Cart({ onClose, onClick, openProduct }) {
     );
     onClick();
   };
-  console.log();
+
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setSnackbarOpen(false);
   };
+
   return (
     <div>
       <Box sx={{ width: { xs: 250, md: 350 }, p: 3 }}>
@@ -106,19 +114,26 @@ export default function Cart({ onClose, onClick, openProduct }) {
               <Grid
                 key={index}
                 container
+                direction="column"
                 sx={{ borderRadius: "15px", cursor: "pointer" }}
                 p={1}
                 my={1}
                 boxShadow="0 0 10px #eee"
-                justifyContent="space-between"
                 onClick={(e) =>
                   handleOpenProduct(item.product, item.variation, e)
                 }
               >
+                <Grid container justifyContent="end">
+                  <CloseIcon
+                    cursor="pointer"
+                    fontSize="small"
+                    onClick={(e) =>
+                      handleRemoveFromCart(item.id, item.variation?._id, e)
+                    }
+                  />
+                </Grid>
                 <Grid
-                md={12}
                   item
-                  xs={4}
                   container
                   sx={{
                     borderRadius: "15px",
@@ -127,16 +142,17 @@ export default function Cart({ onClose, onClick, openProduct }) {
                     justifyContent: "center",
                   }}
                 >
-                  <img width={50} height={50} src={item.image} alt="Product" />
+                  <img width={85} height={85} src={item.image} alt="Product" />
                 </Grid>
                 <Grid
                   item
-                  xs={8}
                   container
                   direction="column"
                   justifyContent="space-between"
+                  mt={1}
                 >
                   <Typography>{item.name}</Typography>
+                  <Typography>{item.variation?.title}</Typography>
                   <Grid container alignItems="center">
                     <Grid item xs={6}>
                       <Typography fontWeight={600}>
@@ -174,16 +190,6 @@ export default function Cart({ onClose, onClick, openProduct }) {
                       />
                     </Grid>
                   </Grid>
-                  <Typography>{item.variation?.title}</Typography>
-                </Grid>
-                <Grid item xs={1} container justifyContent="end">
-                  <CloseIcon
-                    cursor="pointer"
-                    fontSize="5px"
-                    onClick={(e) =>
-                      handleRemoveFromCart(item.id, item.variation?._id, e)
-                    }
-                  />
                 </Grid>
               </Grid>
             ))}
