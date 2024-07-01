@@ -5,9 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import { removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
+import { CURRENCIES_SYMBOL } from '../currency/currency';
 
 const Wishlist = ({ onClose }) => {
     const wishlistItems = useSelector((state) => state.wishlist.items);
+    const {currency , exchangeRates} = useSelector((state) => state.currency);
+    const currencySymbol = CURRENCIES_SYMBOL[currency]
     const dispatch = useDispatch();
 
     const handleRemoveFromWishlist = (index) => {
@@ -35,20 +38,19 @@ const Wishlist = ({ onClose }) => {
                         boxShadow="0 0 10px #eee"
                         justifyContent="space-between"
                     >
-                        <Grid item xs={12} md={4} sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', textAlign: 'center' }}>
-                            <img width={85} height={85} src={item.product?.image} alt="Product" />
+                        <Grid item xs={12} md={3} sx={{ borderRadius: '15px', backgroundColor: '#FBF5EC', textAlign: 'center' }}>
+                            <img width={60} height={60} src={item.product?.image} alt="Product" />
                         </Grid>
-                        <Grid item xs={12} md={7} container direction="column" justifyContent="space-between">
+                        <Grid item xs={12} md={8} container direction="column" justifyContent="space-between">
                             <Typography>{item.product?.name}</Typography>
                             <Grid container justifyContent='space-between' alignItems='center'>
-                                <Grid container item xs={6} justifyContent='space-between'>
+                                <Grid container item xs={8} justifyContent='space-between'>
                                     <Typography sx={{ color: '#818181de' }}>Price</Typography>
-                                    <Typography>
-                                        ₹{item.product?.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity)} -
-                                        ₹{item.product?.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity)}
+                                    <Typography noWrap>
+                                        {currencySymbol}{(item.product?.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity) * exchangeRates).toFixed(2)}-{currencySymbol}{(item.product?.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity) * exchangeRates).toFixed(2)}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={6} textAlign='end'>
+                                <Grid item xs={4} textAlign='end'>
                                     <Checkbox
                                         onChange={() => handleRemoveFromWishlist(index)}
                                         icon={<FavoriteBorder />}

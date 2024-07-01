@@ -17,6 +17,7 @@ import {
   Button,
   IconButton,
   Modal,
+  Checkbox,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -37,8 +38,9 @@ import ProductDetails from "./productDetails";
 import Checkout from "./checkout";
 import { useSelector, useDispatch } from "react-redux";
 import { cartProduct } from "../../redux/cart/cartSlice";
-import { setProduct } from "../../redux/productSlice";
 import { addToWishlist, removeFromWishlist } from '../../redux/wishlist/wishlistSlice';
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { CURRENCIES_SYMBOL } from "../currency/currency"
 
 const useStyles = makeStyles({
   carousel: {
@@ -122,6 +124,8 @@ const CustomButtonGroup = ({ next, previous }) => (
 const Shop = () => {
   const cartItemCount = useSelector((state) => state.cart?.items.length);
   const wishlistItems = useSelector((state) => state.wishlist.items);
+  const { currency, exchangeRates } = useSelector((state) => state.currency);
+  const currencySymbol = CURRENCIES_SYMBOL[currency]
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [detailDrawer, setDetailDrawer] = useState(false);
@@ -135,15 +139,15 @@ const Shop = () => {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const drawerProduct = useSelector((state) => state.cart.selectedProduct);
   const [open, setOpen] = useState(false);
-  
+
 
   const toggleDetailDrawer =
     (newOpen, product = null) =>
-    () => {
-      setDetailDrawer(newOpen);
-      if (newOpen) setCartDrawer(false);
-      dispatch(cartProduct({ product }));
-    };
+      () => {
+        setDetailDrawer(newOpen);
+        if (newOpen) setCartDrawer(false);
+        dispatch(cartProduct({ product }));
+      };
 
   const toggleCartDrawer = (newOpen) => () => {
     setCartDrawer(newOpen);
@@ -182,7 +186,6 @@ const Shop = () => {
         const response = await axiosInstance.get("/products");
         const data = response.data;
         setProducts(data);
-        dispatch(setProduct(data.products))
         if (data.products.length > 0) {
           setSelectedProduct(data.products[0]);
         }
@@ -197,7 +200,6 @@ const Shop = () => {
   const handleProductChange = (index) => {
     setTabValue(index);
     setSelectedProduct(products.products[index]);
-    console.log("setSelectedProduct",selectedProduct)
   };
 
   const handleTabChange = (event, newValue) => {
@@ -215,11 +217,9 @@ const Shop = () => {
 
   const handleWishlist = (product, e) => {
     e.stopPropagation();
-    console.log("shop product", product);
     const isProductInWishlist = wishlistItems?.find(
       (item) => item?.product?.id === product?.id
     )?.isInWishlist;
-    console.log(isProductInWishlist, "shop");
     if (isProductInWishlist) {
       const index = wishlistItems.findIndex(
         (item) => item.product.id === product.id
@@ -266,7 +266,6 @@ const Shop = () => {
   }
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(selectedProduct?.demoVideoUrl);
 
   return (
     <Box sx={{ background: "#F4F4F4" }}>
@@ -391,7 +390,7 @@ const Shop = () => {
                           },
                         }}
                       >
-                        {/* <Checkbox onClick={(e) => handleWishlist(item , e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} /> */}
+                        <Checkbox onClick={(e) => handleWishlist(item, e)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} checked={wishlistItems.some(wishlistItem => wishlistItem.product.id === item.id)} />
                         <img
                           width={220}
                           height={220}
@@ -404,16 +403,7 @@ const Shop = () => {
                       {item.name}
                     </Typography>
                     <Typography my={1}>
-                      ₹
-                      {item.rates.reduce(
-                        (min, rate) => Math.min(min, rate.price),
-                        Infinity
-                      )}
-                      - ₹
-                      {item.rates.reduce(
-                        (max, rate) => Math.max(max, rate.price),
-                        -Infinity
-                      )}
+                      {currencySymbol}{(item.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity) * exchangeRates).toFixed(2)} - {currencySymbol}{(item.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity) * exchangeRates).toFixed(2)}
                     </Typography>
                     <Box display="flex" justifyContent="space-evenly">
                       <Rating readOnly value={5} />
@@ -628,7 +618,7 @@ const Shop = () => {
                         p: 4,
                       }}
                     >
-                     {/*   <iframe
+                      {/*   <iframe
                         width="560"
                         height="315"
                         src={selectedProduct?.demoVideoUrl}

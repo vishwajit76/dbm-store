@@ -247,7 +247,7 @@ function Footer() {
                             cursor: "pointer",
                             color:'#000'
 
-                          }} chodu
+                          }}
                         />
                       </a>
                     )}

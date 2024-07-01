@@ -15,23 +15,8 @@ import Stripe from '../image/stripe.png';
 import { setUserDetail } from '../../redux/payment/paymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../../util/axiosInstance';
-const paymentGateway = [
-    {
-        name: "RazorPay",
-        value: "razorpay",
-        logo: razorpay,
-    },
-    {
-        name: "Stripe",
-        value: "stripe",
-        logo: Stripe,
-    },
-    {
-        name: "PayPal",
-        value: "paypal",
-        logo: Paypal,
-    }
-];
+import { CURRENCIES_SYMBOL } from '../currency/currency';
+
 const Checkout = ({ onClose }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -47,6 +32,8 @@ const Checkout = ({ onClose }) => {
     const userDetails = useSelector(state => state.payment.userDetails);
     const products = useSelector(state => state.payment.productDetails);
     const subtotal = useSelector(state => state.cart.subtotal);
+    const { currency, exchangeRates } = useSelector((state) => state.currency);
+    const currencySymbol = CURRENCIES_SYMBOL[currency]
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({
         name: '',
@@ -131,16 +118,15 @@ const Checkout = ({ onClose }) => {
                 payment_method: selectedPaymentMethod,
                 items: products
             };
-            console.log(paymentdata);
             const response = await axiosInstance.post("/orders/place-order", paymentdata);
-            console.log(response.data)
+            console.log(response)
             if (response.data.status) {
                 if (selectedPaymentMethod === "razorpay") {
                     displayRazorpay(response.data.result, response.data.razorpay_key);
                 } else if (selectedPaymentMethod === 'stripe') {
-                    makeStripePayment(response?.data?.result, "pk_test_51L1E9YSFDFHp5bEhFLrxuBRiZ0ifZQE5Nle0k1szQOzv3H3fOG0UXU2QsxbBzvGJYBDqsFN73f0P58hWVpFJYddC00qtpMYQRs");
-                } else if (selectedPaymentMethod === 'PayPal') {
-                    makePaypalPayment(response?.data);
+                    makeStripePayment(response?.data?.result.url, "pk_test_51L1E9YSFDFHp5bEhFLrxuBRiZ0ifZQE5Nle0k1szQOzv3H3fOG0UXU2QsxbBzvGJYBDqsFN73f0P58hWVpFJYddC00qtpMYQRs");
+                } else if (selectedPaymentMethod === 'paypal') {
+                    makePaypalPayment(response?.approval_url);
                 } else {
                     console.log("Please choose a payment method!");
                 }
@@ -391,7 +377,7 @@ const Checkout = ({ onClose }) => {
                         View Payment Details
                     </Typography>
                     <Typography variant="h5" component="div">
-                        Total Price : ₹{subtotal}
+                        Total Price : {currencySymbol}{(subtotal * exchangeRates).toFixed(2)}
                     </Typography>
                     <Box my={3}>
                         <Typography variant="h6" component="div">
@@ -425,9 +411,9 @@ const Checkout = ({ onClose }) => {
                                 }
                             />
                             <FormControlLabel
-                                value="PayPal"
+                                value="paypal"
                                 control={<Radio />}
-                                onChange={() => setSelectedPaymentMethod("PayPal")}
+                                onChange={() => setSelectedPaymentMethod("paypal")}
                                 label={
                                     <Box display="flex" alignItems="center">
                                         <img src={Paypal} alt="Paypal" width="100px" style={{ background: 'white', marginRight: '10px' }} />

@@ -26,6 +26,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../redux/wishlist/wishlistSlice";
+import { CURRENCIES_SYMBOL } from "../currency/currency";
 
 const buttonStyle = {
   p: 0.1,
@@ -34,39 +35,39 @@ const buttonStyle = {
 };
 
 const ProductDetails = ({ onClose, product, cartDrawer }) => {
-    console.log(product);
-    const productData = product?.product;
-    const [expanded, setExpanded] = useState(false);
-    const [selectedVariation, setSelectedVariation] = useState( product?.variation ?? productData?.rates[0] );
-    const [variation, setVariation] = useState(productData?.rates[0]);
-    const [loading, setLoading] = useState(false);
-    const [basePrice, setBasePrice] = useState(product?.variation?.price ?? productData?.rates[0].price);
-    const [price, setPrice] = useState(basePrice); 
-    const [localQuantity, setLocalQuantity] = useState(1);
-    const [snackbarOpen, setSnackbarOpen] = useState(false)
-    const [snackbarMessage, setSnackbarMessage] = useState("");
-    const wishlistItems = useSelector((state) => state.wishlist.items);
-    const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === productData?.id)?.isInWishlist;
-    const dispatch = useDispatch();
+  const productData = product?.product;
+  const [expanded, setExpanded] = useState(false);
+  const [selectedVariation, setSelectedVariation] = useState(product?.variation ?? productData?.rates[0]);
+  const [variation, setVariation] = useState(productData?.rates[0]);
+  const [loading, setLoading] = useState(false);
+  const [basePrice, setBasePrice] = useState(product?.variation?.price ?? productData?.rates[0].price);
+  const [price, setPrice] = useState(basePrice);
+  const [localQuantity, setLocalQuantity] = useState(1);
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const isProductInWishlist = wishlistItems?.find(item => item?.product?.id === productData?.id)?.isInWishlist;
+  const { currency, exchangeRates } = useSelector((state) => state.currency);
+  const currencySymbol = CURRENCIES_SYMBOL[currency]
+  const dispatch = useDispatch();
 
-    const cartItems = useSelector(state => state.cart?.items);
+  const cartItems = useSelector(state => state.cart?.items);
 
-    useEffect(() => {
-        const productInCart = cartItems?.find(item => item.id === productData?._id && item.variation?._id === variation?._id);
-        if (productInCart) {
-            setLocalQuantity(productInCart.quantity);
-            setPrice(basePrice * productInCart.quantity);
-        } else {
-            setLocalQuantity(1);
-            setPrice(basePrice);
-        }
-    }, [cartItems, productData, basePrice, variation]);
+  useEffect(() => {
+    const productInCart = cartItems?.find(item => item.id === productData?._id && item.variation?._id === variation?._id);
+    if (productInCart) {
+      setLocalQuantity(productInCart.quantity);
+      setPrice(basePrice * productInCart.quantity);
+    } else {
+      setLocalQuantity(1);
+      setPrice(basePrice);
+    }
+  }, [cartItems, productData, basePrice, variation]);
 
-    const isInCart = () => {
-        const productInCart = cartItems.find(item => item.id === productData.id && item.variation?._id === selectedVariation?._id);
-        console.log(productInCart);
-        return productInCart ? productInCart.quantity : 0;
-    };
+  const isInCart = () => {
+    const productInCart = cartItems.find(item => item.id === productData.id && item.variation?._id === selectedVariation?._id);
+    return productInCart ? productInCart.quantity : 0;
+  };
 
   if (!productData) {
     return null;
@@ -150,13 +151,13 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
     }
   };
 
-    const handleVariationClick = (index = 0, id) => {
-        const selectedVariation = productData.rates ? productData.rates.find(item => id === item._id) : productData.rates.find((item, idx) => index === idx);
-        setSelectedVariation(selectedVariation);
-        setVariation(selectedVariation);
-        setBasePrice(selectedVariation.price);
-        setPrice(selectedVariation.price * localQuantity);
-    };
+  const handleVariationClick = (index = 0, id) => {
+    const selectedVariation = productData.rates ? productData.rates.find(item => id === item._id) : productData.rates.find((item, idx) => index === idx);
+    setSelectedVariation(selectedVariation);
+    setVariation(selectedVariation);
+    setBasePrice(selectedVariation.price);
+    setPrice(selectedVariation.price * localQuantity);
+  };
 
   const handleWishlist = () => {
     if (isProductInWishlist) {
@@ -190,27 +191,26 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
         {cartDrawer}
       </Grid>
 
-            <Box>
-                <Badge badgeContent="NEW" color="primary" sx={{ ml: 2 }} />
-                <Grid container alignItems="flex-end" spacing={2}>
-                    <Grid item xs={8}>
-                        <Typography sx={{ my: 1, fontWeight: 'bold' }}>
-                            {productData.name}
-                        </Typography>
-                        <Grid container justifyContent="space-between">
-                            <Rating readOnly value={5} />
-                            <Typography>99+ Reviews</Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container item xs={4} justifyContent="end">
-                        <Typography color='khaki' my={1}>price</Typography>
-                        <Typography fontWeight='bold'>
-                            ₹{productData.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity)} -
-                            ₹{productData.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity)}
-                        </Typography>
-                    </Grid>
-                </Grid>
-            </Box>
+      <Box>
+        <Badge badgeContent="NEW" color="primary" sx={{ ml: 2 }} />
+        <Grid container alignItems="flex-end" spacing={2}>
+          <Grid item xs={8}>
+            <Typography sx={{ my: 1, fontWeight: 'bold' }}>
+              {productData.name}
+            </Typography>
+            <Grid container justifyContent="space-between">
+              <Rating readOnly value={5} />
+              <Typography>99+ Reviews</Typography>
+            </Grid>
+          </Grid>
+          <Grid container item xs={4} justifyContent="center" alignItems='center'>
+            <Typography color='khaki' my={1}> price :  </Typography>
+            <Typography fontWeight='bold'>
+              {currencySymbol}{(productData.rates.reduce((min, rate) => Math.min(min, rate.price), Infinity) * exchangeRates).toFixed(2)}-{currencySymbol}{(productData.rates.reduce((max, rate) => Math.max(max, rate.price), -Infinity) * exchangeRates).toFixed(2) }
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
 
       <Grid container my={5}>
         <Grid
@@ -248,26 +248,26 @@ const ProductDetails = ({ onClose, product, cartDrawer }) => {
         </Typography>
       </Box>
 
-            <Grid container spacing={2}>
-                {productData.rates.map((item, index) => (
-                    <Grid item xs={6} md={4} key={index}>
-                        <Box
-                            textAlign='center'
-                            borderRadius={5}
-                            p={1}
-                            border={`2px solid ${selectedVariation?._id === item._id ? 'blue' : 'gray'}`}
-                            onClick={() => handleVariationClick(index, item._id)}
-                            sx={{ cursor: 'pointer' }}
-                        >
-                            <Typography>{item.title}</Typography>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+      <Grid container spacing={2}>
+        {productData.rates.map((item, index) => (
+          <Grid item xs={6} md={4} key={index}>
+            <Box
+              textAlign='center'
+              borderRadius={5}
+              p={1}
+              border={`2px solid ${selectedVariation?._id === item._id ? 'blue' : 'gray'}`}
+              onClick={() => handleVariationClick(index, item._id)}
+              sx={{ cursor: 'pointer' }}
+            >
+              <Typography>{item.title}</Typography>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
 
       <Grid container my={2}>
         <Grid item xs={6}>
-          <Typography fontWeight={600}>₹{price}</Typography>
+          <Typography fontWeight={600}>{currencySymbol}{(price * exchangeRates).toFixed(2)}</Typography>
         </Grid>
         <Grid
           item

@@ -23,6 +23,7 @@ import {
   cartProduct,
 } from "../../redux/cart/cartSlice";
 import { setProductDetails } from "../../redux/payment/paymentSlice";
+import { CURRENCIES_SYMBOL } from "../currency/currency";
 const buttonStyle = {
   p: 0.1,
   boxShadow: "0 0 10px #eee",
@@ -32,12 +33,14 @@ export default function Cart({ onClose, onClick, openProduct }) {
   const cartData = useSelector((state) => state.cart.items);
   const subtotal = useSelector((state) => state.cart.subtotal);
   const productDetails = useSelector((state) => state.payment.productDetails);
-  console.log("productDetails", productDetails);
   const couponCode = "a5623d";
   const dispatch = useDispatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const { currency , exchangeRates } = useSelector((state) => state.currency);
+  console.log({ currency , exchangeRates });
+  const currencySymbol = CURRENCIES_SYMBOL[currency]
   const handleRemoveFromCart = (id, variationId, e) => {
     e.stopPropagation();
     dispatch(removeFromCart({ id: id, variationId: variationId }));
@@ -140,10 +143,10 @@ export default function Cart({ onClose, onClick, openProduct }) {
                   <Grid container alignItems="center">
                     <Grid item xs={6}>
                       <Typography fontWeight={600}>
-                        ₹{item.price} x {item.quantity}
+                        {currencySymbol}{(item.price * exchangeRates).toFixed(2)} x {item.quantity}
                       </Typography>
                       <Typography fontWeight={600}>
-                        ₹{(item.price * item.quantity).toFixed(2)}
+                        {currencySymbol}{((item.price * item.quantity)*exchangeRates).toFixed(2)}
                       </Typography>
                     </Grid>
                     <Grid
@@ -225,7 +228,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
             <Grid container alignItems="center">
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography sx={{ color: "#818181de" }}>Subtotal</Typography>
-                <Typography>₹{subtotal?.toFixed(2)}</Typography>
+                <Typography>{currencySymbol}{(subtotal * exchangeRates).toFixed(2)}</Typography>
               </Grid>
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography sx={{ color: "#818181de" }}>Discount</Typography>
@@ -236,7 +239,7 @@ export default function Cart({ onClose, onClick, openProduct }) {
               </Grid>
               <Grid item xs={12} container justifyContent="space-between">
                 <Typography fontWeight={600}>Final Price</Typography>
-                <Typography fontWeight={600}>₹{subtotal}</Typography>
+                <Typography fontWeight={600}>{currencySymbol}{(subtotal*exchangeRates).toFixed(2)}</Typography>
               </Grid>
             </Grid>
             <Button

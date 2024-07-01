@@ -4,11 +4,15 @@ import zomatoImg from '../image/google-map-extractor-7 1.png';
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../util/axiosInstance';
 import OrderDetails from './orderDetails';
+import { CURRENCIES_SYMBOL } from '../currency/currency';
+import { useSelector } from 'react-redux';
 
 const order = ({ onClose, orderDetails }) => {
     const [details, setDetails] = useState(false)
     const [orders, setOrders] = useState(null)
     const [id, setId] = useState(null)
+    const {currency,exchangeRates} = useSelector((state) => state.currency);
+    const currencySymbol = CURRENCIES_SYMBOL[currency]
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -77,7 +81,7 @@ const order = ({ onClose, orderDetails }) => {
                     </Grid>
                     <Grid item xs={12} container>
                         <Typography sx={{ color: '#818181de' }}>Total :</Typography>
-                        <Typography>₹{item.orderTotal}</Typography>
+                        <Typography>{currencySymbol}{(item.orderTotal * exchangeRates).toFixed(2)}</Typography>
                     </Grid>
                 </Grid>
             ))}

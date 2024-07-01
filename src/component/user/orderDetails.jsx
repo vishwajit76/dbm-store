@@ -2,11 +2,15 @@ import { Box, Grid, Typography, Badge, Divider } from '@mui/material';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../util/axiosInstance';
+import { CURRENCIES_SYMBOL } from '../currency/currency';
+import { useSelector } from 'react-redux';
 
-const OrderDetails = ({ onClose, orderId , onClick }) => {
+const OrderDetails = ({ onClose, orderId, onClick }) => {
   const [order, setOrder] = useState(null);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const { currency, exchangeRates } = useSelector((state) => state.currency);
+  const currencySymbol = CURRENCIES_SYMBOL[currency]
 
   const steps = ['Order Confirmed', 'Shipping', 'To Deliver'];
 
@@ -72,14 +76,14 @@ const OrderDetails = ({ onClose, orderId , onClick }) => {
           <Typography variant='h6'>{order ? formatDate(order.createdAt) : ''}</Typography>
         </Grid>
         <Divider orientation="vertical" flexItem />
-        <Grid container item xs={12} md={3} textAlign='center' sx={{ flexDirection: { xs : "row" , md: "column"} , alignItems: 'center'}}>
+        <Grid container item xs={12} md={3} textAlign='center' sx={{ flexDirection: { xs: "row", md: "column" }, alignItems: 'center' }}>
           <Typography>Payment:</Typography>
-          <Badge badgeContent={order?.paymentStatus} color='error' sx={{ my: 2 , mx:{xs: 4 , md: 0} }} />
+          <Badge badgeContent={order?.paymentStatus} color='error' sx={{ my: 2, mx: { xs: 4, md: 0 } }} />
         </Grid>
         <Divider orientation="vertical" flexItem />
-        <Grid item xs={12} md={3} textAlign='center' container sx={{ flexDirection: { xs : "row" , md: "column"} , alignItems: 'center'}}>
+        <Grid item xs={12} md={3} textAlign='center' container sx={{ flexDirection: { xs: "row", md: "column" }, alignItems: 'center' }}>
           <Typography>Status:</Typography>
-          <Badge badgeContent={order?.status} color='primary' sx={{ my: 2 , mx:{xs: 5 , md: 0}}} />
+          <Badge badgeContent={order?.status} color='primary' sx={{ my: 2, mx: { xs: 5, md: 0 } }} />
         </Grid>
       </Grid>
 
@@ -90,7 +94,7 @@ const OrderDetails = ({ onClose, orderId , onClick }) => {
         {orderItems?.map(item => {
           const orderItem = products.find(itm => itm.id === item.product_id)
           return (
-            <Grid container key={item.id} my={2} sx={{ cursor: "pointer"}} onClick={onClick}>
+            <Grid container key={item.id} my={2} sx={{ cursor: "pointer" }} onClick={onClick}>
               <Grid item xs={3} textAlign='start'>
                 <img width={50} height={50} src={orderItem?.image} alt="Product" />
               </Grid>
@@ -101,7 +105,7 @@ const OrderDetails = ({ onClose, orderId , onClick }) => {
                 <Typography>{item.quantity}</Typography>
               </Grid>
               <Grid item xs={3} textAlign='end'>
-                <Typography>₹{orderItem?.rates?.find(itm => itm._id === item.variation_id).price}</Typography>
+                <Typography>{currencySymbol}{(orderItem?.rates?.find(itm => itm._id === item.variation_id).price * exchangeRates).toFixed(2)}</Typography>
               </Grid>
             </Grid>
           )
@@ -111,7 +115,7 @@ const OrderDetails = ({ onClose, orderId , onClick }) => {
       <Grid container alignItems="center">
         <Grid item xs={12} container justifyContent='space-between'>
           <Typography sx={{ color: '#818181de' }}>Product Total</Typography>
-          <Typography>₹{order?.orderTotal}</Typography>
+          <Typography>{currencySymbol}{(order?.orderTotal * exchangeRates).toFixed(2)}</Typography>
         </Grid>
         <Grid item xs={12} container justifyContent='space-between'>
           <Typography sx={{ color: '#818181de' }}>Discount</Typography>
@@ -120,7 +124,7 @@ const OrderDetails = ({ onClose, orderId , onClick }) => {
         <Grid item xs={12}><Divider /></Grid>
         <Grid item xs={12} container justifyContent='space-between'>
           <Typography fontWeight={600}>Final Price</Typography>
-          <Typography fontWeight={600}>₹{order?.orderTotal}</Typography>
+          <Typography fontWeight={600}>{currencySymbol}{(order?.orderTotal * exchangeRates).toFixed(2)}</Typography>
         </Grid>
       </Grid>
     </Box >

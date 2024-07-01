@@ -7,7 +7,7 @@ import { cartSlice } from './cart/cartSlice';
 import { authSlice } from './auth/authSlice';
 import { paymentSlice } from './payment/paymentSlice';
 import { wishlistSlice } from './wishlist/wishlistSlice';
-import { productsSlice } from './productSlice';
+import { currencySlice } from './currency/currencySlice';
 
 const persistCartConfig = {
   key: 'cart',
@@ -29,8 +29,8 @@ const persistWishlistConfig = {
   storage,
 };
 
-const persistProductConfig = {
-  key: 'product',
+const persistCurrencyConfig = {
+  key: 'currency',
   storage,
 };
 
@@ -38,7 +38,7 @@ const persistedCartReducer = persistReducer(persistCartConfig, cartSlice.reducer
 const persistedAuthReducer = persistReducer(persistAuthConfig, authSlice.reducer);
 const persistedPaymentReducer = persistReducer(persistPaymentConfig, paymentSlice.reducer);
 const persistedWishlistReducer = persistReducer(persistWishlistConfig, wishlistSlice.reducer);
-const persistedProductReducer = persistReducer(persistProductConfig, productsSlice.reducer);
+const persistedCurrencyReducer = persistReducer(persistCurrencyConfig, currencySlice.reducer);
 
 const store = configureStore({
   reducer: {
@@ -46,7 +46,7 @@ const store = configureStore({
     auth: persistedAuthReducer,
     payment: persistedPaymentReducer,
     wishlist: persistedWishlistReducer,
-    product: persistedProductReducer
+    currency: persistedCurrencyReducer,
   },
 });
 
