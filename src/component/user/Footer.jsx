@@ -32,13 +32,19 @@ function Footer() {
   const [termsContent, setTermsContent] = useState(null);
   const [refundContent, setRefundContent] = useState(null);
   const [error, setError] = useState(null);
+  const [newsletterName, setNewsletterName] = useState("");
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterMessage, setNewsletterMessage] = useState("");
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+
   const isLargeDevice = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 400) {
       setShowScroll(true);
@@ -46,21 +52,25 @@ function Footer() {
       setShowScroll(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", checkScrollTop);
     return () => {
       window.removeEventListener("scroll", checkScrollTop);
     };
   }, [showScroll]);
+
   const handleEmailClick = () => {
     window.location.href = "mailto:info@digibulkmarketing.com";
   };
+
   const handlePhoneClick = () => {
     window.location.href = "tel:18008898358";
   };
+
   const handleTermsDialogOpen = async () => {
     try {
-      const response = await axiosInstance.get('user/page/terms-conditions');
+      const response = await axiosInstance.get("user/page/terms-conditions");
       setTermsContent(response.data.page.content);
       setError(null);
     } catch (error) {
@@ -69,12 +79,14 @@ function Footer() {
     }
     setTermsDialogOpen(true);
   };
+
   const handleTermsDialogClose = () => {
     setTermsDialogOpen(false);
   };
+
   const handlePrivacyDialogOpen = async () => {
     try {
-      const response = await axiosInstance.get('user/page/privacy-policy');
+      const response = await axiosInstance.get("user/page/privacy-policy");
       setPrivacyContent(response.data.page.content);
       setError(null);
     } catch (error) {
@@ -83,12 +95,14 @@ function Footer() {
     }
     setPrivacyDialogOpen(true);
   };
+
   const handlePrivacyDialogClose = () => {
     setPrivacyDialogOpen(false);
   };
+
   const handleRefundDialogOpen = async () => {
     try {
-      const response = await axiosInstance.get('user/page/refund-policy');
+      const response = await axiosInstance.get("user/page/refund-policy");
       setRefundContent(response.data.page.content);
       setError(null);
     } catch (error) {
@@ -97,9 +111,31 @@ function Footer() {
     }
     setRefundDialogOpen(true);
   };
+
   const handleRefundDialogClose = () => {
     setRefundDialogOpen(false);
   };
+
+  const handleNewsletterSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Name:", newsletterName);
+    console.log("Email:", newsletterEmail);
+
+    try {
+      await axiosInstance.post("/app/subscribe", {
+        master_reseller_id: "626f85e0544a264104223e37",
+        name: newsletterName,
+        email: newsletterEmail,
+      });
+      setNewsletterMessage("Subscription successful!");
+
+      setNewsletterName("");
+      setNewsletterEmail("");
+    } catch (error) {
+      setNewsletterMessage("Subscription failed. Please try again.");
+    }
+  };
+
   return (
     <>
       <Box sx={{ backgroundColor: "#fff" }}>
@@ -291,27 +327,35 @@ function Footer() {
                 mt={{ xs: 0, sm: 4 }}
               >
                 <Typography fontWeight={600}>NEWSLETTER</Typography>
-                <Stack spacing={2} mt={3} width="100%" alignItems="center">
+                <Stack
+                  spacing={2}
+                  mt={3}
+                  width="100%"
+                  alignItems="center"
+                  component="form"
+                  onSubmit={handleNewsletterSubmit}
+                >
                   <TextField
                     variant="standard"
                     color="black"
                     label="Enter your Name"
-                    // fullWidth
+                    value={newsletterName}
+                    onChange={(e) => setNewsletterName(e.target.value)}
                     sx={{
-                      width:{md:'100%', sm:'250px',  xs:'250px '  },
+                      width: { md: "100%", sm: "250px", xs: "250px" },
                     }}
                   />
                   <TextField
                     variant="standard"
                     color="black"
                     label="Enter your email"
-                    // fullWidth
-                    sx={{ width:{md:'100%', sm:'250px',  xs:'250px '  },}}
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    sx={{ width: { md: "100%", sm: "250px", xs: "250px" } }}
                   />
                   <Box
                     display="flex"
                     justifyContent="center"
-                  
                     sx={{
                       justifyContent: {
                         xs: "center",
@@ -319,7 +363,6 @@ function Footer() {
                         md: "flex-start",
                         lg: "flex-start",
                       },
-                     
                       mt: { xs: 3, sm: 0 },
                     }}
                   >
@@ -335,6 +378,9 @@ function Footer() {
                       SUBSCRIBE
                     </Button>
                   </Box>
+                  {newsletterMessage && (
+                    <Typography>{newsletterMessage}</Typography>
+                  )}
                 </Stack>
               </Box>
             </Grid>
@@ -419,7 +465,7 @@ function Footer() {
 
       <Dialog
         open={privacyDialogOpen}
-        onClose={() => handleDialogClose("privacy")}
+        onClose={() => handlePrivacyDialogClose()}
       >
         <DialogTitle>{"Privacy Policy"}</DialogTitle>
         <DialogContent>
@@ -430,13 +476,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose("privacy")} color="primary">
+          <Button onClick={() => handlePrivacyDialogClose()} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={termsDialogOpen} onClose={() => handleDialogClose("terms")}>
+      <Dialog open={termsDialogOpen} onClose={() => handleTermsDialogClose()}>
         <DialogTitle>{"Terms and Conditions"}</DialogTitle>
         <DialogContent>
           {termsContent ? (
@@ -446,16 +492,13 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose("terms")} color="primary">
+          <Button onClick={() => handleTermsDialogClose()} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog
-        open={refundDialogOpen}
-        onClose={() => handleDialogClose("refund")}
-      >
+      <Dialog open={refundDialogOpen} onClose={() => handleRefundDialogClose()}>
         <DialogTitle>{"Refund and Return Policy"}</DialogTitle>
         <DialogContent>
           {refundContent ? (
@@ -465,7 +508,7 @@ function Footer() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose("refund")} color="primary">
+          <Button onClick={() => handleRefundDialogClose()} color="primary">
             Close
           </Button>
         </DialogActions>
